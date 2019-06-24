@@ -1,0 +1,48 @@
+.folderItem {
+  margin-bottom: 10px;
+  padding: 5px 15px;
+}
+
+.folder {
+  font-size: 14px;
+  color: #800488;
+  cursor: pointer;
+
+  &:hover {
+    color: #c926d4;
+  }
+}
+
+.active {
+  background: #ebe9ec;
+}
+
+.folderList {
+  margin-top: 25px;
+}
+
+.folderIcon {
+  margin-right: 5px;
+}
+
+.folderActionBtns {
+  display: flex;
+  margin-top: 10px;
+}
+
+.folderItemBtn {
+  font-size: 12px;
+  margin-right: 5px;
+}
+
+.actionBtn {
+  margin-right: 5px;
+}
+
+.addFolderBody {
+  margin: 15px 0;
+}
+
+.addFolderContainer {
+  padding: 20px 15px;
+}

@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "outDir": "./build",
+    "module": "commonjs",
+    "target": "es5",
+    "lib": ["es6", "dom", "dom.iterable"],
+    "jsx": "react",
+    "moduleResolution": "node",
+    "baseUrl": "src",
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "noUnusedLocals": true,
+    "esModuleInterop": true,
+    "plugins": [
+      {
+        "name": "css-module-types"
+      }
+    ]
+  },
+  "include": [
+    "cssStyles.d.ts",
+    "svgFiles.d.ts",
+    "./src/**/*",
+    "./app/**/*"
+  ]
+}

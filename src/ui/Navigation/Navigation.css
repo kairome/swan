@@ -1,0 +1,58 @@
+.mainNavigation {
+  width: 240px;
+  z-index: 3;
+  height: 100%;
+  background: #f6f6f6;
+  transition: width .3s ease;
+  overflow-y: auto;
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+.hideNavigation {
+  width: 0;
+}
+
+.infoBar {
+  height: 40px;
+  position: fixed;
+  width: calc(100% - 240px);
+  background: #fff;
+  right: 0;
+  transition: width .3s ease;
+  display: flex;
+  padding: 5px 15px;
+  box-sizing: border-box;
+  align-items: center;
+}
+
+.infoBarFull {
+  width: 100%;
+}
+
+.relative {
+  position: relative;
+}
+
+.navIconContainer {
+  min-height: 20px;
+  position: absolute;
+  right: 15px;
+  top: 7px;
+}
+
+.infoBarIconContainer {
+  margin-right: 30px;
+}
+
+.navIcon {
+  float: right;
+  cursor: pointer;
+  font-size: 20px;
+  color: #949494;
+}
+
+.breadcrumbs {
+  font-size: 14px;
+  font-weight: bold;
+}

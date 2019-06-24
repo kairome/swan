@@ -1,0 +1,38 @@
+.input {
+  padding: 10px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  outline: none;
+  width: 100%;
+  box-sizing: border-box;
+
+  &:focus {
+    outline: none;
+    border-color: #ddd;
+  }
+
+  &::-webkit-input-placeholder {
+    color: #b3acac;
+    font-size: 15px;
+    text-align: start;
+  }
+}
+
+.embeddedInput {
+  border: none;
+  outline: none;
+  padding: 0;
+  margin: 0;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  width: 100%;
+  background: inherit;
+  box-sizing: border-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  &:focus {
+    outline: none;
+  }
+}

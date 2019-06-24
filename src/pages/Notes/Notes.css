@@ -1,0 +1,106 @@
+.noteContainer {
+  padding-right: 15px;
+}
+
+.notes {
+  display: grid;
+  grid-gap: 15px 15px;
+  flex-wrap: wrap;
+  margin-top: 15px;
+  padding-right: 10px;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+}
+
+.note {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 3px 5px rgba(15, 15, 16, 0.2);
+  word-break: break-word;
+
+  &:hover {
+    background: #f3f3f3;
+  }
+}
+
+.noteListTitle {
+  font-size: 17px;
+  font-weight: 500;
+  padding-bottom: 5px;
+  cursor: text;
+  border-bottom: 1px solid #b3b3b3;
+  width: 100%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.noteListDescription {
+  height: 80px;
+  padding: 10px 0;
+  box-sizing: border-box;
+  font-size: 14px;
+  color: #737373;
+  margin-right: 5px;
+  width: 100%;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.6;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.noteControls {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.removeNoteIcon {
+  margin-right: 10px;
+  font-size: 12px;
+  color: #717171;
+  cursor: pointer;
+}
+
+.noteBackArrow {
+  font-size: 20px;
+  color: gray;
+  cursor: pointer;
+}
+
+.noteTitle {
+  margin-left: 20px;
+  font-size: 23px;
+  width: 100%;
+}
+
+.noteHeader {
+  display: flex;
+  align-items: baseline;
+}
+
+.descriptionBlock {
+  margin: 20px 0;
+}
+
+.descriptionText {
+  font-size: 14px;
+  white-space: pre-line;
+  width: 500px;
+}
+
+.sectionHeader {
+  font-size: 18px;
+  margin: 10px 0;
+}
+
+.descriptionInput {
+  width: 500px;
+  min-height: 100px;
+  background: transparent;
+}

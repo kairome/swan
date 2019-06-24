@@ -1,0 +1,72 @@
+{
+  "defaultSeverity": "error",
+  "extends": [
+    "tslint:latest",
+    "tslint-config-airbnb",
+    "tslint-react"
+  ],
+  "rules": {
+    "trailing-comma": [
+      true,
+      {
+        "multiline": "always",
+        "singleline": "never",
+        "esSpecCompliant": true
+      }
+    ],
+    "no-trailing-whitespace": true,
+    "quotemark": [
+      true,
+      "single",
+      "jsx-double"
+    ],
+    "radix": true,
+    "semicolon": [
+      true,
+      "always",
+      "ignore-interfaces"
+    ],
+    "interface-name": false,
+    "no-console": [
+      true,
+      "debug",
+      "time",
+      "timeEnd",
+      "trace",
+      "log"
+    ],
+    "object-literal-sort-keys": false,
+    "object-literal-key-quotes": [true, "consistent"],
+    "no-parameter-reassignment": true,
+    "no-submodule-imports": false,
+    "no-implicit-dependencies": [false, "dev"],
+    "max-line-length": [true, 120],
+    "member-access": [true, "no-public"],
+    "variable-name": [
+      true,
+      "ban-keywords",
+      "check-format",
+      "allow-pascal-case"
+    ],
+    "strict-boolean-expressions": [
+      true,
+      "allow-mix",
+      "allow-string",
+      "allow-undefined-union",
+      "allow-null-union",
+      "allow-number"
+    ],
+    "jsx-boolean-value": [
+      true,
+      "never"
+    ],
+    "import-name": [
+      true,
+      {}
+    ],
+    "array-type": [
+      true,
+      "array"
+    ]
+  }
+}

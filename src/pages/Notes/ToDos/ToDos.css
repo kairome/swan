@@ -1,0 +1,55 @@
+.listItem {
+  margin-bottom: 20px;
+  background: #fff;
+  border: 1px solid #ddd;
+}
+
+.checkedItem {
+  text-decoration: line-through;
+  color: #a0a0a0;
+}
+
+.todoItem {
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  padding: 5px 0;
+  border: 1px solid transparent;
+  border-left: none;
+  border-right: none;
+  position: relative;
+
+  &:hover, &.focused {
+    .itemHandleIcon, .itemRemoveIcon {
+      visibility: visible;
+    }
+  }
+
+  &.focused {
+    border-color: #867171;
+  }
+}
+
+.todoList {
+  margin: 20px 0;
+}
+
+.itemHandleIcon {
+  color: #867171;
+  cursor: move;
+  font-size: 15px;
+  margin-right: 8px;
+  visibility: hidden;
+}
+
+.itemRemoveIcon {
+  color: #adadad;
+  cursor: pointer;
+  font-size: 15px;
+  margin-right: 15px;
+  visibility: hidden;
+
+  &:hover {
+    color: #616161;
+  }
+}

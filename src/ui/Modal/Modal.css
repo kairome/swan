@@ -1,0 +1,25 @@
+.modalBody {
+  position: absolute;
+  padding: 15px;
+  background: #fff;
+  min-height: 40px;
+  min-width: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  z-index: 3;
+  top: 30%;
+  left: 30%;
+  border-radius: 5px;
+}
+
+.modalCover {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.3);
+  height: 100%;
+  width: 100%;
+  z-index: 2;
+}

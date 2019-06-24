@@ -1,0 +1,9 @@
+.footer {
+  display: flex;
+  margin-top: 20px;
+  justify-content: center;
+}
+
+.confirmBtn {
+  margin-right: 15px;
+}
