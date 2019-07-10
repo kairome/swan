@@ -57,6 +57,14 @@ export const updateToDos = (noteId: string, listIndex: number, list: ToDoListIte
   });
 };
 
+export const updateToDoLists = (noteId: string, todoLists: ToDoListItem[]) => {
+  return db.update({ _id: noteId }, {
+    $set: {
+     todoLists,
+    },
+  });
+};
+
 export const addNoteToDoList = (noteId: string, list: ToDoListItem) => {
   return db.update({ _id: noteId }, {
     $push: {

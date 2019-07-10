@@ -4,13 +4,11 @@ import _ from 'lodash';
 import history from 'utils/history';
 
 // actions, selectors
-import { addNote, removeNote } from 'actions/notes';
+import { removeNote } from 'actions/notes';
 
 // components
-import Button from 'ui/Button/Button';
 import ChangeNoteTitleField from 'ui/Note/ChangeNoteTitleField';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import ContextMenu from 'ui/ContextMenu/ContextMenu';
 import Confirmation from 'ui/Confirmation/Confirmation';
 
 // types
@@ -34,18 +32,6 @@ const NotesList: React.FC<Props> = (props) => {
 
   const handleSetCurrent = (id: string) => () => {
     history.push(`/notes/${id}`);
-  };
-
-  const handleAddNote = () => {
-    const { currentFolder } = props;
-    if (!currentFolder._id) {
-      return;
-    }
-
-    props.addNote({
-      title: 'Untitled',
-      folder: currentFolder._id,
-    });
   };
 
   const handleRemoveNote = () => {
@@ -83,7 +69,6 @@ const NotesList: React.FC<Props> = (props) => {
             <div className={s.removeNoteIcon} onClick={handleRemoveConfirmation(note._id)}>
               <FontAwesomeIcon icon="trash-alt" />
             </div>
-            <ContextMenu />
           </div>
         </div>
       );
@@ -98,12 +83,6 @@ const NotesList: React.FC<Props> = (props) => {
 
   return (
     <div>
-      <Button
-        text="+ Add note"
-        theme="info"
-        shape="link"
-        onClick={handleAddNote}
-      />
       {renderNotes()}
       <Confirmation
         show={showRemoveConfirmation}
@@ -123,7 +102,6 @@ const mapState = (state: ReduxState) => {
 }
 
 const mapDispatch = {
-  addNote,
   removeNote,
 };
 

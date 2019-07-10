@@ -67,14 +67,7 @@
   cursor: pointer;
 }
 
-.noteBackArrow {
-  font-size: 20px;
-  color: gray;
-  cursor: pointer;
-}
-
 .noteTitle {
-  margin-left: 20px;
   font-size: 23px;
   width: 100%;
 }

@@ -1,0 +1,64 @@
+.infoBarIconContainer {
+  margin-right: 30px;
+}
+
+.navIcon {
+  float: right;
+  cursor: pointer;
+  font-size: 20px;
+  color: #949494;
+}
+
+.infoBar {
+  height: 50px;
+  position: fixed;
+  width: calc(100% - 240px);
+  background: #f6f6f6;
+  right: 0;
+  transition: width .3s ease;
+  display: flex;
+  padding: 5px 15px;
+  box-sizing: border-box;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+  z-index: 3;
+}
+
+.infoBarFull {
+  width: 100%;
+}
+
+.breadcrumbs {
+  font-size: 12px;
+  text-transform: uppercase;
+  color: #717171;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+}
+
+.noteBackArrow {
+  font-size: 14px;
+  color: #717171;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.barOptions {
+  margin-left: auto;
+  font-size: 16px;
+  color: #6a1384;
+  display: flex;
+}
+
+.optionsButton {
+  cursor: pointer;
+  margin-right: 10px;
+  svg {
+    font-size: 14px;
+  }
+}
+
+.optionsMenu {
+  left: -255px;
+  top: 0;
+}

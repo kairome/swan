@@ -1,10 +1,18 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import _ from 'lodash';
+
 import s from './ContextMenu.css';
 
+interface MenuAction {
+  title: string | React.ReactNode,
+  execute: () => void,
+}
 
 interface Props {
-
+  actions: MenuAction[],
+  icon?: React.ReactNode,
+  menuClassName?: string,
 }
 
 const ContextMenu: React.FC<Props> = (props) => {
@@ -29,21 +37,55 @@ const ContextMenu: React.FC<Props> = (props) => {
     toggleMenu(!showMenu);
   };
 
+  const executeAction = (execute: MenuAction['execute']) => () => {
+    toggleMenu(false);
+    execute();
+  };
+
   const renderMenu = () => {
     if (!showMenu) {
       return null;
     }
 
+    const { menuClassName, actions } = props;
+
+    const classes = menuClassName ? `${s.contextMenu} ${menuClassName}` : s.contextMenu;
+
+    const actionList = _.map(actions, (action, index) => {
+      return (
+        <div key={`menu-action-${index}`} className={s.contextMenuItem} onClick={executeAction(action.execute)}>
+          {action.title}
+        </div>
+      );
+    });
+
     return (
-      <div className={s.contextMenu}>Menu</div>
+      <div className={classes}>
+        {actionList}
+      </div>
+    );
+  };
+
+  const renderIcon = () => {
+    const { icon } = props;
+    if (icon === undefined) {
+      return (
+        <div className={s.menuIcon} onClick={handleMenuToggle}>
+          <FontAwesomeIcon icon="ellipsis-v" />
+        </div>
+      );
+    }
+
+    return (
+      <div onClick={handleMenuToggle}>
+        {icon}
+      </div>
     );
   };
 
   return (
     <div className={s.menuWrapper} ref={containerElem}>
-      <div className={s.menuIcon} onClick={handleMenuToggle}>
-        <FontAwesomeIcon icon="ellipsis-v" />
-      </div>
+      {renderIcon()}
       {renderMenu()}
     </div>
   );

@@ -1,11 +1,9 @@
 import React from 'react';
-import history from 'utils/history';
 import { connect } from 'react-redux';
 
 import { changeNoteDescription, fetchCurrentNote } from 'actions/notes';
 
 // components
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ChangeNoteTitleField from 'ui/Note/ChangeNoteTitleField';
 import Input from 'ui/Input/Input';
 import Button from 'ui/Button/Button';
@@ -67,15 +65,6 @@ class Note extends React.Component<Props, State> {
     this.setState({ showDescField: false });
   }
 
-  handleBackClick = () => {
-    const { currentNote } = this.props;
-    if (!currentNote._id) {
-      return;
-    }
-
-    history.push(`/folders/${currentNote.folder}`);
-  }
-
   handleDescriptionChange = (e: React.FormEvent<HTMLTextAreaElement>) => {
     const { value } = e.currentTarget;
     this.setState({ noteDescription: value })
@@ -122,11 +111,6 @@ class Note extends React.Component<Props, State> {
     return (
       <div className={s.noteContainer}>
         <div className={s.noteHeader}>
-          <div onClick={this.handleBackClick} className={s.noteBackArrow}>
-            <FontAwesomeIcon
-              icon="arrow-left"
-            />
-          </div>
           <ChangeNoteTitleField
             noteTitle={currentNote.title}
             noteId={currentNote._id}

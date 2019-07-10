@@ -9,6 +9,7 @@ import changeNoteText from 'sagas/notes/changeNoteText';
 import updateListSettings from 'sagas/notes/updateListSettings';
 import deleteToDoList from 'sagas/notes/deleteToDoList';
 import addToDoList from 'sagas/notes/addToDoList';
+import updateAllLists from 'sagas/notes/updateAllLists';
 
 export default [
   addNote,
@@ -22,4 +23,5 @@ export default [
   updateListSettings,
   deleteToDoList,
   addToDoList,
+  updateAllLists,
 ];

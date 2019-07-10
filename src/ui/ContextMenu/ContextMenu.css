@@ -22,3 +22,19 @@
   top: -4px;
   left: 11px;
 }
+
+.contextMenuItem {
+  cursor: pointer;
+  border-bottom: 1px solid #ddd;
+  padding: 10px;
+  font-size: 13px;
+
+  &:hover {
+    background: #ececec;
+  }
+
+  &:last-child {
+    margin-bottom: 0;
+    border-bottom: none;
+  }
+}

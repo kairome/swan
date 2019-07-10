@@ -58,6 +58,11 @@ export interface UpdateToDoListPayload extends AddToDoListPayload {
   listIndex: number,
 }
 
+export interface UpdateAllListsPayload {
+  noteId: string,
+  lists: ToDoListItem[],
+}
+
 export interface UpdateListSettingsPayload {
   noteId: string,
   listIndex: number,

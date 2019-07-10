@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import { toggleNavigation } from 'actions/navigation';
 
 // components
-import TopInfoBar from 'ui/Navigation/TopInfoBar';
+import TopInfoBar from 'ui/Navigation/TopBar/TopInfoBar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import FoldersList from 'pages/Folders/FoldersList';
 

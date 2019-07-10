@@ -7,27 +7,11 @@
   overflow-y: auto;
   flex-shrink: 0;
   box-sizing: border-box;
+  border-right: 1px solid #ddd;
 }
 
 .hideNavigation {
   width: 0;
-}
-
-.infoBar {
-  height: 40px;
-  position: fixed;
-  width: calc(100% - 240px);
-  background: #fff;
-  right: 0;
-  transition: width .3s ease;
-  display: flex;
-  padding: 5px 15px;
-  box-sizing: border-box;
-  align-items: center;
-}
-
-.infoBarFull {
-  width: 100%;
 }
 
 .relative {
@@ -52,7 +36,3 @@
   color: #949494;
 }
 
-.breadcrumbs {
-  font-size: 14px;
-  font-weight: bold;
-}
