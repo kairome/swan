@@ -1,4 +1,4 @@
-import { AddNotePayload, ToDoListItem } from 'types/notes';
+import { AddNotePayload, Note, ToDoListItem, ToDoListSettings } from 'types/notes';
 
 const DataStore = require('nedb-promises');
 import { dbOptions } from 'data/utils';
@@ -41,10 +41,46 @@ export const updateNoteDescription = (noteId: string, description: string) => {
   });
 };
 
-export const updateToDoLists = (noteId: string, todoLists: ToDoListItem[]) => {
+export const updateNoteText = (noteId: string, text: string) => {
   return db.update({ _id: noteId }, {
     $set: {
-      todoLists,
+      text,
     },
+  });
+};
+
+export const updateToDos = (noteId: string, listIndex: number, list: ToDoListItem) => {
+  return db.update({ _id: noteId }, {
+    $set: {
+      [`todoLists.${listIndex}`]: list,
+    },
+  });
+};
+
+export const addNoteToDoList = (noteId: string, list: ToDoListItem) => {
+  return db.update({ _id: noteId }, {
+    $push: {
+      todoLists: list,
+    },
+  });
+};
+
+export const updateToDoListSettings = (noteId: string, listIndex: number, settings: ToDoListSettings) => {
+  return db.update({ _id: noteId }, {
+    $set: {
+      [`todoLists.${listIndex}.settings`]: settings,
+    },
+  });
+}
+
+export const removeToDoList = (noteId: string, listIndex: number) => {
+  return db.findOne({ _id: noteId }).then((resp: Note) => {
+    const todos = [...resp.todoLists];
+    todos.splice(listIndex, 1);
+    return db.update({ _id: noteId }, {
+      $set: {
+        todoLists: todos,
+      },
+    });
   });
 };

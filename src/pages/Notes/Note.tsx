@@ -2,7 +2,7 @@ import React from 'react';
 import history from 'utils/history';
 import { connect } from 'react-redux';
 
-import { changeNoteDescription, fetchCurrentNote, saveToDoLists } from 'actions/notes';
+import { changeNoteDescription, fetchCurrentNote } from 'actions/notes';
 
 // components
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -10,6 +10,7 @@ import ChangeNoteTitleField from 'ui/Note/ChangeNoteTitleField';
 import Input from 'ui/Input/Input';
 import Button from 'ui/Button/Button';
 import ToDoLists from 'pages/Notes/ToDos/ToDoLists';
+import MarkdownEditor from 'pages/Notes/Markdown/MarkdownEditor';
 
 // types
 import { ReduxState } from 'types/redux';
@@ -138,6 +139,10 @@ class Note extends React.Component<Props, State> {
             {this.renderDescriptionField()}
           </div>
         </div>
+        <MarkdownEditor
+          noteId={currentNote._id}
+          noteText={currentNote.text}
+        />
         <ToDoLists />
       </div>
     );
@@ -151,7 +156,6 @@ const mapState = (state: ReduxState) => {
 };
 
 const mapDispatch = {
-  saveToDos: saveToDoLists,
   fetchCurrentNote,
   changeNoteDescription,
 };

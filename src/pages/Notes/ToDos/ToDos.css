@@ -1,7 +1,38 @@
+.listsContainer {
+  margin: 20px 0;
+}
+
 .listItem {
   margin-bottom: 20px;
   background: #fff;
   border: 1px solid #ddd;
+  padding: 15px;
+  border-radius: 5px;
+  position: relative;
+}
+
+.listBody {
+  margin-top: 20px;
+  max-height: 10000px;
+  transition: max-height .3s ease, margin .3s ease;
+}
+
+.listMinimized {
+  margin: 0;
+  max-height: 0;
+  overflow: hidden;
+}
+
+.listTitle {
+  font-size: 17px;
+  font-weight: 600;
+  max-width: 90%;
+  margin-left: 15px;
+}
+
+.listHeader {
+  display: flex;
+  align-items: baseline;
 }
 
 .checkedItem {
@@ -31,7 +62,22 @@
 }
 
 .todoList {
-  margin: 20px 0;
+  margin-top: 20px;
+  order: 0;
+}
+
+.addTodoItem {
+  order: 1;
+  cursor: pointer;
+  padding-bottom: 5px;
+  color: #bfbebe;
+  width: 52px;
+  border-bottom: 2px solid #bfbebe;
+  margin-left: 22px;
+}
+
+.addTodoTop {
+  order: 0;
 }
 
 .itemHandleIcon {
@@ -40,6 +86,7 @@
   font-size: 15px;
   margin-right: 8px;
   visibility: hidden;
+  transform: rotate(90deg);
 }
 
 .itemRemoveIcon {
@@ -52,4 +99,68 @@
   &:hover {
     color: #616161;
   }
+}
+
+.todoListContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.listSettings {
+  margin-bottom: 30px;
+}
+
+.removeList {
+  font-size: 14px;
+  color: #adadad;
+  cursor: pointer;
+}
+
+.chevron {
+  position: absolute;
+  color: #b5b5b5;
+  font-size: 25px;
+  top: 11px;
+  right: 13px;
+  cursor: pointer;
+}
+
+.positionTitle {
+  margin-bottom: 10px;
+  font-size: 15px;
+  color: #636363;
+}
+
+.positionInput {
+  display: none;
+}
+
+.positionInput:checked + .positionLabel, .positionLabel:hover {
+  background: #cacaca;
+  color: black;
+}
+
+.positionLabel {
+  background: #e4e4e4;
+  box-sizing: border-box;
+  padding: 5px;
+  border-right: 1px solid #757575;
+  color: #757575;
+  cursor: pointer;
+  transition: background-color .3s ease;
+  font-size: 14px;
+  &:last-child {
+    border-right: none;
+  }
+}
+
+.listStat {
+  margin-bottom: 10px;
+  font-size: 14px;
+  color: #636363;
+}
+
+.listStatNumber {
+  color: #424242;
+  font-weight: bold;
 }

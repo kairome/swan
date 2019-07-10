@@ -3,20 +3,31 @@ import {
   AddNotePayload,
   ChangeNoteDescriptionPayload,
   ChangeNoteTitlePayload,
-  Note,
-  UpdateTodosPayload
+  Note, RemoveToDoListPayload,
+  AddToDoListPayload,
+  UpdateListSettingsPayload,
+  UpdateNoteTextPayload,
+  UpdateToDoListPayload,
 } from 'types/notes';
 
 export const fetchFolderNotes = createAction<string>('FETCH_FOLDER_NOTES');
 export const saveFolderNotes = createAction<Note[]>('SAVE_FOLDER_NOTES');
+
 export const addNote = createAction<AddNotePayload>('ADD_NOTE');
 export const changeNoteTitle = createAction<ChangeNoteTitlePayload>('CHANGE_NOTE_TITLE');
+
 export const fetchCurrentNote = createAction<string>('SET_CURRENT_NOTE');
 export const saveCurrentNote = createAction<Note>('SAVE_CURRENT_NOTE');
 export const resetCurrentNote = createAction('RESET_CURRENT_NOTE');
-export const saveToDoLists = createAction<UpdateTodosPayload>('SAVE_NOTE_TODOS');
-export const removeNote = createAction<string>('REMOVE_NOTE');
+
 export const changeNoteDescription = createAction<ChangeNoteDescriptionPayload>('CHANGE_NOTE_DESCRIPTION');
+export const changeNoteText = createAction<UpdateNoteTextPayload>('CHANGE_NOTE_TEXT');
+export const removeNote = createAction<string>('REMOVE_NOTE');
+
+export const addToDoList = createAction<AddToDoListPayload>('ADD_TO_DO_LIST');
+export const updateToDoList = createAction<UpdateToDoListPayload>('UPDATE_TO_DO_LIST');
+export const updateListSettings = createAction<UpdateListSettingsPayload>('UPDATE_LIST_SETTINGS');
+export const deleteToDoList = createAction<RemoveToDoListPayload>('DELETE_TO_DO_LIST');
 
 interface NotesReducer {
   current: Note,

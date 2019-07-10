@@ -5,6 +5,10 @@ import updateToDos from 'sagas/notes/updateToDos';
 import getCurrentNote from 'sagas/notes/getCurrentNote';
 import removeNote from 'sagas/notes/removeNote';
 import changeNoteDescription from 'sagas/notes/changeNoteDescription';
+import changeNoteText from 'sagas/notes/changeNoteText';
+import updateListSettings from 'sagas/notes/updateListSettings';
+import deleteToDoList from 'sagas/notes/deleteToDoList';
+import addToDoList from 'sagas/notes/addToDoList';
 
 export default [
   addNote,
@@ -14,4 +18,8 @@ export default [
   getCurrentNote,
   removeNote,
   changeNoteDescription,
+  changeNoteText,
+  updateListSettings,
+  deleteToDoList,
+  addToDoList,
 ];

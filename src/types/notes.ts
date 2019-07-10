@@ -3,8 +3,10 @@ export interface ToDoItem {
   completed: boolean,
 }
 
+export type CompletedPosition = 'top' | 'bottom' | 'off';
+
 export interface ToDoListSettings {
-  completedPosition: 'top' | 'bottom' | 'off',
+  completedPosition: CompletedPosition,
   minimized: boolean,
 }
 
@@ -30,6 +32,11 @@ export interface AddNotePayload {
   folder: string,
 }
 
+export interface UpdateNoteTextPayload {
+  id: string,
+  text: string,
+}
+
 export interface ChangeNoteTitlePayload {
   id: string,
   title: string,
@@ -42,7 +49,19 @@ export interface ChangeNoteDescriptionPayload {
   folderId?: string,
 }
 
-export interface UpdateTodosPayload {
-  id: string,
-  lists: ToDoListItem[],
+export interface AddToDoListPayload {
+  noteId: string,
+  list: ToDoListItem,
 }
+
+export interface UpdateToDoListPayload extends AddToDoListPayload {
+  listIndex: number,
+}
+
+export interface UpdateListSettingsPayload {
+  noteId: string,
+  listIndex: number,
+  settings: ToDoListSettings,
+}
+
+export type RemoveToDoListPayload = Omit<UpdateListSettingsPayload, 'settings'>;

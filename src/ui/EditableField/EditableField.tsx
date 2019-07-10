@@ -1,57 +1,62 @@
-import React from 'react';
-
-import { FieldType } from 'types/fields';
+import React, { useState } from 'react';
 import Input, { InputProps } from 'ui/Input/Input';
 
 interface CommonProps {
   defaultText: string,
-  isEditMode: boolean,
   save: () => void,
   reset: () => void,
+  textArea?: boolean,
+  textClassName?: string,
 }
 
-type InputFieldProps = InputProps & CommonProps & {
-  fieldType: FieldType.input,
-};
+type InputFieldProps = InputProps & CommonProps;
 
 type Props = InputFieldProps;
 
-const EditableField = (props: Props) => {
-  const { fieldType, defaultText, isEditMode, save, reset, ...fieldProps } = props;
+const EditableField: React.FC<Props> = (props) => {
+  const [editMode, setEditMode] = useState(false);
+  const { defaultText, textArea, textClassName, save, reset, ...fieldProps } = props;
 
-  if (!isEditMode) {
+  const toggleEditMode = () => {
+    setEditMode(!editMode);
+  };
+
+  if (!editMode) {
     return (
-      <React.Fragment>
+      <div onClick={toggleEditMode} className={textClassName}>
         {defaultText}
-      </React.Fragment>
+      </div>
     );
   }
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     const { key } = e;
     if (key === 'Enter') {
-      save();
+      setEditMode(false);
+      e.currentTarget.blur();
     }
 
     if (key === 'Escape') {
+      setEditMode(false);
       reset();
     }
   };
 
-  switch (props.fieldType) {
-    case FieldType.input:
-      return (
-        <Input
-          {...fieldProps}
-          onBlur={save}
-          onKeyDown={handleKeyPress}
-          autoFocus
-          embedded
-        />
-      );
-    default:
-      return null;
-  }
+  const handleBlur = () => {
+    save();
+    setEditMode(false);
+  };
+
+  return (
+    <Input
+      {...fieldProps}
+      onBlur={handleBlur}
+      onKeyDown={handleKeyPress}
+      autoFocus
+      embedded
+      textArea={textArea}
+    />
+  );
 };
 
 export default EditableField;

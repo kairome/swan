@@ -1,235 +1,159 @@
-import React from 'react';
-import _ from 'lodash';
-import { moveArray } from 'utils/helpers';
+import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
+import { connect } from 'react-redux';
+import _ from 'lodash';
+
+// actions
+import { deleteToDoList, updateListSettings, updateToDoList } from 'actions/notes';
 
 // components
-import Button from 'ui/Button/Button';
-import Input from 'ui/Input/Input';
-import CheckBox from 'ui/Checkbox/Checkbox';
-import {
-  SortableContainer,
-  SortableElement,
-  SortableHandle,
-  SortableContainerProps,
-  SortableElementProps,
-} from 'react-sortable-hoc';
+import EditableField from 'ui/EditableField/EditableField';
+import ListSettings from 'pages/Notes/ToDos/ListSettings';
+import ToDoItems from 'pages/Notes/ToDos/ToDoItems';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 // types
-import { ToDoItem } from 'types/notes';
-import { DraggableSortArg } from 'types/entities';
+import { ToDoItem, ToDoListItem } from 'types/notes';
 
 // css
-// @ts-ignore
-import s from './ToDos.css';
+import s from 'pages/Notes/ToDos/ToDos.css';
+import Confirmation from 'ui/Confirmation/Confirmation';
 
-interface Props {
-  items: ToDoItem[],
-  save: (i: ToDoItem[]) => void,
+type MapDispatch = typeof mapDispatch;
+
+type Props = MapDispatch & {
+  listItem: ToDoListItem,
+  listKey: string,
+  listIndex: number,
+  noteId: string,
 }
 
-interface State {
-  todos: ToDoItem[],
-  focusedIndex: number,
-}
+const ToDoList: React.FC<Props> = (props) => {
+  const { listKey, listIndex, listItem, noteId } = props;
+  const [listTitle, setListTitle] = useState(listItem.title);
+  const [showRemoveListConfirmation, setRemoveListConfirmation] = useState(false);
 
-type ListProps = SortableContainerProps & {
-  items: JSX.Element[],
-};
+  useEffect(() => {
+    if (listItem.title !== listTitle) {
+      setListTitle(listItem.title);
+    }
+  }, [listItem.title])
 
-type ListItemProps = SortableElementProps & {
-  value: JSX.Element,
-};
-
-const Handle = SortableHandle(() => <div className={s.itemHandleIcon}><FontAwesomeIcon icon="grip-horizontal" /></div>)
-
-const ListItem = SortableElement((props: ListItemProps) => <div>{props.value}</div>);
-
-const List = SortableContainer((props: ListProps) => {
-  return (
-    <div>
-      {_.map(props.items, (item, i: number) => <ListItem value={item} key={`sort-todo-${i}`} index={i} />)}
-    </div>
-  );
-});
-
-class ToDoList extends React.Component<Props, State> {
-  state = {
-    todos: this.props.items,
-    focusedIndex: -1,
+  const handleListTitleChange = (e: React.FormEvent<HTMLInputElement>) => {
+    setListTitle(e.currentTarget.value);
   };
 
-  private currentInput: any;
+  const toggleRemoveListConfirmation = () => {
+    setRemoveListConfirmation(!showRemoveListConfirmation);
+  };
 
-  componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<State>, snapshot?: any): void {
-    if (this.state.focusedIndex !== -1 && this.currentInput) {
-      this.currentInput.focus();
-    }
-  }
-
-  assignRef = (index: number) => (elem: any) => {
-    if (index === this.state.focusedIndex) {
-      this.currentInput = elem;
-    }
-  }
-
-  handleAdd = (index?: number) => {
-    const todos = [...this.state.todos];
-    const newTodo = {
-      name: '',
-      completed: false,
-    };
-
-    if (typeof index === 'number') {
-      todos.splice(index, 0, newTodo);
-    } else {
-      todos.push(newTodo);
-    }
-
-    this.setState({
-      todos,
-      focusedIndex: typeof index === 'number' ? index : todos.length,
+  const handleUpdateToDos = (items: ToDoItem[]) => {
+    props.updateToDoList({
+      noteId,
+      listIndex,
+      list: {
+        ...listItem,
+        items,
+      },
     });
-    this.props.save(todos);
-  }
+  };
 
-  handleRemoveClick = (index: number) => () => {
-    this.handleRemove(index);
-  }
+  const resetListTitle = () => {
+    setListTitle(listItem.title);
+  };
 
-  handleRemove = (index: number) => {
-    const todos = [...this.state.todos];
-    todos.splice(index, 1);
-    this.setState({ todos });
-    this.props.save(todos);
-  }
-
-  handleNameChange = (index: number) => (e: React.FormEvent<HTMLInputElement>) => {
-    const { value } = e.currentTarget;
-    const todos = [...this.state.todos];
-    todos[index].name = value;
-    this.setState({ todos, focusedIndex: index });
-  }
-
-  handleKeyPress = (index: number) => (e: React.KeyboardEvent<HTMLInputElement>) => {
-    const { key, currentTarget } = e;
-    if (key === 'Enter') {
-      this.handleAdd(index + 1);
+  const handleSaveListTitle = () => {
+    const title = listTitle.trim();
+    if (!title) {
+      return;
     }
 
-    const selection = currentTarget.selectionStart;
-    const valueLength = currentTarget.value.length;
-
-    const nextKey = key === 'ArrowDown' || key === 'ArrowRight';
-    const prevKey = key === 'ArrowUp' || key === 'ArrowLeft';
-    const nextIndex = index + 1;
-    const prevIndex = index - 1;
-    if (nextKey && selection === valueLength && this.state.todos.length !== nextIndex) {
-      e.preventDefault();
-      currentTarget.blur();
-      this.setState({ focusedIndex: index + 1 });
-    }
-
-    if (prevKey && selection === 0 && prevIndex >= 0) {
-      e.preventDefault();
-      currentTarget.blur();
-      this.setState({ focusedIndex: index - 1 });
-    }
-
-    if (key === 'Escape') {
-      currentTarget.blur();
-      this.handleBlur();
-    }
-
-    const removeEvent = key === 'Backspace' && !currentTarget.value;
-    if (key === 'Delete' || removeEvent) {
-      this.handleRemove(index);
-      e.preventDefault();
-    }
+    props.updateToDoList({
+      noteId,
+      listIndex,
+      list: {
+        ...listItem,
+        title,
+      },
+    });
   }
 
-  handleBlur = () => {
-    this.setState({ focusedIndex: -1 });
-    this.props.save(this.state.todos);
-  }
+  const handleRemoveList = () => {
+    setRemoveListConfirmation(false);
+    props.deleteToDoList({
+      noteId,
+      listIndex,
+    });
+  };
 
-  handleFocus = (index: number) => () => {
-    this.setState({ focusedIndex: index });
-  }
+  const listBodyClasses = classNames(s.listBody, {
+    [s.listMinimized]: listItem.settings.minimized,
+  });
 
-  handleComplete = (index: number) => (e: React.FormEvent<HTMLInputElement>) => {
-    const { checked } = e.currentTarget;
-    const todos = [...this.state.todos];
-    todos[index].completed = checked;
-    this.setState({ todos });
-    this.props.save(todos);
-  }
+  const handleMinimize = () => {
+    props.updateListSettings({
+      noteId,
+      listIndex,
+      settings: {
+        ...listItem.settings,
+        minimized: !listItem.settings.minimized,
+      },
+    });
+  };
 
-  handleSort = (arg: DraggableSortArg) => {
-    const sortedTodos = moveArray(arg.newIndex, arg.oldIndex, this.state.todos);
-    this.setState({ todos: sortedTodos });
-    this.props.save(sortedTodos);
-  }
+  const icon = listItem.settings.minimized ? 'chevron-up' : 'chevron-down';
+  const checked = _.filter(listItem.items, i => i.completed).length;
 
-  renderItems = () => {
-    const { todos, focusedIndex } = this.state;
-    const list = _.map(todos, (todo, i) => {
-      const { name } = todo;
-      const key = `note-todo-${i}`;
-      const itemClasses = classNames(s.todoItem, {
-        [s.focused]: focusedIndex === i,
-      });
-      return (
-        <div key={key} className={itemClasses}>
-          <Handle />
-          <CheckBox
-            id={key}
-            checked={todo.completed}
-            onChange={this.handleComplete(i)}
-          />
-          <Input
-            type="text"
-            value={name}
-            assignRef={this.assignRef(i)}
-            onChange={this.handleNameChange(i)}
-            className={todo.completed ? s.checkedItem : ''}
-            onKeyDown={this.handleKeyPress(i)}
-            onBlur={this.handleBlur}
-            onFocus={this.handleFocus(i)}
-            embedded
-          />
-          <div className={s.itemRemoveIcon} onClick={this.handleRemoveClick(i)}>
-            <FontAwesomeIcon icon="trash" />
-          </div>
+  return (
+    <div className={s.listItem} id={listKey}>
+      <div className={s.listHeader}>
+        <div className={s.removeList} onClick={toggleRemoveListConfirmation}>
+          <FontAwesomeIcon icon="trash-alt" />
         </div>
-      );
-    });
-
-    return (
-      <div className={s.todoList}>
-        <List
-          items={list}
-          onSortEnd={this.handleSort}
-          useDragHandle
+        <EditableField
+          type="text"
+          value={listTitle}
+          onChange={handleListTitleChange}
+          defaultText={listItem.title ? listItem.title : 'New list'}
+          textClassName={s.listTitle}
+          className={s.listTitle}
+          save={handleSaveListTitle}
+          reset={resetListTitle}
+        />
+        <div className={s.chevron} onClick={handleMinimize}>
+          <FontAwesomeIcon icon={icon} />
+        </div>
+      </div>
+      <div className={listBodyClasses}>
+        <ListSettings
+          listKey={listKey}
+          listIndex={listIndex}
+          noteId={noteId}
+          settings={listItem.settings}
+          checked={checked}
+          all={listItem.items.length}
+        />
+        <ToDoItems
+          listKey={listKey}
+          completedPosition={listItem.settings.completedPosition}
+          items={listItem.items}
+          save={handleUpdateToDos}
         />
       </div>
-    );
-  }
+      <Confirmation
+        show={showRemoveListConfirmation}
+        toggle={toggleRemoveListConfirmation}
+        message="Are you sure you want to remove the list? This action is permanent."
+        confirm={handleRemoveList}
+      />
+    </div>
+  );
+};
 
-  render() {
-    return (
-      <div>
-        <Button
-          text="+ New todo"
-          theme="info"
-          shape="link"
-          onClick={this.handleAdd}
-        />
-        {this.renderItems()}
-      </div>
-    );
-  }
-}
+const mapDispatch = {
+  updateToDoList,
+  deleteToDoList,
+  updateListSettings,
+};
 
-export default ToDoList;
+export default connect(null, mapDispatch)(ToDoList);

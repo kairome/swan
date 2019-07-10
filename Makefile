@@ -15,21 +15,9 @@ install: clean
 	yarn cache clean
 	yarn --pure-lockfile
 
-build-dev:
+dev:
 	$(BIN_PATH)/webpack-dev-server \
-	--inline --watch --hot --progress --content-base=build --port $(DEV_PORT)
-
-dev-server:
-	$(BIN_PATH)/tsc -p server/ --watch
-
-build-dev-server:
-	$(BIN_PATH)/tsc -p server/
-
-serverDev:
-	make -j dev-server nodemon
-
-dev: build-dev-server
-	make -j build-dev nodemon
+    	--inline --watch --hot --progress --content-base=build --port $(DEV_PORT)
 
 nodemon:
 	DEV_PORT=$(DEV_PORT) nodemon -L --watch .env ./lib/server.js

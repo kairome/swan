@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import EditableField from 'ui/EditableField/EditableField';
-import { FieldType } from 'types/fields';
 import { changeNoteTitle } from 'actions/notes';
 
 type MapDispatch = typeof mapDispatch;
@@ -13,67 +12,51 @@ type Props = MapDispatch & {
   className?: string,
 }
 
-interface State {
-  title: string,
-  isEdit: boolean,
-}
+const ChangeNoteTitleField: React.FC<Props> = (props) => {
+  const [noteTitle, setNoteTitle] = useState(props.noteTitle);
 
-class ChangeNoteTitleField extends React.Component<Props, State> {
-  state = {
-    title: this.props.noteTitle,
-    isEdit: false,
+  useEffect(() => {
+    if (props.noteTitle !== noteTitle) {
+      setNoteTitle(props.noteTitle);
+    }
+  }, [props.noteTitle]);
+
+  const resetEdit = () => {
+    setNoteTitle(props.noteTitle);
   };
 
-  setEditMode = () => {
-    this.setState({ isEdit: true });
-  }
-
-  resetEdit = () => {
-    this.setState({ title: this.props.noteTitle, isEdit: false });
-  }
-
-  saveNoteTitle = () => {
-    const { title, isEdit } = this.state;
-    const currentTitle = title.trim();
-    if (!currentTitle || !isEdit) {
+  const saveNoteTitle = () => {
+    const currentTitle = noteTitle.trim();
+    if (!currentTitle) {
       return;
     }
 
-    this.props.changeNoteTitle({
-      id: this.props.noteId,
+    props.changeNoteTitle({
+      id: props.noteId,
       title: currentTitle,
-      folderId: this.props.noteFolder,
+      folderId: props.noteFolder,
     });
+  };
 
-    setTimeout(() => {
-      this.resetEdit()
-    }, 200);
-  }
-
-  handleTitleChange = (e: React.FormEvent<HTMLInputElement>) => {
+  const handleTitleChange = (e: React.FormEvent<HTMLInputElement>) => {
     const { value } = e.currentTarget;
-    this.setState({ title: value });
-  }
+    setNoteTitle(value);
+  };
 
-  render() {
-    return (
-      <div
-        className={this.props.className}
-        onClick={this.setEditMode}
-      >
-        <EditableField
-          fieldType={FieldType.input}
-          type="text"
-          value={this.state.title}
-          onChange={this.handleTitleChange}
-          defaultText={this.props.noteTitle}
-          isEditMode={this.state.isEdit}
-          save={this.saveNoteTitle}
-          reset={this.resetEdit}
-        />
-      </div>
-    );
-  }
+  return (
+    <div
+      className={props.className}
+    >
+      <EditableField
+        type="text"
+        value={noteTitle}
+        onChange={handleTitleChange}
+        defaultText={props.noteTitle}
+        save={saveNoteTitle}
+        reset={resetEdit}
+      />
+    </div>
+  );
 }
 
 const mapDispatch = {

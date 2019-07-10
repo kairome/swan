@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import _ from 'lodash';
-// types
-import { ToDoItem, ToDoListItem } from 'types/notes';
-import ToDoList from 'pages/Notes/ToDos/ToDoList';
 import { connect } from 'react-redux';
-import { ReduxState } from 'types/redux';
-import { saveToDoLists } from 'actions/notes';
+
+// actions
+import { addToDoList } from 'actions/notes';
+
+// components
 import Button from 'ui/Button/Button';
-import EditableField from 'ui/EditableField/EditableField';
-import { FieldType } from 'types/fields';
+import ToDoList from 'pages/Notes/ToDos/ToDoList';
+
+// types
+import { ReduxState } from 'types/redux';
 // @ts-ignore
 import s from './ToDos.css';
 
@@ -23,68 +25,56 @@ const ToDoLists: React.FC<Props> = (props) => {
     return null;
   }
 
-  const [listTitle, setListTitle] = useState('');
+  const [addedNewList, setAddedNewList] = useState(false);
 
-  const handleListTitleChange = (e: React.FormEvent<HTMLInputElement>) => {
-    setListTitle(e.currentTarget.value);
-  };
-
-  const handleUpdateToDos = (list: ToDoListItem, index: number) => (items: ToDoItem[]) => {
-    const { todoLists } = currentNote;
-    todoLists[index] = {
-      ...list,
-      items,
-    };
-    props.saveToDoLists({ lists: todoLists, id: currentNote._id });
-  };
+  useEffect(() => {
+    if (addedNewList) {
+      const newList = document.getElementById(`todo-list-${currentNote.todoLists.length - 1}`);
+      if (newList !== null) {
+        newList.scrollIntoView({ behavior: 'smooth' });
+      }
+      setAddedNewList(false);
+    }
+  }, [currentNote.todoLists.length]);
 
   const handleAddNewList = () => {
-    props.saveToDoLists({
-      id: currentNote._id,
-      lists: [
-        ...currentNote.todoLists,
-        {
-          title: '',
-          settings: {
-            completedPosition: 'off',
-            minimized: false,
-          },
-          items: [],
+    props.addToDoList({
+      noteId: currentNote._id,
+      list: {
+        title: '',
+        settings: {
+          completedPosition: 'bottom',
+          minimized: false,
         },
-      ],
+        items: [],
+      },
     });
+    setAddedNewList(true);
   };
 
   const renderLists = () => {
-    return _.map(currentNote.todoLists, (list, index) => {
+    const listItems = _.map(currentNote.todoLists, (list, index) => {
+      const key = `todo-list-${index}`;
       return (
-        <div key={`todo-list-${index}`} className={s.listItem}>
-          <div>
-            <EditableField
-              type="text"
-              value={listTitle}
-              onChange={handleListTitleChange}
-              defaultText={list.title ? list.title : 'List title'}
-              isEditMode={true}
-              save={() => {}}
-              reset={() => {}}
-              fieldType={FieldType.input}
-            />
-          </div>
-          <div>
-            Settings
-          </div>
-          <ToDoList
-            items={list.items}
-            save={handleUpdateToDos(list, index)}
-          />
-        </div>
+        <ToDoList
+          key={key}
+          listItem={list}
+          listKey={key}
+          listIndex={index}
+          noteId={currentNote._id}
+        />
       );
     });
+
+    return (
+      <div className={s.listsContainer}>
+        {listItems}
+      </div>
+    );
   };
   return (
     <div>
-      <Button text="+ New todo list" theme="info" shape="link"  onClick={handleAddNewList}/>
+      <Button text="+ New todo list" theme="info" shape="link" onClick={handleAddNewList} />
       {renderLists()}
     </div>
   );
@@ -97,7 +87,7 @@ const mapState = (state: ReduxState) => {
 }
 
 const mapDispatch = {
-  saveToDoLists,
+  addToDoList,
 };
 
 export default connect(mapState, mapDispatch)(ToDoLists);
