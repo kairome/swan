@@ -17,3 +17,11 @@ export const insertFolder = (folder: FolderPayload) => {
   return db.insert(folder);
 }
 
+export const updateFolderName = (id: string, name: string) => {
+  return db.update({ _id: id }, {
+    $set: {
+      name,
+    },
+  });
+}
+

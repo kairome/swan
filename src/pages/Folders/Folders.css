@@ -1,12 +1,20 @@
 .folderItem {
   margin-bottom: 10px;
-  padding: 5px 15px;
+  padding: 5px 0;
+  display: flex;
+
+  &:hover {
+    .folderMenuIcon {
+      visibility: visible;
+    }
+  }
 }
 
 .folder {
   font-size: 14px;
   color: #800488;
   cursor: pointer;
+  display: flex;
 
   &:hover {
     color: #c926d4;
@@ -23,6 +31,20 @@
 
 .folderIcon {
   margin-right: 5px;
+}
+
+.folderMenuIcon {
+  font-size: 12px;
+  margin-right: 5px;
+  color: #867171;
+  visibility: hidden;
+}
+
+.folderMenu {
+  top: 20px;
+  width: 200px;
+  color: #6a1384;
+  font-size: 15px;
 }
 
 .folderActionBtns {
@@ -45,4 +67,10 @@
 
 .addFolderContainer {
   padding: 20px 15px;
+}
+
+.addFolderButton {
+  font-size: 17px;
+  color: #6a1384;
+  cursor: pointer;
 }

@@ -7,8 +7,10 @@ import { createFolder } from 'actions/folders';
 // components
 import Button from 'ui/Button/Button';
 import Input from 'ui/Input/Input';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 // css
+// @ts-ignore
 import s from './Folders.css';
 
 interface State {
@@ -74,12 +76,9 @@ class AddFolderModal extends React.Component<Props, State> {
   render() {
     return (
       <React.Fragment>
-        <Button
-          text="+ Create folder"
-          shape="link"
-          theme="info"
-          onClick={this.toggleModal}
-        />
+        <div className={s.addFolderButton} onClick={this.toggleModal}>
+          <FontAwesomeIcon icon="folder-plus" /> New folder
+        </div>
         {this.renderInput()}
       </React.Fragment>
     );

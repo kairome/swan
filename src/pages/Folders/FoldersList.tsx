@@ -1,60 +1,47 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import classNames from 'classnames';
-import history from 'utils/history';
-
-// components
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Button from 'ui/Button/Button';
-import AddFolderModal from './AddFolderModal';
 
 // actions, selectors
 import { getCurrentFolderSelector, getFoldersSelector } from 'selectors/folders';
+import { renameFolder } from 'actions/folders';
+
+// components
+import AddFolderModal from './AddFolderModal';
+import FolderItem from 'pages/Folders/FolderItem';
+
 
 // types
 import { ReduxState } from 'types/redux';
 
 // css
+// @ts-ignore
 import s from './Folders.css';
 
 type MapState = ReturnType<typeof mapState>;
 type MapDispatch = typeof mapDispatch;
 type Props = MapState & MapDispatch;
 
-class FoldersList extends React.Component<Props, {}> {
-  handleFolderClick = (id: string) => () => {
-    history.push(`/folders/${id}`);
-  }
+const FoldersList: React.FC<Props> = (props) => {
+  const { folders, currentFolder } = props;
 
-  renderList = () => {
-    const { folders } = this.props;
+  const handleRename = (folderId: string) => (name: string) => {
+    props.renameFolder({
+      folderId,
+      name,
+      isCurrentFolder: currentFolder._id === folderId,
+    });
+  };
 
+  const renderList = () => {
     const list = _.map(folders, (folder) => {
-      const folderClasses = classNames(s.folderItem, {
-        [s.active]: this.props.currentFolder._id === folder._id,
-      })
       return (
-        <div key={folder._id} className={folderClasses}>
-          <div className={s.folder} onClick={this.handleFolderClick(folder._id)}>
-            <FontAwesomeIcon icon="folder" className={s.folderIcon} />
-            {folder.name}
-          </div>
-          <div className={s.folderActionBtns}>
-            <Button
-              text="Rename"
-              theme="info"
-              shape="link"
-              className={s.folderItemBtn}
-            />
-            <Button
-              text="Remove"
-              theme="danger"
-              shape="link"
-              className={s.folderItemBtn}
-            />
-          </div>
-        </div>
+        <FolderItem
+          key={folder._id}
+          folder={folder}
+          isActive={currentFolder._id === folder._id}
+          handleRename={handleRename(folder._id)}
+        />
       );
     });
 
@@ -63,18 +50,16 @@ class FoldersList extends React.Component<Props, {}> {
         {list}
       </div>
     );
-  }
+  };
 
-  render() {
-    return (
-      <div>
-        <div className={s.addFolderContainer}>
-          <AddFolderModal />
-        </div>
-        {this.renderList()}
+  return (
+    <div>
+      <div className={s.addFolderContainer}>
+        <AddFolderModal />
       </div>
-    );
-  }
+      {renderList()}
+    </div>
+  );
 }
 
 const mapState = (state: ReduxState) => {
@@ -85,6 +70,7 @@ const mapState = (state: ReduxState) => {
 }
 
 const mapDispatch = {
+  renameFolder,
 };
 
 export default connect(mapState, mapDispatch)(FoldersList);

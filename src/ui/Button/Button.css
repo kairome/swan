@@ -18,17 +18,17 @@
 
 .block {
   display: block;
-  border-radius: 5px;
   padding: 7px 15px;
 
   &.info {
-    background: #0064cc;
+    background: #6a1384;
     color: #fff;
   }
 
   &.danger {
-    background: #d02715;
-    color: #fff;
+    background: transparent;
+    color: #4c4c4c;
+    border: 1px solid #4c4c4c;
   }
 }
 
@@ -41,10 +41,10 @@
   }
 
   &.info {
-    color: #0064cc;
+    color: #6a1384;
   }
 
   &.danger {
-    color: #d02715;
+    color: #4c4c4c;
   }
 }

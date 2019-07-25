@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
 // actions, selectors
@@ -19,7 +19,7 @@ type Props = MapState & MapDispatch & {
 };
 
 const Folder: React.FC<Props> = (props) => {
-  React.useEffect(() => {
+  useEffect(() => {
     props.resetCurrentNote();
     props.fetchCurrentFolder(props.id);
   }, [props.id]);
@@ -30,9 +30,7 @@ const Folder: React.FC<Props> = (props) => {
   }
 
   return (
-    <div>
-      <NotesList />
-    </div>
+    <NotesList />
   );
 }
 

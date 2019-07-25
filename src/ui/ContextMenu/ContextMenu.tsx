@@ -13,6 +13,7 @@ interface Props {
   actions: MenuAction[],
   icon?: React.ReactNode,
   menuClassName?: string,
+  menuIconClassName?: string,
 }
 
 const ContextMenu: React.FC<Props> = (props) => {
@@ -67,10 +68,11 @@ const ContextMenu: React.FC<Props> = (props) => {
   };
 
   const renderIcon = () => {
-    const { icon } = props;
+    const { icon, menuIconClassName } = props;
     if (icon === undefined) {
+      const iconClassName = menuIconClassName ? `${s.menuIcon} ${menuIconClassName}` : s.menuIcon;
       return (
-        <div className={s.menuIcon} onClick={handleMenuToggle}>
+        <div className={iconClassName} onClick={handleMenuToggle}>
           <FontAwesomeIcon icon="ellipsis-v" />
         </div>
       );

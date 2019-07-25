@@ -8,3 +8,9 @@ export interface FolderItem {
 export interface FolderPayload {
   name: string,
 }
+
+export interface RenameFolderPayload {
+  folderId: string,
+  name: string,
+  isCurrentFolder: boolean,
+}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Input, { InputProps } from 'ui/Input/Input';
 
 interface CommonProps {
@@ -6,6 +6,7 @@ interface CommonProps {
   save: () => void,
   reset: () => void,
   textArea?: boolean,
+  activateEditMode?: boolean,
   textClassName?: string,
 }
 
@@ -15,9 +16,19 @@ type Props = InputFieldProps;
 
 const EditableField: React.FC<Props> = (props) => {
   const [editMode, setEditMode] = useState(false);
-  const { defaultText, textArea, textClassName, save, reset, ...fieldProps } = props;
+  const { defaultText, textArea, textClassName, save, activateEditMode, reset, ...fieldProps } = props;
+
+  useEffect(() => {
+    if (activateEditMode !== undefined) {
+      setEditMode(activateEditMode);
+    }
+  }, [activateEditMode]);
 
   const toggleEditMode = () => {
+    if (activateEditMode !== undefined) {
+      return;
+    }
+
     setEditMode(!editMode);
   };
 
