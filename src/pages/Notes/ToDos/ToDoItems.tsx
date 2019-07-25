@@ -6,14 +6,8 @@ import classNames from 'classnames';
 // components
 import Input from 'ui/Input/Input';
 import CheckBox from 'ui/Checkbox/Checkbox';
-import {
-  SortableContainer,
-  SortableElement,
-  SortableHandle,
-  SortableContainerProps,
-  SortableElementProps,
-} from 'react-sortable-hoc';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { SortHandle, SortList } from 'ui/Sortable/Sortable';
 
 // types
 import { CompletedPosition, ToDoItem } from 'types/notes';
@@ -34,26 +28,6 @@ interface State {
   todos: ToDoItem[],
   focusedIndex: number,
 }
-
-type ListProps = SortableContainerProps & {
-  items: JSX.Element[],
-};
-
-type ListItemProps = SortableElementProps & {
-  value: JSX.Element,
-};
-
-const Handle = SortableHandle(() => <div className={s.itemHandleIcon}><FontAwesomeIcon icon="grip-horizontal" /></div>)
-
-const ListItem = SortableElement((props: ListItemProps) => <div>{props.value}</div>);
-
-const List = SortableContainer((props: ListProps) => {
-  return (
-    <div>
-      {_.map(props.items, (item, i: number) => <ListItem value={item} key={`sort-todo-${i}`} index={i} />)}
-    </div>
-  );
-});
 
 class ToDoItems extends React.Component<Props, State> {
   state = {
@@ -96,11 +70,14 @@ class ToDoItems extends React.Component<Props, State> {
       todos.push(newTodo);
     }
 
+    const sorted = this.getSortedToDos(todos);
+    const nextIsCompleted = typeof index === 'number' && sorted[index].completed ? -1 : index;
+
     this.setState({
-      todos,
-      focusedIndex: typeof index === 'number' ? index : todos.length - 1,
+      todos: sorted,
+      focusedIndex: typeof nextIsCompleted === 'number' ? nextIsCompleted : todos.length - 1,
     });
-    this.props.save(todos);
+    this.props.save(sorted);
   }
 
   handleNew = () => {
@@ -223,7 +200,7 @@ class ToDoItems extends React.Component<Props, State> {
       });
       return (
         <div key={key} className={itemClasses}>
-          <Handle />
+          <SortHandle className={s.itemHandleIcon} />
           <CheckBox
             id={`${key}-${this.props.listKey}`}
             checked={todo.completed}
@@ -249,7 +226,7 @@ class ToDoItems extends React.Component<Props, State> {
 
     return (
       <div className={s.todoList}>
-        <List
+        <SortList
           items={list}
           onSortEnd={this.handleSort}
           useDragHandle

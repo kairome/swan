@@ -89,6 +89,13 @@
   transform: rotate(90deg);
 }
 
+.listHandle {
+  composes: itemHandleIcon;
+  visibility: visible;
+  margin-right: 20px;
+  font-size: 14px;
+}
+
 .itemRemoveIcon {
   color: #adadad;
   cursor: pointer;
@@ -107,13 +114,26 @@
 }
 
 .listSettings {
-  margin-bottom: 30px;
+  margin-bottom: 40px;
+  margin-left: 22px;
+}
+
+.copyList {
+  font-size: 15px;
+  color: #6a1384;
+  cursor: pointer;
+  margin: 10px 0 15px;
 }
 
 .removeList {
   font-size: 14px;
-  color: #adadad;
+  color: #6b6b6b;
   cursor: pointer;
+  opacity: .5;
+
+  &:hover {
+    opacity: 1;
+  }
 }
 
 .chevron {
@@ -128,7 +148,8 @@
 .positionTitle {
   margin-bottom: 10px;
   font-size: 15px;
-  color: #636363;
+  color: #3c084c;
+  opacity: .8;
 }
 
 .positionInput {
@@ -136,22 +157,19 @@
 }
 
 .positionInput:checked + .positionLabel, .positionLabel:hover {
-  background: #cacaca;
-  color: black;
+  background: #6f00a2;
+  color: #fff;
 }
 
 .positionLabel {
-  background: #e4e4e4;
+  background: #fff;
   box-sizing: border-box;
   padding: 5px;
-  border-right: 1px solid #757575;
-  color: #757575;
+  border: 1px solid #6f00a2;
+  color: #6f00a2;
   cursor: pointer;
   transition: background-color .3s ease;
   font-size: 14px;
-  &:last-child {
-    border-right: none;
-  }
 }
 
 .listStat {
@@ -163,4 +181,15 @@
 .listStatNumber {
   color: #424242;
   font-weight: bold;
+}
+.listSettingsButton {
+  margin: 15px 0;
+  cursor: pointer;
+  color: #6a1384;
+  font-size: 15px;
+}
+
+.listSettingsShowButton {
+  composes: listSettingsButton;
+  margin-bottom: 30px;
 }

@@ -4,20 +4,21 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 
 // actions
-import { deleteToDoList, updateListSettings, updateToDoList } from 'actions/notes';
+import { addToDoList, deleteToDoList, updateListSettings, updateToDoList } from 'actions/notes';
 
 // components
 import EditableField from 'ui/EditableField/EditableField';
 import ListSettings from 'pages/Notes/ToDos/ListSettings';
 import ToDoItems from 'pages/Notes/ToDos/ToDoItems';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { SortHandle } from 'ui/Sortable/Sortable';
+import Confirmation from 'ui/Confirmation/Confirmation';
 
 // types
 import { ToDoItem, ToDoListItem } from 'types/notes';
 
 // css
 import s from 'pages/Notes/ToDos/ToDos.css';
-import Confirmation from 'ui/Confirmation/Confirmation';
 
 type MapDispatch = typeof mapDispatch;
 
@@ -32,6 +33,7 @@ const ToDoList: React.FC<Props> = (props) => {
   const { listKey, listIndex, listItem, noteId } = props;
   const [listTitle, setListTitle] = useState(listItem.title);
   const [showRemoveListConfirmation, setRemoveListConfirmation] = useState(false);
+  const [showListSettings, toggleListSettings] = useState(false);
 
   useEffect(() => {
     if (listItem.title !== listTitle) {
@@ -101,12 +103,48 @@ const ToDoList: React.FC<Props> = (props) => {
     });
   };
 
+  const handleListSettings = () => {
+    toggleListSettings(!showListSettings);
+  };
+
+  const handleCopy = () => {
+    props.addToDoList({
+      noteId,
+      list: {
+        ...listItem,
+        title: `${listItem.title} (Copy)`
+      },
+    })
+  };
+
+  const renderSettings = () => {
+    if (showListSettings) {
+      return (
+        <React.Fragment>
+          <div className={s.listSettingsButton} onClick={handleListSettings}>Hide list settings</div>
+          <ListSettings
+            listKey={listKey}
+            listIndex={listIndex}
+            noteId={noteId}
+            settings={listItem.settings}
+            handleCreateCopy={handleCopy}
+          />
+        </React.Fragment>
+      );
+    }
+
+    return (
+      <div className={s.listSettingsShowButton} onClick={handleListSettings}>List settings</div>
+    );
+  };
+
   const icon = listItem.settings.minimized ? 'chevron-up' : 'chevron-down';
   const checked = _.filter(listItem.items, i => i.completed).length;
 
   return (
     <div className={s.listItem} id={listKey}>
       <div className={s.listHeader}>
+        <SortHandle className={s.listHandle} />
         <div className={s.removeList} onClick={toggleRemoveListConfirmation}>
           <FontAwesomeIcon icon="trash-alt" />
         </div>
@@ -125,14 +163,11 @@ const ToDoList: React.FC<Props> = (props) => {
         </div>
       </div>
       <div className={listBodyClasses}>
-        <ListSettings
-          listKey={listKey}
-          listIndex={listIndex}
-          noteId={noteId}
-          settings={listItem.settings}
-          checked={checked}
-          all={listItem.items.length}
-        />
+        <div className={s.listStat}>
+          <span className={s.listStatNumber}>{checked}</span>
+          &nbsp;out of <span className={s.listStatNumber}>{listItem.items.length}</span> items completed
+        </div>
+        {renderSettings()}
         <ToDoItems
           listKey={listKey}
           completedPosition={listItem.settings.completedPosition}
@@ -154,6 +189,7 @@ const mapDispatch = {
   updateToDoList,
   deleteToDoList,
   updateListSettings,
+  addToDoList,
 };
 
 export default connect(null, mapDispatch)(ToDoList);

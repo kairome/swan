@@ -102,6 +102,31 @@ class Note extends React.Component<Props, State> {
     );
   }
 
+  renderEditor = () => {
+    const { currentNote } = this.props;
+    if (currentNote.contentSettings.hideTextEditor) {
+      return null;
+    }
+
+    return (
+      <MarkdownEditor
+        noteId={currentNote._id}
+        noteText={currentNote.text}
+      />
+    );
+  }
+
+  renderTodoLists = () => {
+    const { currentNote } = this.props;
+    if (currentNote.contentSettings.hideLists) {
+      return null;
+    }
+
+    return (
+      <ToDoLists />
+    );
+  }
+
   render() {
     const { currentNote } = this.props;
     if (!currentNote._id) {
@@ -123,11 +148,8 @@ class Note extends React.Component<Props, State> {
             {this.renderDescriptionField()}
           </div>
         </div>
-        <MarkdownEditor
-          noteId={currentNote._id}
-          noteText={currentNote.text}
-        />
-        <ToDoLists />
+        {this.renderEditor()}
+        {this.renderTodoLists()}
       </div>
     );
   }

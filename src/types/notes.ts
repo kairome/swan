@@ -16,6 +16,11 @@ export interface ToDoListItem {
   items: ToDoItem[],
 }
 
+export interface NoteContentSettings {
+  hideTextEditor: boolean,
+  hideLists: boolean,
+}
+
 export interface Note {
   title: string,
   text: string,
@@ -25,6 +30,7 @@ export interface Note {
   folder: string,
   todoLists: ToDoListItem[],
   description: string,
+  contentSettings: NoteContentSettings,
 }
 
 export interface AddNotePayload {
@@ -70,3 +76,8 @@ export interface UpdateListSettingsPayload {
 }
 
 export type RemoveToDoListPayload = Omit<UpdateListSettingsPayload, 'settings'>;
+
+export interface UpdateNoteContentSettingsPayload {
+  noteId: string,
+  contentSettings: NoteContentSettings,
+}

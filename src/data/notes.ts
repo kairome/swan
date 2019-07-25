@@ -1,4 +1,4 @@
-import { AddNotePayload, Note, ToDoListItem, ToDoListSettings } from 'types/notes';
+import { AddNotePayload, Note, NoteContentSettings, ToDoListItem, ToDoListSettings } from 'types/notes';
 
 const DataStore = require('nedb-promises');
 import { dbOptions } from 'data/utils';
@@ -80,6 +80,14 @@ export const updateToDoListSettings = (noteId: string, listIndex: number, settin
     },
   });
 }
+
+export const updateNoteContentSettings = (noteId: string, contentSettings: NoteContentSettings) => {
+  return db.update({ _id: noteId }, {
+    $set: {
+      contentSettings,
+    },
+  });
+};
 
 export const removeToDoList = (noteId: string, listIndex: number) => {
   return db.findOne({ _id: noteId }).then((resp: Note) => {

@@ -7,7 +7,7 @@ import {
   AddToDoListPayload,
   UpdateListSettingsPayload,
   UpdateNoteTextPayload,
-  UpdateToDoListPayload, UpdateAllListsPayload,
+  UpdateToDoListPayload, UpdateAllListsPayload, UpdateNoteContentSettingsPayload,
 } from 'types/notes';
 
 export const fetchFolderNotes = createAction<string>('FETCH_FOLDER_NOTES');
@@ -30,6 +30,8 @@ export const updateListSettings = createAction<UpdateListSettingsPayload>('UPDAT
 export const deleteToDoList = createAction<RemoveToDoListPayload>('DELETE_TO_DO_LIST');
 export const updateAllLists = createAction<UpdateAllListsPayload>('UPDATE_ALL_TO_DO_LISTS');
 
+export const setNoteContentSettings = createAction<UpdateNoteContentSettingsPayload>('SET_NOTE_CONTENT_SETTINGS');
+
 interface NotesReducer {
   current: Note,
   list: Note[],
@@ -44,6 +46,10 @@ const defaultCurrentNote = {
   createdAt: new Date(),
   updatedAt: new Date(),
   description: '',
+  contentSettings: {
+    hideTextEditor: false,
+    hideLists: false,
+  },
 };
 
 const reducer = createReducer<NotesReducer>({}, {

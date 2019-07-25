@@ -13,6 +13,10 @@ function* addNoteSaga (arg: SagaArg<AddNotePayload>) {
     const newNote = {
       ...arg.payload,
       todoLists: [],
+      contentSettings: {
+        hideTextEditor: false,
+        hideLists: false,
+      },
     };
     yield call(insertNote, newNote);
     yield put(fetchFolderNotes(arg.payload.folder));

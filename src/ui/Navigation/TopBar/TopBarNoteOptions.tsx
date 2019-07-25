@@ -1,10 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { ReduxState } from 'types/redux';
-import { addToDoList, updateAllLists } from 'actions/notes';
 import { connect } from 'react-redux';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import _ from 'lodash';
+
+// actions
+import { addToDoList, setNoteContentSettings, updateAllLists } from 'actions/notes';
+
+// components
 import ContextMenu from 'ui/ContextMenu/ContextMenu';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+// types
+import { ReduxState } from 'types/redux';
+import { NoteContentSettings } from 'types/notes';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
 import s from './TopBar.css';
 
@@ -59,7 +67,17 @@ const TopBarNoteOptions: React.FC<Props> = (props) => {
     })
   };
 
-  const getToggleIcons = (type: 'min' | 'max') => {
+  const handleContentSettings = (entity: keyof NoteContentSettings) => () => {
+    const newSettings = { ...currentNote.contentSettings };
+    const current = currentNote.contentSettings[entity];
+    newSettings[entity] = !current;
+    props.setNoteContentSettings({
+      noteId: currentNote._id,
+      contentSettings: newSettings,
+    });
+  };
+
+  const getToggleListsTitle = (type: 'min' | 'max') => {
     const title = type === 'min' ? 'Minimize' : 'Maximize'
     const icon = type === 'min' ? 'window-minimize' : 'window-maximize';
     return (
@@ -69,14 +87,34 @@ const TopBarNoteOptions: React.FC<Props> = (props) => {
     );
   };
 
+  const getToggleContentTitle = (title: string, icon: IconProp, current: boolean) => {
+    const actionTitle = current ? 'Show' : 'Hide';
+
+    return (
+      <React.Fragment>
+        <FontAwesomeIcon icon={icon} /> {actionTitle} {title}
+      </React.Fragment>
+    );
+  };
+
+  const { contentSettings } = currentNote;
+
   const options = [
     {
-      title: getToggleIcons('min'),
+      title: getToggleListsTitle('min'),
       execute: handleToggleLists(true),
     },
     {
-      title: getToggleIcons('max'),
+      title: getToggleListsTitle('max'),
       execute: handleToggleLists(false),
+    },
+    {
+      title: getToggleContentTitle('text editor', 'paragraph', contentSettings.hideTextEditor),
+      execute: handleContentSettings('hideTextEditor'),
+    },
+    {
+      title: getToggleContentTitle('todo lists', 'clipboard-list', contentSettings.hideLists),
+      execute: handleContentSettings('hideLists'),
     },
   ];
 
@@ -103,6 +141,7 @@ const mapState = (state: ReduxState) => {
 const mapDispatch = {
   addToDoList,
   updateAllLists,
+  setNoteContentSettings,
 };
 
 export default connect(mapState, mapDispatch)(TopBarNoteOptions);

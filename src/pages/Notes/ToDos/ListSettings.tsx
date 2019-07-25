@@ -10,6 +10,7 @@ import { CompletedPosition, ToDoListSettings } from 'types/notes';
 import s from 'pages/Notes/ToDos/ToDos.css';
 import { connect } from 'react-redux';
 import { updateListSettings } from 'actions/notes';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 type MapDispatch = typeof mapDispatch;
 
@@ -18,12 +19,11 @@ type Props = MapDispatch & {
   listIndex: number,
   noteId: string,
   settings: ToDoListSettings,
-  checked: number,
-  all: number,
+  handleCreateCopy: () => void,
 }
 
 const ListSettings: React.FC<Props> = (props) => {
-  const { listKey, settings, listIndex, noteId, checked, all } = props;
+  const { listKey, settings, listIndex, noteId } = props;
 
   const handlePositionChange = (completedPosition: CompletedPosition) => {
     props.updateListSettings({
@@ -35,11 +35,11 @@ const ListSettings: React.FC<Props> = (props) => {
       },
     });
   };
+
   return (
     <div className={s.listSettings}>
-      <div className={s.listStat}>
-        <span className={s.listStatNumber}>{checked}</span>
-        &nbsp;out of <span className={s.listStatNumber}>{all}</span> items completed
+      <div className={s.copyList} onClick={props.handleCreateCopy}>
+        <FontAwesomeIcon icon="copy" /> Copy list
       </div>
       <PositionSettings
         listKey={listKey}
