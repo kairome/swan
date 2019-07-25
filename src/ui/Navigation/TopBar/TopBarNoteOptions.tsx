@@ -122,7 +122,7 @@ const TopBarNoteOptions: React.FC<Props> = (props) => {
     },
     {
       title: 'Move to another folder',
-      icon: 'angle-double-right',
+      icon: 'exchange-alt',
       execute: () => {},
     },
     {
