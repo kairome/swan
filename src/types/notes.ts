@@ -29,7 +29,6 @@ export interface Note {
   updatedAt: Date,
   folder: string,
   todoLists: ToDoListItem[],
-  description: string,
   contentSettings: NoteContentSettings,
 }
 
@@ -46,12 +45,6 @@ export interface UpdateNoteTextPayload {
 export interface ChangeNoteTitlePayload {
   id: string,
   title: string,
-  folderId?: string,
-}
-
-export interface ChangeNoteDescriptionPayload {
-  id: string,
-  description: string,
   folderId?: string,
 }
 

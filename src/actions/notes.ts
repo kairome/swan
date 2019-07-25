@@ -1,13 +1,14 @@
 import { createReducer, createAction } from 'redux-act';
 import {
   AddNotePayload,
-  ChangeNoteDescriptionPayload,
   ChangeNoteTitlePayload,
   Note, RemoveToDoListPayload,
   AddToDoListPayload,
   UpdateListSettingsPayload,
   UpdateNoteTextPayload,
-  UpdateToDoListPayload, UpdateAllListsPayload, UpdateNoteContentSettingsPayload,
+  UpdateToDoListPayload,
+  UpdateAllListsPayload,
+  UpdateNoteContentSettingsPayload,
 } from 'types/notes';
 
 export const fetchFolderNotes = createAction<string>('FETCH_FOLDER_NOTES');
@@ -20,7 +21,6 @@ export const fetchCurrentNote = createAction<string>('SET_CURRENT_NOTE');
 export const saveCurrentNote = createAction<Note>('SAVE_CURRENT_NOTE');
 export const resetCurrentNote = createAction('RESET_CURRENT_NOTE');
 
-export const changeNoteDescription = createAction<ChangeNoteDescriptionPayload>('CHANGE_NOTE_DESCRIPTION');
 export const changeNoteText = createAction<UpdateNoteTextPayload>('CHANGE_NOTE_TEXT');
 export const removeNote = createAction<string>('REMOVE_NOTE');
 
@@ -45,7 +45,6 @@ const defaultCurrentNote = {
   todoLists: [],
   createdAt: new Date(),
   updatedAt: new Date(),
-  description: '',
   contentSettings: {
     hideTextEditor: false,
     hideLists: false,

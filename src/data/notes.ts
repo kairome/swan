@@ -33,14 +33,6 @@ export const updateNoteTitle = (noteId: string, title: string) => {
   });
 };
 
-export const updateNoteDescription = (noteId: string, description: string) => {
-  return db.update({ _id: noteId }, {
-    $set: {
-      description,
-    },
-  });
-};
-
 export const updateNoteText = (noteId: string, text: string) => {
   return db.update({ _id: noteId }, {
     $set: {

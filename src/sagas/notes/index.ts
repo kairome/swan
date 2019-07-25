@@ -4,7 +4,6 @@ import getFolderNotes from 'sagas/notes/getFolderNotes';
 import updateToDos from 'sagas/notes/updateToDos';
 import getCurrentNote from 'sagas/notes/getCurrentNote';
 import removeNote from 'sagas/notes/removeNote';
-import changeNoteDescription from 'sagas/notes/changeNoteDescription';
 import changeNoteText from 'sagas/notes/changeNoteText';
 import updateListSettings from 'sagas/notes/updateListSettings';
 import deleteToDoList from 'sagas/notes/deleteToDoList';
@@ -19,7 +18,6 @@ export default [
   updateToDos,
   getCurrentNote,
   removeNote,
-  changeNoteDescription,
   changeNoteText,
   updateListSettings,
   deleteToDoList,

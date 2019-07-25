@@ -8,7 +8,7 @@
   flex-wrap: wrap;
   margin-top: 15px;
   padding-right: 10px;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
 }
 
 .note {
@@ -35,8 +35,8 @@
   overflow: hidden;
 }
 
-.noteListDescription {
-  height: 80px;
+.noteStatsListContainer {
+  height: 120px;
   padding: 10px 0;
   box-sizing: border-box;
   font-size: 14px;
@@ -52,6 +52,14 @@
 
   &:hover {
     cursor: pointer;
+  }
+}
+
+.noteStatsContainer {
+  composes: noteStatsListContainer;
+
+  &:hover {
+    cursor: initial;
   }
 }
 
@@ -76,23 +84,7 @@
   align-items: baseline;
 }
 
-.descriptionBlock {
-  margin: 20px 0;
-}
-
-.descriptionText {
-  font-size: 14px;
-  white-space: pre-line;
-  width: 500px;
-}
-
 .sectionHeader {
   font-size: 18px;
   margin: 10px 0;
-}
-
-.descriptionInput {
-  width: 500px;
-  min-height: 100px;
-  background: transparent;
 }

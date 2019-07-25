@@ -1,14 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
-import { changeNoteDescription, fetchCurrentNote } from 'actions/notes';
+import { fetchCurrentNote } from 'actions/notes';
 
 // components
 import ChangeNoteTitleField from 'ui/Note/ChangeNoteTitleField';
-import Input from 'ui/Input/Input';
-import Button from 'ui/Button/Button';
 import ToDoLists from 'pages/Notes/ToDos/ToDoLists';
 import MarkdownEditor from 'pages/Notes/Markdown/MarkdownEditor';
+import NoteStats from 'ui/Statistics/NoteStats';
 
 // types
 import { ReduxState } from 'types/redux';
@@ -23,87 +22,19 @@ type Props = MapState & MapDispatch & {
   id: string,
 };
 
-interface State {
-  noteTitle: string,
-  noteDescription: string,
-  showDescField: boolean,
-}
+const Note: React.FC<Props> = (props) => {
+  useEffect(() => {
+    props.fetchCurrentNote(props.id);
+  }, []);
 
-class Note extends React.Component<Props, State> {
-  state = {
-    noteTitle: this.props.currentNote.title,
-    noteDescription: this.props.currentNote.description,
-    showDescField: false,
-  };
+  const { currentNote } = props;
 
-  componentDidMount() {
-    this.props.fetchCurrentNote(this.props.id);
+  if (!currentNote._id) {
+    return null;
   }
 
-  componentDidUpdate(prevProps: Props) {
-    const { currentNote } = this.props;
-    if (currentNote.description !== prevProps.currentNote.description) {
-      this.setState({ noteDescription: currentNote.description });
-    }
-  }
 
-  toggleDescField = () => {
-    this.setState((prevState) => ({
-      showDescField: !prevState.showDescField,
-    }));
-  }
-
-  handleSaveDescription = () => {
-    const { currentNote } = this.props;
-    if (!currentNote._id) {
-      return;
-    }
-    this.props.changeNoteDescription({
-      id: currentNote._id,
-      description: this.state.noteDescription,
-    })
-    this.setState({ showDescField: false });
-  }
-
-  handleDescriptionChange = (e: React.FormEvent<HTMLTextAreaElement>) => {
-    const { value } = e.currentTarget;
-    this.setState({ noteDescription: value })
-  }
-
-  renderDescriptionField = () => {
-    const { showDescField, noteDescription } = this.state;
-    if (!showDescField) {
-      return (
-        <div onClick={this.toggleDescField}>
-          {noteDescription ? noteDescription : 'Add description'}
-        </div>
-      );
-    }
-
-    return (
-      <React.Fragment>
-        <Input
-          type="text"
-          value={noteDescription}
-          onChange={this.handleDescriptionChange}
-          onBlur={this.handleSaveDescription}
-          className={s.descriptionInput}
-          textArea
-          autoFocus
-        />
-        <div>
-          <Button
-            text="Save"
-            theme="info"
-            shape="link"
-          />
-        </div>
-      </React.Fragment>
-    );
-  }
-
-  renderEditor = () => {
-    const { currentNote } = this.props;
+  const renderEditor = () => {
     if (currentNote.contentSettings.hideTextEditor) {
       return null;
     }
@@ -114,10 +45,9 @@ class Note extends React.Component<Props, State> {
         noteText={currentNote.text}
       />
     );
-  }
+  };
 
-  renderTodoLists = () => {
-    const { currentNote } = this.props;
+  const renderTodoLists = () => {
     if (currentNote.contentSettings.hideLists) {
       return null;
     }
@@ -125,34 +55,24 @@ class Note extends React.Component<Props, State> {
     return (
       <ToDoLists />
     );
-  }
+  };
 
-  render() {
-    const { currentNote } = this.props;
-    if (!currentNote._id) {
-      return null;
-    }
-
-    return (
-      <div className={s.noteContainer}>
-        <div className={s.noteHeader}>
-          <ChangeNoteTitleField
-            noteTitle={currentNote.title}
-            noteId={currentNote._id}
-            className={s.noteTitle}
-          />
-        </div>
-        <div className={s.descriptionBlock}>
-          <div className={s.sectionHeader}>Description</div>
-          <div className={s.descriptionText}>
-            {this.renderDescriptionField()}
-          </div>
-        </div>
-        {this.renderEditor()}
-        {this.renderTodoLists()}
+  return (
+    <div className={s.noteContainer}>
+      <div className={s.noteHeader}>
+        <ChangeNoteTitleField
+          noteTitle={currentNote.title}
+          noteId={currentNote._id}
+          className={s.noteTitle}
+        />
       </div>
-    );
-  }
+      <div className={s.noteStatsContainer}>
+        <NoteStats note={currentNote} />
+      </div>
+      {renderEditor()}
+      {renderTodoLists()}
+    </div>
+  );
 }
 
 const mapState = (state: ReduxState) => {
@@ -163,7 +83,6 @@ const mapState = (state: ReduxState) => {
 
 const mapDispatch = {
   fetchCurrentNote,
-  changeNoteDescription,
 };
 
 export default connect(mapState, mapDispatch)(Note);

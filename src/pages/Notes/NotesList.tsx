@@ -10,6 +10,7 @@ import { removeNote } from 'actions/notes';
 import ChangeNoteTitleField from 'ui/Note/ChangeNoteTitleField';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Confirmation from 'ui/Confirmation/Confirmation';
+import NoteStats from 'ui/Statistics/NoteStats';
 
 // types
 import { ReduxState } from 'types/redux';
@@ -62,8 +63,8 @@ const NotesList: React.FC<Props> = (props) => {
             noteFolder={note.folder}
             className={s.noteListTitle}
           />
-          <div className={s.noteListDescription} onClick={handleSetCurrent(note._id)}>
-            {note.description ? note.description : 'Add description...'}
+          <div className={s.noteStatsListContainer} onClick={handleSetCurrent(note._id)}>
+            <NoteStats note={note} />
           </div>
           <div className={s.noteControls}>
             <div className={s.removeNoteIcon} onClick={handleRemoveConfirmation(note._id)}>
