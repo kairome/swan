@@ -8,11 +8,12 @@ import { addToDoList, setNoteContentSettings, updateAllLists } from 'actions/not
 // components
 import ContextMenu from 'ui/ContextMenu/ContextMenu';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import RemoveNoteConfirmation from 'ui/Confirmation/RemoveNoteConfirmation';
 
 // types
 import { ReduxState } from 'types/redux';
 import { NoteContentSettings } from 'types/notes';
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import { ContextMenuAction } from 'types/entities';
 
 import s from './TopBar.css';
 
@@ -27,6 +28,7 @@ const TopBarNoteOptions: React.FC<Props> = (props) => {
   }
 
   const [addedNewList, setAddedNewList] = useState(false);
+  const [showRemoveConfirmation, setRemoveConfirmation] = useState(false);
 
   useEffect(() => {
     if (addedNewList) {
@@ -37,6 +39,10 @@ const TopBarNoteOptions: React.FC<Props> = (props) => {
       setAddedNewList(false);
     }
   }, [currentNote.todoLists.length]);
+
+  const toggleRemoveConfirmation = () => {
+    setRemoveConfirmation(!showRemoveConfirmation);
+  };
 
   const handleAddNewList = () => {
     props.addToDoList({
@@ -77,44 +83,67 @@ const TopBarNoteOptions: React.FC<Props> = (props) => {
     });
   };
 
-  const getToggleListsTitle = (type: 'min' | 'max') => {
-    const title = type === 'min' ? 'Minimize' : 'Maximize'
-    const icon = type === 'min' ? 'window-minimize' : 'window-maximize';
-    return (
-      <React.Fragment>
-        <FontAwesomeIcon icon={icon} /> {title} all lists
-      </React.Fragment>
-    );
-  };
-
-  const getToggleContentTitle = (title: string, icon: IconProp, current: boolean) => {
+  const getToggleContentTitle = (title: string, current: boolean) => {
     const actionTitle = current ? 'Show' : 'Hide';
 
-    return (
-      <React.Fragment>
-        <FontAwesomeIcon icon={icon} /> {actionTitle} {title}
-      </React.Fragment>
-    );
+    return `${actionTitle} ${title}`;
   };
 
   const { contentSettings } = currentNote;
 
-  const options = [
+  const options: ContextMenuAction[] = [
     {
-      title: getToggleListsTitle('min'),
+      title: 'Minimize all lists',
+      icon: 'window-minimize',
       execute: handleToggleLists(true),
     },
     {
-      title: getToggleListsTitle('max'),
+      title: 'Maximize all lists',
+      icon: 'window-maximize',
       execute: handleToggleLists(false),
     },
     {
-      title: getToggleContentTitle('text editor', 'paragraph', contentSettings.hideTextEditor),
+      title: getToggleContentTitle('text editor', contentSettings.hideTextEditor),
+      icon: 'paragraph',
       execute: handleContentSettings('hideTextEditor'),
     },
     {
-      title: getToggleContentTitle('todo lists', 'clipboard-list', contentSettings.hideLists),
+      title: getToggleContentTitle('todo lists', contentSettings.hideLists),
+      icon: 'clipboard-list',
       execute: handleContentSettings('hideLists'),
+    },
+  ];
+
+  const actions: ContextMenuAction[] = [
+    {
+      title: 'Copy',
+      icon: 'copy',
+      execute: () => {},
+    },
+    {
+      title: 'Move to another folder',
+      icon: 'angle-double-right',
+      execute: () => {},
+    },
+    {
+      title: 'Lock/unlock',
+      icon: 'lock',
+      execute: () => {},
+    },
+    {
+      title: 'Protect/unprotect',
+      icon: 'eye-slash',
+      execute: () => {},
+    },
+    {
+      title: 'Archive/restore',
+      icon: 'archive',
+      execute: () => {},
+    },
+    {
+      title: 'Remove',
+      icon: 'trash',
+      execute: toggleRemoveConfirmation,
     },
   ];
 
@@ -125,8 +154,19 @@ const TopBarNoteOptions: React.FC<Props> = (props) => {
       </div>
       <ContextMenu
         actions={options}
-        icon={(<div className={s.optionsButton}><FontAwesomeIcon icon="sliders-h" /> Options</div>)}
+        icon={(<div className={s.optionsButton}><FontAwesomeIcon icon="tools" /> Options</div>)}
         menuClassName={s.optionsMenu}
+      />
+      <ContextMenu
+        actions={actions}
+        icon={(<div className={s.optionsButton}><FontAwesomeIcon icon="sliders-h" /> Actions</div>)}
+        menuClassName={s.optionsMenu}
+      />
+      <RemoveNoteConfirmation
+        noteId={currentNote._id}
+        show={showRemoveConfirmation}
+        toggle={toggleRemoveConfirmation}
+        folderId={currentNote.folder}
       />
     </div>
   );

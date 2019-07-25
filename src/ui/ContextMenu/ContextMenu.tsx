@@ -2,15 +2,13 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import _ from 'lodash';
 
+// types
+import { ContextMenuAction } from 'types/entities';
+
 import s from './ContextMenu.css';
 
-interface MenuAction {
-  title: string | React.ReactNode,
-  execute: () => void,
-}
-
 interface Props {
-  actions: MenuAction[],
+  actions: ContextMenuAction[],
   icon?: React.ReactNode,
   menuClassName?: string,
   menuIconClassName?: string,
@@ -38,7 +36,7 @@ const ContextMenu: React.FC<Props> = (props) => {
     toggleMenu(!showMenu);
   };
 
-  const executeAction = (execute: MenuAction['execute']) => () => {
+  const executeAction = (execute: ContextMenuAction['execute']) => () => {
     toggleMenu(false);
     execute();
   };
@@ -55,7 +53,7 @@ const ContextMenu: React.FC<Props> = (props) => {
     const actionList = _.map(actions, (action, index) => {
       return (
         <div key={`menu-action-${index}`} className={s.contextMenuItem} onClick={executeAction(action.execute)}>
-          {action.title}
+          <FontAwesomeIcon icon={action.icon} /> {action.title}
         </div>
       );
     });

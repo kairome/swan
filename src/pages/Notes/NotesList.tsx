@@ -3,14 +3,11 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 import history from 'utils/history';
 
-// actions, selectors
-import { removeNote } from 'actions/notes';
-
 // components
 import ChangeNoteTitleField from 'ui/Note/ChangeNoteTitleField';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Confirmation from 'ui/Confirmation/Confirmation';
 import NoteStats from 'ui/Statistics/NoteStats';
+import RemoveNoteConfirmation from 'ui/Confirmation/RemoveNoteConfirmation';
 
 // types
 import { ReduxState } from 'types/redux';
@@ -33,16 +30,6 @@ const NotesList: React.FC<Props> = (props) => {
 
   const handleSetCurrent = (id: string) => () => {
     history.push(`/notes/${id}`);
-  };
-
-  const handleRemoveNote = () => {
-    if (!currentNoteId) {
-      return;
-    }
-
-    props.removeNote(currentNoteId);
-    setRemoveConfirmation(false);
-    setCurrentNoteId('');
   };
 
   const handleRemoveConfirmation = (id: string) => () => {
@@ -85,11 +72,10 @@ const NotesList: React.FC<Props> = (props) => {
   return (
     <div>
       {renderNotes()}
-      <Confirmation
+      <RemoveNoteConfirmation
+        noteId={currentNoteId}
         show={showRemoveConfirmation}
         toggle={toggleConfirm}
-        message="Are you sure you want to remove the note? This action is permanent."
-        confirm={handleRemoveNote}
       />
     </div>
   );
@@ -103,7 +89,6 @@ const mapState = (state: ReduxState) => {
 }
 
 const mapDispatch = {
-  removeNote,
 };
 
 export default connect(mapState, mapDispatch)(NotesList);

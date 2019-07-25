@@ -2,6 +2,7 @@ import React from 'react';
 import Modal from 'ui/Modal/Modal';
 import Button from 'ui/Button/Button';
 
+// @ts-ignore
 import s from './Confirmation.css';
 
 interface Props {
@@ -18,7 +19,7 @@ const Confirmation: React.FC<Props> = (props) => {
       toggle={props.toggle}
     >
       <div>
-        <div>{props.message}</div>
+        <div className={s.confirmationText}>{props.message}</div>
         <div className={s.footer}>
           <Button
             text="Confirm"

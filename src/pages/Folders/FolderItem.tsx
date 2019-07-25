@@ -9,7 +9,7 @@ import EditableField from 'ui/EditableField/EditableField';
 
 // types
 import { FolderItem as FolderItemType } from 'types/folders';
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import { ContextMenuAction } from 'types/entities';
 
 import s from 'pages/Folders/Folders.css';
 
@@ -52,21 +52,15 @@ const FolderItem: React.FC<Props> = (props) => {
     setActivateEditMode(false);
   };
 
-  const getActionMenuItem = (title: string, icon: IconProp) => {
-    return (
-      <React.Fragment>
-        <FontAwesomeIcon icon={icon} /> {title}
-      </React.Fragment>
-    );
-  };
-
-  const menuActions = [
+  const menuActions: ContextMenuAction[] = [
     {
-      title: getActionMenuItem('Rename', 'file-signature'),
+      title: 'Rename',
+      icon: 'file-signature',
       execute: handleActivateRename,
     },
     {
-      title: getActionMenuItem('Remove', 'trash'),
+      title: 'Remove',
+      icon: 'trash',
       execute: () => {
       },
     },
