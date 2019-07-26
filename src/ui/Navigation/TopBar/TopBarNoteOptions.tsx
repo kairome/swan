@@ -8,7 +8,7 @@ import { addToDoList, setNoteContentSettings, updateAllLists } from 'actions/not
 // components
 import ContextMenu from 'ui/ContextMenu/ContextMenu';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import RemoveNoteConfirmation from 'ui/Confirmation/RemoveNoteConfirmation';
+import ContextNoteActions from 'ui/Note/ContextNoteActions';
 
 // types
 import { ReduxState } from 'types/redux';
@@ -28,7 +28,6 @@ const TopBarNoteOptions: React.FC<Props> = (props) => {
   }
 
   const [addedNewList, setAddedNewList] = useState(false);
-  const [showRemoveConfirmation, setRemoveConfirmation] = useState(false);
 
   useEffect(() => {
     if (addedNewList) {
@@ -39,10 +38,6 @@ const TopBarNoteOptions: React.FC<Props> = (props) => {
       setAddedNewList(false);
     }
   }, [currentNote.todoLists.length]);
-
-  const toggleRemoveConfirmation = () => {
-    setRemoveConfirmation(!showRemoveConfirmation);
-  };
 
   const handleAddNewList = () => {
     props.addToDoList({
@@ -114,38 +109,6 @@ const TopBarNoteOptions: React.FC<Props> = (props) => {
     },
   ];
 
-  const actions: ContextMenuAction[] = [
-    {
-      title: 'Copy',
-      icon: 'copy',
-      execute: () => {},
-    },
-    {
-      title: 'Move to another folder',
-      icon: 'exchange-alt',
-      execute: () => {},
-    },
-    {
-      title: 'Lock/unlock',
-      icon: 'lock',
-      execute: () => {},
-    },
-    {
-      title: 'Protect/unprotect',
-      icon: 'eye-slash',
-      execute: () => {},
-    },
-    {
-      title: 'Archive/restore',
-      icon: 'archive',
-      execute: () => {},
-    },
-    {
-      title: 'Remove',
-      icon: 'trash',
-      execute: toggleRemoveConfirmation,
-    },
-  ];
 
   return (
     <div className={s.barOptions}>
@@ -157,16 +120,10 @@ const TopBarNoteOptions: React.FC<Props> = (props) => {
         icon={(<div className={s.optionsButton}><FontAwesomeIcon icon="tools" /> Options</div>)}
         menuClassName={s.optionsMenu}
       />
-      <ContextMenu
-        actions={actions}
-        icon={(<div className={s.optionsButton}><FontAwesomeIcon icon="sliders-h" /> Actions</div>)}
-        menuClassName={s.optionsMenu}
-      />
-      <RemoveNoteConfirmation
-        noteId={currentNote._id}
-        show={showRemoveConfirmation}
-        toggle={toggleRemoveConfirmation}
-        folderId={currentNote.folder}
+      <ContextNoteActions
+        note={currentNote}
+        menuIcon={(<div className={s.optionsButton}><FontAwesomeIcon icon="sliders-h" /> Actions</div>)}
+        className={s.optionsMenu}
       />
     </div>
   );

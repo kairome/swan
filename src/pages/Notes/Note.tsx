@@ -25,7 +25,7 @@ type Props = MapState & MapDispatch & {
 const Note: React.FC<Props> = (props) => {
   useEffect(() => {
     props.fetchCurrentNote(props.id);
-  }, []);
+  }, [props.id]);
 
   const { currentNote } = props;
 

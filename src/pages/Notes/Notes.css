@@ -68,10 +68,18 @@
   justify-content: flex-end;
 }
 
-.removeNoteIcon {
+.noteActionIcon {
   font-size: 12px;
   color: #717171;
   cursor: pointer;
+  margin-right: 10px;
+}
+
+.noteListActionMenu {
+  font-size: 12px;
+  color: #6a1384;
+  left: -200px;
+  width: 200px;
 }
 
 .noteTitle {

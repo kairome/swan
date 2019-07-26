@@ -32,9 +32,12 @@ export interface Note {
   contentSettings: NoteContentSettings,
 }
 
+export type NoteCopyPayload = Omit<Note, '_id' | 'createdAt' | 'updatedAt'>;
+
 export interface AddNotePayload {
   title: string,
   folder: string,
+  copy?: NoteCopyPayload,
 }
 
 export interface UpdateNoteTextPayload {
