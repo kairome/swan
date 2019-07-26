@@ -30,9 +30,11 @@ export interface Note {
   folder: string,
   todoLists: ToDoListItem[],
   contentSettings: NoteContentSettings,
+  isArchived: boolean,
 }
 
 export type NoteCopyPayload = Omit<Note, '_id' | 'createdAt' | 'updatedAt'>;
+export type NewNotePayload = NoteCopyPayload;
 
 export interface AddNotePayload {
   title: string,
@@ -48,6 +50,7 @@ export interface UpdateNoteTextPayload {
 export interface ChangeNoteTitlePayload {
   id: string,
   title: string,
+  noteArchived?: boolean,
   folderId?: string,
 }
 
@@ -77,3 +80,17 @@ export interface UpdateNoteContentSettingsPayload {
   noteId: string,
   contentSettings: NoteContentSettings,
 }
+
+export interface NoteFilter {
+  folderId?: string,
+  isArchived?: boolean,
+}
+
+export interface ArchiveNotePayload {
+  noteId: string,
+  folderId: string,
+  isArchived: boolean,
+  inList?: boolean,
+}
+
+export type RemoveNotePayload = ArchiveNotePayload;

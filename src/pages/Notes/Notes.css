@@ -36,7 +36,7 @@
 }
 
 .noteStatsListContainer {
-  height: 120px;
+  height: 140px;
   padding: 10px 0;
   box-sizing: border-box;
   font-size: 14px;
@@ -57,6 +57,7 @@
 
 .noteStatsContainer {
   composes: noteStatsListContainer;
+  height: auto;
 
   &:hover {
     cursor: initial;

@@ -1,32 +1,43 @@
 import React from 'react';
 import moment from 'moment';
 import _ from 'lodash';
+import { connect } from 'react-redux';
 
+// types
 import { Note } from 'types/notes';
+import { ReduxState } from 'types/redux';
 
-interface Props {
+// @ts-ignore
+import s from './Statistics.css';
+
+type MapState = ReturnType<typeof mapState>;
+type Props = MapState & {
   note: Note,
 }
 
 const NoteStats: React.FC<Props> = (props) => {
   const { note } = props;
 
-  const renderDates = () => {
-    const { createdAt, updatedAt } = note;
+  const renderStatBlock = (title: string, value: string) => {
+    if (!value) {
+      return null;
+    }
+
     return (
-      <React.Fragment>
-        <div>Created on <b>{moment(createdAt).format('DD.MM.YYYY')}</b></div>
-        <div>Last updated on <b>{moment(updatedAt).format('DD.MM.YYYY, HH:mm')}</b></div>
-      </React.Fragment>
+      <div className={s.noteStatBlock}>
+        {title} <b>{value}</b>
+      </div>
     );
   };
 
-  const getPlural = (word: string, length: number) => {
-    if (length > 1 || length === 0) {
-      return `${word}s`;
-    }
-
-    return word;
+  const renderDates = () => {
+    const { createdAt, updatedAt } = note;
+    return (
+      <div>
+        {renderStatBlock('Created', moment(createdAt).format('DD.MM.YYYY'))}
+        {renderStatBlock('Last updated', moment(updatedAt).format('DD.MM.YYYY, HH:mm'))}
+      </div>
+    );
   };
 
   const renderToDoStats = () => {
@@ -35,25 +46,43 @@ const NoteStats: React.FC<Props> = (props) => {
     const todoItems = _.flatMap(todoLists, list => list.items);
     const completedItems = _.filter(todoItems, item => item.completed);
 
-    const todoLength = todoLists.length;
-    const itemsLength = todoItems.length;
-    const completedLength = completedItems.length;
-    const verb = completedLength === 1 ? 'is' : 'are';
     return (
-      <React.Fragment>
-        <div><b>{todoLength}</b> todo {getPlural('list', todoLength)}</div>
-        <div><b>{itemsLength}</b> total todo {getPlural('item', todoItems.length)}</div>
-        <div><b>{completedLength}</b> of which {verb} completed</div>
-      </React.Fragment>
+      <div className={s.noteStatSection}>
+        {renderStatBlock('Todo lists', String(todoLists.length))}
+        {renderStatBlock('Todo items', String(todoItems.length))}
+        {renderStatBlock('Completed', String(completedItems.length))}
+      </div>
+    );
+  };
+
+  const renderStatus = () => {
+    const { isArchived, folder } = note;
+    if (!isArchived) {
+      return null;
+    }
+    const noteFolder = _.find(props.folders, f => f._id === folder);
+
+
+    return (
+      <div className={s.noteStatBlock}>
+        <b>Archived</b>, in <b>{noteFolder ? noteFolder.name : 'Unknown'} </b>folder
+      </div>
     );
   };
 
   return (
     <div>
-      {renderDates()}
+      {renderStatus()}
       {renderToDoStats()}
+      {renderDates()}
     </div>
   );
 };
 
-export default NoteStats;
+const mapState = (state: ReduxState) => {
+  return {
+    folders: state.folders.list,
+  };
+};
+
+export default connect(mapState, null)(NoteStats);

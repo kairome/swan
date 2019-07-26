@@ -1,20 +1,28 @@
-import { call, put, select } from 'redux-saga/effects';
+import { call, put } from 'redux-saga/effects';
 import { removeNoteById } from 'data/notes';
+import history from 'utils/history';
 
 // actions
-import { removeNote, fetchFolderNotes } from 'actions/notes';
+import { removeNote, fetchNotes } from 'actions/notes';
 
 // types
 import { SagaArg } from 'types/saga';
-import { getCurrentFolderSelector } from 'selectors/folders';
+import { RemoveNotePayload } from 'types/notes';
 
-function* removeNoteSaga(arg: SagaArg<string>) {
+function* removeNoteSaga(arg: SagaArg<RemoveNotePayload>) {
   try {
-    yield call(removeNoteById, arg.payload);
-    const currentFolder = yield select(getCurrentFolderSelector);
-    if (currentFolder._id) {
-      yield put(fetchFolderNotes(currentFolder._id));
+    const { noteId, folderId, isArchived, inList } = arg.payload;
+    yield call(removeNoteById, noteId);
+    if (inList) {
+      const filter = {
+        isArchived,
+        folderId: !isArchived ? folderId : undefined,
+      };
+      yield put(fetchNotes(filter));
+      return;
     }
+
+    history.push(`/folders/${folderId}`);
   } catch (e) {
     console.error(e);
   }

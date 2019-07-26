@@ -1,17 +1,21 @@
 import { call, put } from 'redux-saga/effects';
 
-import { changeNoteTitle, fetchFolderNotes, fetchCurrentNote } from 'actions/notes';
+import { changeNoteTitle, fetchNotes, fetchCurrentNote } from 'actions/notes';
 import { updateNoteTitle } from 'data/notes';
 import { SagaArg } from 'types/saga';
 import { ChangeNoteTitlePayload } from 'types/notes';
 
 function* changeNoteTitleSaga(arg: SagaArg<ChangeNoteTitlePayload>) {
   try {
-    const { id, title, folderId } = arg.payload;
+    const { id, title, folderId, noteArchived } = arg.payload;
 
     yield call(updateNoteTitle, id, title);
-    if (folderId) {
-      yield put(fetchFolderNotes(folderId));
+    if (folderId !== undefined && noteArchived !== undefined) {
+      const filter = {
+        isArchived: noteArchived,
+        folderId: !noteArchived ? folderId : undefined,
+      };
+      yield put(fetchNotes(filter));
       return;
     }
 

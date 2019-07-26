@@ -1,23 +1,44 @@
-import { AddNotePayload, Note, NoteContentSettings, ToDoListItem, ToDoListSettings } from 'types/notes';
+import {
+  NewNotePayload,
+  Note,
+  NoteContentSettings,
+  NoteFilter,
+  ToDoListItem,
+  ToDoListSettings
+} from 'types/notes';
 
 const DataStore = require('nedb-promises');
 import { dbOptions } from 'data/utils';
 
 const db = DataStore.create(dbOptions('notes.json'));
 
-export const getAllNotes = () => {
-  return db.find({}).sort({ createdAt: -1 });
-};
+interface NoteQuery {
+  folder?: string,
+  isArchived?: boolean,
+}
 
-export const getNotesByFolder = (folderId: string) => {
-  return db.find({ folder: folderId }).sort({ createdAt: -1 });
+export const getAllNotes = (filter: NoteFilter) => {
+  const dbQuery: NoteQuery = {
+    isArchived: false,
+  };
+
+  const { folderId, isArchived } = filter;
+  if (folderId !== undefined) {
+    dbQuery.folder = folderId;
+  }
+
+  if (isArchived !== undefined) {
+    dbQuery.isArchived = isArchived;
+  }
+
+  return db.find(dbQuery).sort({ createdAt: -1 });
 };
 
 export const getNoteById = (id: string) => {
   return db.findOne({ _id: id });
 };
 
-export const insertNote = (note: AddNotePayload) => {
+export const insertNote = (note: NewNotePayload) => {
   return db.insert(note);
 }
 
@@ -41,6 +62,14 @@ export const updateNoteText = (noteId: string, text: string) => {
   });
 };
 
+export const updateNoteArchiveStatus = (noteId: string, isArchived: boolean) => {
+  return db.update({ _id: noteId }, {
+    $set: {
+      isArchived,
+    },
+  });
+};
+
 export const updateToDos = (noteId: string, listIndex: number, list: ToDoListItem) => {
   return db.update({ _id: noteId }, {
     $set: {
@@ -52,7 +81,7 @@ export const updateToDos = (noteId: string, listIndex: number, list: ToDoListIte
 export const updateToDoLists = (noteId: string, todoLists: ToDoListItem[]) => {
   return db.update({ _id: noteId }, {
     $set: {
-     todoLists,
+      todoLists,
     },
   });
 };

@@ -29,6 +29,7 @@ const NoteItem: React.FC<Props> = (props) => {
         noteId={note._id}
         noteFolder={note.folder}
         className={s.noteListTitle}
+        noteArchived={note.isArchived}
       />
       <div className={s.noteStatsListContainer} onClick={handleSetCurrent}>
         <NoteStats note={note} />

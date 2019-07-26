@@ -43,7 +43,6 @@ const NotesList: React.FC<Props> = (props) => {
 
 const mapState = (state: ReduxState) => {
   return {
-    currentFolder: state.folders.current,
     notes: state.notes.list,
   };
 }

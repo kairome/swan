@@ -7,6 +7,7 @@ export const createFolder = createAction<string>('CREATE_FOLDER');
 
 export const fetchCurrentFolder = createAction<string>('SET_CURRENT_FOLDER');
 export const saveCurrentFolder = createAction<FolderItem>('SAVE_CURRENT_FOLDER');
+export const resetCurrentFolder = createAction('RESET_CURRENT_FOLDER');
 
 export const renameFolder = createAction<RenameFolderPayload>('RENAME_FOLDER');
 
@@ -15,14 +16,16 @@ interface FoldersReducer {
   current: FolderItem,
 }
 
+const defaultFolder = {
+  _id: '',
+  name: '',
+  createdAt: new Date(),
+  updatedAt: new Date(),
+};
+
 const reducer = createReducer<FoldersReducer>({}, {
   list: [],
-  current: {
-    _id: '',
-    name: '',
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  },
+  current: defaultFolder,
 });
 
 reducer.on(saveAllFolders, (state, list) => {
@@ -36,6 +39,13 @@ reducer.on(saveCurrentFolder, (state, current) => {
   return {
     ...state,
     current,
+  };
+});
+
+reducer.on(resetCurrentFolder, (state) => {
+  return {
+    ...state,
+    current: defaultFolder,
   };
 });
 

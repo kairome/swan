@@ -8,6 +8,8 @@
   flex-shrink: 0;
   box-sizing: border-box;
   border-right: 1px solid #ddd;
+  display: flex;
+  flex-direction: column;
 }
 
 .hideNavigation {
@@ -36,3 +38,14 @@
   color: #949494;
 }
 
+.archivedSection {
+  margin-top: auto;
+  cursor: pointer;
+  font-size: 15px;
+  color: #656565;
+  padding: 10px 20px;
+}
+
+.archivedSectionActive {
+  background: rgba(101,101,101,.2);
+}

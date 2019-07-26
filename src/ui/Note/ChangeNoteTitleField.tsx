@@ -8,6 +8,7 @@ type MapDispatch = typeof mapDispatch;
 type Props = MapDispatch & {
   noteTitle: string,
   noteId: string,
+  noteArchived?: boolean,
   noteFolder?: string,
   className?: string,
 }
@@ -32,6 +33,7 @@ const ChangeNoteTitleField: React.FC<Props> = (props) => {
     }
 
     props.changeNoteTitle({
+      noteArchived: props.noteArchived,
       id: props.noteId,
       title: currentTitle,
       folderId: props.noteFolder,

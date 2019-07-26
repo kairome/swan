@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
+// actions
+import { addNote, changeNoteArchiveStatus, removeNote } from 'actions/notes';
+
 // components
 import ContextMenu from 'ui/ContextMenu/ContextMenu';
-import RemoveNoteConfirmation from 'ui/Note/RemoveNoteConfirmation';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Confirmation from 'ui/Confirmation/Confirmation';
 
 // types
 import { ContextMenuAction } from 'types/entities';
 import { Note } from 'types/notes';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { addNote } from 'actions/notes';
 
 type MapDispatch = typeof mapDispatch;
 type Props = MapDispatch & {
@@ -22,10 +24,30 @@ type Props = MapDispatch & {
 
 const ContextNoteActions: React.FC<Props> = (props) => {
   const { note } = props;
+  const { isArchived } = note;
   const [showRemoveConfirmation, setRemoveConfirmation] = useState(false);
 
   const toggleRemoveConfirmation = () => {
     setRemoveConfirmation(!showRemoveConfirmation);
+  };
+
+  const handleRemoveNote = () => {
+    props.removeNote({
+      noteId: note._id,
+      folderId: note.folder,
+      isArchived: isArchived,
+      inList: props.inList,
+    });
+    toggleRemoveConfirmation();
+  };
+
+  const handleArchiveStatus = () => {
+    props.changeNoteArchiveStatus({
+      noteId: note._id,
+      folderId: note.folder,
+      isArchived: !isArchived,
+      inList: props.inList,
+    })
   };
 
   const handleCopyNote = () => {
@@ -70,10 +92,9 @@ const ContextNoteActions: React.FC<Props> = (props) => {
   const actions: ContextMenuAction[] = !props.inList ? [
     ...defaultActions,
     {
-      title: 'Archive/restore',
-      icon: 'archive',
-      execute: () => {
-      },
+      title: isArchived ? 'Restore' : 'Archive',
+      icon: isArchived ? 'trash-restore' : 'archive',
+      execute: handleArchiveStatus,
     },
     {
       title: 'Remove',
@@ -89,9 +110,8 @@ const ContextNoteActions: React.FC<Props> = (props) => {
 
     return (
       <React.Fragment>
-        <div className={props.actionIconClassName} onClick={() => {
-        }}>
-          <FontAwesomeIcon icon="archive" />
+        <div className={props.actionIconClassName} onClick={handleArchiveStatus}>
+          <FontAwesomeIcon icon={isArchived ? 'trash-restore' : 'archive'} />
         </div>
         <div className={props.actionIconClassName} onClick={toggleRemoveConfirmation}>
           <FontAwesomeIcon icon="trash-alt" />
@@ -108,11 +128,11 @@ const ContextNoteActions: React.FC<Props> = (props) => {
         icon={props.menuIcon}
         menuClassName={props.className}
       />
-      <RemoveNoteConfirmation
-        noteId={note._id}
+      <Confirmation
         show={showRemoveConfirmation}
         toggle={toggleRemoveConfirmation}
-        folderId={!props.inList ? note.folder : undefined}
+        message="Are you sure you want to remove the note? This action is permanent."
+        confirm={handleRemoveNote}
       />
     </React.Fragment>
   );
@@ -120,6 +140,8 @@ const ContextNoteActions: React.FC<Props> = (props) => {
 
 const mapDispatch = {
   addNote,
+  changeNoteArchiveStatus,
+  removeNote,
 };
 
 export default connect(null, mapDispatch)(ContextNoteActions);

@@ -1,7 +1,12 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
+
+//pages
 import Folder from 'pages/Folders/Folder';
 import Note from 'pages/Notes/Note';
+import Archived from 'pages/Archived/Archived';
+
+// types
 import { IdRouter } from 'types/router';
 
 const renderCurrentFolder = (props: IdRouter) => {
@@ -21,6 +26,7 @@ const routes = (
     <Route exact path="/home" />
     <Route exact path="/folders/:id" render={renderCurrentFolder} />
     <Route exact path="/notes/:id" render={renderCurrentNote} />
+    <Route exact path="/archived" component={Archived} />
   </Switch>
 );
 

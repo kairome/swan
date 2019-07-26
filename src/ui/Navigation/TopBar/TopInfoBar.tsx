@@ -44,6 +44,11 @@ const TopInfoBar: React.FC<Props> = (props) => {
       return;
     }
 
+    if (currentNote.isArchived) {
+      history.push('/archived');
+      return;
+    }
+
     history.push(`/folders/${currentNote.folder}`);
   };
 
@@ -70,26 +75,33 @@ const TopInfoBar: React.FC<Props> = (props) => {
 
     if (_.includes(props.location.pathname, '/notes')) {
       return (
-       <TopBarNoteOptions/>
+        <TopBarNoteOptions />
       );
     }
 
     return null;
   };
 
+  const getBreadCrumbs = () => {
+    if (props.location.pathname === '/archived') {
+      return 'Archived';
+    }
+
+    const folderName = currentFolder.name ? currentFolder.name : '';
+    const noteName = currentNote.title ? ` > ${currentNote.title}` : '';
+    return `${folderName}${noteName}`;
+  };
 
   const barClasses = classNames(s.infoBar, {
     [s.infoBarFull]: !show,
   })
 
-  const folderName = currentFolder.name ? currentFolder.name : '';
-  const noteName = currentNote.title ? ` > ${currentNote.title}` : '';
   return (
     <div className={barClasses}>
       {renderNavBars()}
       {renderBackArrow()}
       <div className={s.breadcrumbs}>
-        {folderName}{noteName}
+        {getBreadCrumbs()}
       </div>
       {renderPageOptions()}
     </div>
