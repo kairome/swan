@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 // actions
 import { addNote, changeNoteArchiveStatus, removeNote } from 'actions/notes';
+import { setNotesToMove } from 'actions/interactive';
 
 // components
 import ContextMenu from 'ui/ContextMenu/ContextMenu';
@@ -50,6 +51,13 @@ const ContextNoteActions: React.FC<Props> = (props) => {
     })
   };
 
+  const handleMove = () => {
+    props.setNotesToMove({
+      noteIds: [note._id],
+      moveFrom: note.folder,
+    });
+  };
+
   const handleCopyNote = () => {
     const copy = { ...note };
     delete copy._id;
@@ -72,8 +80,7 @@ const ContextNoteActions: React.FC<Props> = (props) => {
     {
       title: 'Move to another folder',
       icon: 'exchange-alt',
-      execute: () => {
-      },
+      execute: handleMove,
     },
     {
       title: 'Lock/unlock',
@@ -142,6 +149,7 @@ const mapDispatch = {
   addNote,
   changeNoteArchiveStatus,
   removeNote,
+  setNotesToMove,
 };
 
 export default connect(null, mapDispatch)(ContextNoteActions);

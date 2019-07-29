@@ -10,6 +10,7 @@ export const saveCurrentFolder = createAction<FolderItem>('SAVE_CURRENT_FOLDER')
 export const resetCurrentFolder = createAction('RESET_CURRENT_FOLDER');
 
 export const renameFolder = createAction<RenameFolderPayload>('RENAME_FOLDER');
+export const removeFolder = createAction<string>('REMOVE_FOLDER');
 
 interface FoldersReducer {
   list: FolderItem[],

@@ -94,3 +94,9 @@ export interface ArchiveNotePayload {
 }
 
 export type RemoveNotePayload = ArchiveNotePayload;
+
+export interface MoveNotesPayload {
+  moveFrom: string,
+  moveTo: string,
+  noteIds: string[],
+}

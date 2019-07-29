@@ -1,15 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
+import classNames from 'classnames';
+import history from 'utils/history';
 
 // actions, selectors
 import { getCurrentFolderSelector, getFoldersSelector } from 'selectors/folders';
-import { renameFolder } from 'actions/folders';
+import { removeFolder, renameFolder, resetCurrentFolder } from 'actions/folders';
+import { setNotesToMove, toggleMoveNotes } from 'actions/interactive';
+import { moveNotesToFolder, removeAllFolderNotes } from 'actions/notes';
 
 // components
 import AddFolderModal from './AddFolderModal';
 import FolderItem from 'pages/Folders/FolderItem';
-
 
 // types
 import { ReduxState } from 'types/redux';
@@ -24,6 +27,7 @@ type Props = MapState & MapDispatch;
 
 const FoldersList: React.FC<Props> = (props) => {
   const { folders, currentFolder } = props;
+  const [removeFolder, setRemoveFolder] = useState(false);
 
   const handleRename = (folderId: string) => (name: string) => {
     props.renameFolder({
@@ -33,20 +37,74 @@ const FoldersList: React.FC<Props> = (props) => {
     });
   };
 
+  const handleFolderClick = (folderId: string) => () => {
+    if (props.enableMoveNotes) {
+      const { moveNoteFrom } = props;
+      if (moveNoteFrom === folderId) {
+        return;
+      }
+
+      if (!moveNoteFrom) {
+        props.toggleMoveNotes();
+        return;
+      }
+
+      props.moveNotesToFolder({
+        moveFrom: moveNoteFrom,
+        moveTo: folderId,
+        noteIds: props.notesToMove,
+      });
+
+      if (removeFolder) {
+        props.removeFolder(moveNoteFrom);
+        setRemoveFolder(false);
+      }
+      return;
+    }
+
+    history.push(`/folders/${folderId}`);
+  };
+
+  const handleRemoveFolder = (folderId: string) => (notesAction: 'move' | 'delete') => {
+    if (notesAction === 'move') {
+      setRemoveFolder(true);
+      props.setNotesToMove({
+        noteIds: [],
+        moveFrom: folderId,
+      });
+    }
+
+    if (notesAction === 'delete') {
+      props.removeFolder(folderId);
+      props.removeAllFolderNotes(folderId);
+      if (folderId === currentFolder._id) {
+        history.push('/home');
+        props.resetCurrentFolder();
+      }
+    }
+  };
+
   const renderList = () => {
     const list = _.map(folders, (folder) => {
+      const { _id } = folder;
       return (
         <FolderItem
-          key={folder._id}
+          key={_id}
           folder={folder}
-          isActive={currentFolder._id === folder._id}
-          handleRename={handleRename(folder._id)}
+          isActive={currentFolder._id === _id}
+          handleRename={handleRename(_id)}
+          handleRemoveFolder={handleRemoveFolder(_id)}
+          handleFolderClick={handleFolderClick(_id)}
         />
       );
     });
 
+    const listClasses = classNames(s.folderList, {
+      [s.folderListInteractive]: props.enableMoveNotes,
+    });
+
     return (
-      <div className={s.folderList}>
+      <div className={listClasses}>
         {list}
       </div>
     );
@@ -66,11 +124,20 @@ const mapState = (state: ReduxState) => {
   return {
     folders: getFoldersSelector(state),
     currentFolder: getCurrentFolderSelector(state),
+    enableMoveNotes: state.interactive.enableMoveNotes,
+    moveNoteFrom: state.interactive.moveFrom,
+    notesToMove: state.interactive.notesToMove,
   };
 }
 
 const mapDispatch = {
   renameFolder,
+  toggleMoveNotes,
+  removeFolder,
+  moveNotesToFolder,
+  setNotesToMove,
+  removeAllFolderNotes,
+  resetCurrentFolder,
 };
 
 export default connect(mapState, mapDispatch)(FoldersList);

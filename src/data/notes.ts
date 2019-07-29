@@ -46,6 +46,10 @@ export const removeNoteById = (noteId: string) => {
   return db.remove({ _id: noteId }, {});
 }
 
+export const removeNotesByFolder = (folderId: string) => {
+  return db.remove({ folder: folderId }, { multi: true });
+}
+
 export const updateNoteTitle = (noteId: string, title: string) => {
   return db.update({ _id: noteId }, {
     $set: {
@@ -68,6 +72,22 @@ export const updateNoteArchiveStatus = (noteId: string, isArchived: boolean) => 
       isArchived,
     },
   });
+};
+
+export const updateAllNotesFolder = (moveFrom: string, moveTo: string) => {
+  return db.update({ folder: moveFrom }, {
+    $set: {
+      folder: moveTo,
+    },
+  }, { multi: true });
+};
+
+export const updateNotesFolder = (moveFrom: string, moveTo: string, noteIds: string[]) => {
+  return db.update({ _id: { $in: noteIds }, folder: moveFrom }, {
+    $set: {
+      folder: moveTo,
+    },
+  }, { multi: true });
 };
 
 export const updateToDos = (noteId: string, listIndex: number, list: ToDoListItem) => {

@@ -1,6 +1,8 @@
 import React from 'react';
 
 import routes from './routes';
+import Interactive from 'ui/Interactive/Interactive';
+
 import s from './Main.css';
 
 
@@ -10,6 +12,7 @@ const Main = () => {
       <div className={s.content}>
         {routes}
       </div>
+      <Interactive />
     </div>
   );
 };

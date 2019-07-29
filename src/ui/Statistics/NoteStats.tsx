@@ -34,8 +34,8 @@ const NoteStats: React.FC<Props> = (props) => {
     const { createdAt, updatedAt } = note;
     return (
       <div>
-        {renderStatBlock('Created', moment(createdAt).format('DD.MM.YYYY'))}
-        {renderStatBlock('Last updated', moment(updatedAt).format('DD.MM.YYYY, HH:mm'))}
+        {renderStatBlock('Created', moment(createdAt).format('DD.MM.YY'))}
+        {renderStatBlock('Last updated', moment(updatedAt).format('DD.MM.YY, HH:mm'))}
       </div>
     );
   };

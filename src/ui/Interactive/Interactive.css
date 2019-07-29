@@ -1,0 +1,33 @@
+.interactiveCover {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.3);
+  height: 100%;
+  width: 100%;
+  z-index: 6;
+}
+
+.interactiveHint {
+  position: fixed;
+  top: 10px;
+  left: 245px;
+  background: #fff;
+  width: 150px;
+  height: 150px;
+  border-radius: 100%;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  flex-direction: column;
+}
+
+.cancel {
+  top: 15px;
+  position: absolute;
+  color: #656565;
+  font-size: 20px;
+  cursor: pointer;
+}

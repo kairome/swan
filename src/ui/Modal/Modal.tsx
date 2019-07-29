@@ -3,7 +3,7 @@ import React from 'react';
 import s from './Modal.css';
 
 interface Props {
-  children: JSX.Element | JSX.Element[],
+  children: React.ReactNode,
   show: boolean,
   toggle: () => void,
 }
@@ -14,7 +14,7 @@ const Modal = (props: Props) => {
   }
 
   return (
-    <div>
+    <div className={s.modalContainer}>
       <div className={s.modalCover} onClick={props.toggle} />
       <div>
 

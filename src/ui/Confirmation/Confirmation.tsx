@@ -10,6 +10,7 @@ interface Props {
   toggle: () => void,
   message: string,
   confirm: () => void,
+  children?: React.ReactNode,
 }
 
 const Confirmation: React.FC<Props> = (props) => {
@@ -19,7 +20,10 @@ const Confirmation: React.FC<Props> = (props) => {
       toggle={props.toggle}
     >
       <div>
-        <div className={s.confirmationText}>{props.message}</div>
+        <div className={s.confirmationText}>
+          {props.message}
+          {props.children}
+        </div>
         <div className={s.footer}>
           <Button
             text="Confirm"

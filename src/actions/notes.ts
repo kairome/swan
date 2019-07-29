@@ -12,6 +12,7 @@ import {
   NoteFilter,
   ArchiveNotePayload,
   RemoveNotePayload,
+  MoveNotesPayload,
 } from 'types/notes';
 
 export const fetchNotes = createAction<NoteFilter>('FETCH_NOTES');
@@ -26,6 +27,7 @@ export const resetCurrentNote = createAction('RESET_CURRENT_NOTE');
 
 export const changeNoteText = createAction<UpdateNoteTextPayload>('CHANGE_NOTE_TEXT');
 export const removeNote = createAction<RemoveNotePayload>('REMOVE_NOTE');
+export const removeAllFolderNotes = createAction<string>('REMOVE_ALL_FOLDER_NOTES');
 
 export const addToDoList = createAction<AddToDoListPayload>('ADD_TO_DO_LIST');
 export const updateToDoList = createAction<UpdateToDoListPayload>('UPDATE_TO_DO_LIST');
@@ -35,6 +37,8 @@ export const updateAllLists = createAction<UpdateAllListsPayload>('UPDATE_ALL_TO
 
 export const setNoteContentSettings = createAction<UpdateNoteContentSettingsPayload>('SET_NOTE_CONTENT_SETTINGS');
 export const changeNoteArchiveStatus = createAction<ArchiveNotePayload>('CHANGE_NOTE_ARCHIVE_STATUS');
+
+export const moveNotesToFolder = createAction<MoveNotesPayload>('MOVE_NOTES_TO_FOLDER');
 
 interface NotesReducer {
   current: Note,
