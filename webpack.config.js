@@ -24,7 +24,7 @@ const fixNedbForElectronRenderer = {
           // short-circuit the Webpack resolution process by calling the
           // callback with the finalized request object -- meaning that
           // the `path` is pointing at the file that should be imported.
-          const isNedbImport = request.descriptionFileData["name"] === "nedb"
+          const isNedbImport = request.descriptionFileData["name"] === "nedb-core"
 
           if (isNedbImport && /storage(\.js)?/.test(request.path)) {
             const newRequest = Object.assign({}, request, {

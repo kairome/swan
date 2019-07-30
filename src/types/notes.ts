@@ -11,6 +11,7 @@ export interface ToDoListSettings {
 }
 
 export interface ToDoListItem {
+  id: string,
   title: string,
   settings: ToDoListSettings,
   items: ToDoItem[],
@@ -59,8 +60,16 @@ export interface AddToDoListPayload {
   list: ToDoListItem,
 }
 
-export interface UpdateToDoListPayload extends AddToDoListPayload {
-  listIndex: number,
+export interface UpdateToDoListItemsPayload {
+  noteId: string,
+  listId: string,
+  items: ToDoItem[],
+}
+
+export interface UpdateToDoListTitlePayload {
+  noteId: string,
+  listId: string,
+  title: string,
 }
 
 export interface UpdateAllListsPayload {
@@ -70,7 +79,7 @@ export interface UpdateAllListsPayload {
 
 export interface UpdateListSettingsPayload {
   noteId: string,
-  listIndex: number,
+  listId: string,
   settings: ToDoListSettings,
 }
 

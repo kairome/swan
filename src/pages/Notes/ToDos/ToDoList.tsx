@@ -2,9 +2,17 @@ import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
 import _ from 'lodash';
+import { generateId } from 'utils/helpers';
+import { useScrollToList } from 'utils/hooks';
 
 // actions
-import { addToDoList, deleteToDoList, updateListSettings, updateToDoList } from 'actions/notes';
+import {
+  addToDoList,
+  deleteToDoList,
+  updateListSettings,
+  updateToDoListItems,
+  updateToDoListTitle
+} from 'actions/notes';
 
 // components
 import EditableField from 'ui/EditableField/EditableField';
@@ -24,13 +32,13 @@ type MapDispatch = typeof mapDispatch;
 
 type Props = MapDispatch & {
   listItem: ToDoListItem,
-  listKey: string,
-  listIndex: number,
   noteId: string,
+  totalLists: number,
 }
 
 const ToDoList: React.FC<Props> = (props) => {
-  const { listKey, listIndex, listItem, noteId } = props;
+  const { listItem, noteId } = props;
+  const setListId = useScrollToList('', props.totalLists);
   const [listTitle, setListTitle] = useState(listItem.title);
   const [showRemoveListConfirmation, setRemoveListConfirmation] = useState(false);
   const [showListSettings, toggleListSettings] = useState(false);
@@ -50,13 +58,10 @@ const ToDoList: React.FC<Props> = (props) => {
   };
 
   const handleUpdateToDos = (items: ToDoItem[]) => {
-    props.updateToDoList({
+    props.updateToDoListItems({
       noteId,
-      listIndex,
-      list: {
-        ...listItem,
-        items,
-      },
+      items,
+      listId: listItem.id,
     });
   };
 
@@ -70,13 +75,10 @@ const ToDoList: React.FC<Props> = (props) => {
       return;
     }
 
-    props.updateToDoList({
+    props.updateToDoListTitle({
       noteId,
-      listIndex,
-      list: {
-        ...listItem,
-        title,
-      },
+      listId: listItem.id,
+      title,
     });
   }
 
@@ -84,7 +86,7 @@ const ToDoList: React.FC<Props> = (props) => {
     setRemoveListConfirmation(false);
     props.deleteToDoList({
       noteId,
-      listIndex,
+      listId: listItem.id,
     });
   };
 
@@ -95,7 +97,7 @@ const ToDoList: React.FC<Props> = (props) => {
   const handleMinimize = () => {
     props.updateListSettings({
       noteId,
-      listIndex,
+      listId: listItem.id,
       settings: {
         ...listItem.settings,
         minimized: !listItem.settings.minimized,
@@ -108,10 +110,13 @@ const ToDoList: React.FC<Props> = (props) => {
   };
 
   const handleCopy = () => {
+    const copyListId = generateId();
+    setListId(copyListId);
     props.addToDoList({
       noteId,
       list: {
         ...listItem,
+        id: copyListId,
         title: `${listItem.title} (Copy)`
       },
     })
@@ -123,8 +128,7 @@ const ToDoList: React.FC<Props> = (props) => {
         <React.Fragment>
           <div className={s.listSettingsButton} onClick={handleListSettings}>Hide list settings</div>
           <ListSettings
-            listKey={listKey}
-            listIndex={listIndex}
+            listId={listItem.id}
             noteId={noteId}
             settings={listItem.settings}
             handleCreateCopy={handleCopy}
@@ -142,7 +146,7 @@ const ToDoList: React.FC<Props> = (props) => {
   const checked = _.filter(listItem.items, i => i.completed).length;
 
   return (
-    <div className={s.listItem} id={listKey}>
+    <div className={s.listItem} id={listItem.id}>
       <div className={s.listHeader}>
         <SortHandle className={s.listHandle} />
         <div className={s.removeList} onClick={toggleRemoveListConfirmation}>
@@ -169,7 +173,7 @@ const ToDoList: React.FC<Props> = (props) => {
         </div>
         {renderSettings()}
         <ToDoItems
-          listKey={listKey}
+          listId={listItem.id}
           completedPosition={listItem.settings.completedPosition}
           items={listItem.items}
           save={handleUpdateToDos}
@@ -186,10 +190,11 @@ const ToDoList: React.FC<Props> = (props) => {
 };
 
 const mapDispatch = {
-  updateToDoList,
+  updateToDoListItems,
   deleteToDoList,
   updateListSettings,
   addToDoList,
+  updateToDoListTitle,
 };
 
 export default connect(null, mapDispatch)(ToDoList);

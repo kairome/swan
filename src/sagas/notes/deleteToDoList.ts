@@ -10,8 +10,8 @@ import { RemoveToDoListPayload } from 'types/notes';
 
 function* deleteToDoListSaga (arg: SagaArg<RemoveToDoListPayload>) {
   try {
-    const { noteId, listIndex } = arg.payload;
-    yield call(removeToDoList, noteId, listIndex);
+    const { noteId, listId } = arg.payload;
+    yield call(removeToDoList, noteId, listId);
     yield put(fetchCurrentNote(noteId));
   } catch (e) {
     console.error(e);

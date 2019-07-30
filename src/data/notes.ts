@@ -1,16 +1,19 @@
+import DataStore from 'nedb-promise';
+import NeDBInstance from 'nedb-core';
+import { dbOptions } from 'data/utils';
+
 import {
   NewNotePayload,
-  Note,
   NoteContentSettings,
   NoteFilter,
+  ToDoItem,
   ToDoListItem,
   ToDoListSettings
 } from 'types/notes';
 
-const DataStore = require('nedb-promises');
-import { dbOptions } from 'data/utils';
 
-const db = DataStore.create(dbOptions('notes.json'));
+const dataStore = new NeDBInstance(dbOptions('notes.json'));
+const db = DataStore.fromInstance(dataStore);
 
 interface NoteQuery {
   folder?: string,
@@ -31,7 +34,7 @@ export const getAllNotes = (filter: NoteFilter) => {
     dbQuery.isArchived = isArchived;
   }
 
-  return db.find(dbQuery).sort({ createdAt: -1 });
+  return db.cfind(dbQuery).sort({ createdAt: -1 }).exec();
 };
 
 export const getNoteById = (id: string) => {
@@ -90,10 +93,18 @@ export const updateNotesFolder = (moveFrom: string, moveTo: string, noteIds: str
   }, { multi: true });
 };
 
-export const updateToDos = (noteId: string, listIndex: number, list: ToDoListItem) => {
-  return db.update({ _id: noteId }, {
+export const updateListToDos = (listId: string, items: ToDoItem[]) => {
+  return db.update({ 'todoLists.id': listId }, {
     $set: {
-      [`todoLists.${listIndex}`]: list,
+      'todoLists.$.items': items,
+    },
+  });
+};
+
+export const updateListTitle = (listId: string, title: string) => {
+  return db.update({ 'todoLists.id': listId }, {
+    $set: {
+      'todoLists.$.title': title,
     },
   });
 };
@@ -114,10 +125,10 @@ export const addNoteToDoList = (noteId: string, list: ToDoListItem) => {
   });
 };
 
-export const updateToDoListSettings = (noteId: string, listIndex: number, settings: ToDoListSettings) => {
-  return db.update({ _id: noteId }, {
+export const updateToDoListSettings = (listId: string, settings: ToDoListSettings) => {
+  return db.update({ 'todoLists.id': listId }, {
     $set: {
-      [`todoLists.${listIndex}.settings`]: settings,
+      'todoLists.$.settings': settings,
     },
   });
 }
@@ -130,14 +141,10 @@ export const updateNoteContentSettings = (noteId: string, contentSettings: NoteC
   });
 };
 
-export const removeToDoList = (noteId: string, listIndex: number) => {
-  return db.findOne({ _id: noteId }).then((resp: Note) => {
-    const todos = [...resp.todoLists];
-    todos.splice(listIndex, 1);
-    return db.update({ _id: noteId }, {
-      $set: {
-        todoLists: todos,
-      },
-    });
+export const removeToDoList = (noteId: string, listId: string) => {
+  return db.update({ _id: noteId }, {
+    $pull: {
+      todoLists: { id: listId },
+    },
   });
 };

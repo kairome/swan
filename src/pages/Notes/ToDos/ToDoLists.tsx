@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import _ from 'lodash';
 import { connect } from 'react-redux';
 import { moveArray } from 'utils/helpers';
@@ -26,15 +26,9 @@ const ToDoLists: React.FC<Props> = (props) => {
   if (!currentNote._id) {
     return null;
   }
-  const [updateLoading, setUpdateLoading] = useState(false);
-
-  useEffect(() => {
-    setUpdateLoading(false);
-  }, [currentNote.todoLists]);
 
   const handleSort = (arg: DraggableSortArg) => {
     const sortedLists = moveArray(arg.newIndex, arg.oldIndex, currentNote.todoLists);
-    setUpdateLoading(true);
     props.updateAllLists({
       noteId: currentNote._id,
       lists: sortedLists,
@@ -42,19 +36,13 @@ const ToDoLists: React.FC<Props> = (props) => {
   }
 
   const renderLists = () => {
-    if (updateLoading) {
-      return null;
-    }
-
-    const listItems = _.map(currentNote.todoLists, (list, index) => {
-      const key = `todo-list-${index}`;
+    const listItems = _.map(currentNote.todoLists, (list) => {
       return (
         <ToDoList
-          key={key}
+          key={`todo-list-${list.id}`}
           listItem={list}
-          listKey={key}
-          listIndex={index}
           noteId={currentNote._id}
+          totalLists={currentNote.todoLists.length}
         />
       );
     });

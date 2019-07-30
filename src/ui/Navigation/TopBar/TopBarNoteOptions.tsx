@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
+import { generateId } from 'utils/helpers';
+import { useScrollToList } from 'utils/hooks';
 
 // actions
 import { addToDoList, setNoteContentSettings, updateAllLists } from 'actions/notes';
@@ -23,26 +25,18 @@ type Props = MapState & MapDispatch;
 
 const TopBarNoteOptions: React.FC<Props> = (props) => {
   const { currentNote } = props;
+  const setListId = useScrollToList('', currentNote.todoLists.length);
   if (!currentNote._id) {
     return null;
   }
 
-  const [addedNewList, setAddedNewList] = useState(false);
-
-  useEffect(() => {
-    if (addedNewList) {
-      const newList = document.getElementById(`todo-list-${currentNote.todoLists.length - 1}`);
-      if (newList !== null) {
-        newList.scrollIntoView({ behavior: 'smooth' });
-      }
-      setAddedNewList(false);
-    }
-  }, [currentNote.todoLists.length]);
-
   const handleAddNewList = () => {
+    const newListId = generateId();
+    setListId(newListId);
     props.addToDoList({
       noteId: currentNote._id,
       list: {
+        id: newListId,
         title: '',
         settings: {
           completedPosition: 'bottom',
@@ -51,7 +45,6 @@ const TopBarNoteOptions: React.FC<Props> = (props) => {
         items: [],
       },
     });
-    setAddedNewList(true);
   };
 
   const handleToggleLists = (minimize: boolean) => () => {

@@ -20,7 +20,7 @@ import s from './ToDos.css';
 interface Props {
   items: ToDoItem[],
   completedPosition: CompletedPosition,
-  listKey: string,
+  listId: string,
   save: (i: ToDoItem[]) => void,
 }
 
@@ -202,7 +202,7 @@ class ToDoItems extends React.Component<Props, State> {
         <div key={key} className={itemClasses}>
           <SortHandle className={s.itemHandleIcon} />
           <CheckBox
-            id={`${key}-${this.props.listKey}`}
+            id={`${key}-${this.props.listId}`}
             checked={todo.completed}
             onChange={this.handleComplete(i)}
           />

@@ -1,12 +1,14 @@
 import { FolderPayload } from 'types/folders';
 
-const DataStore = require('nedb-promises');
+import DataStore from 'nedb-promise';
+import NeDBInstance from 'nedb-core';
 import { dbOptions } from 'data/utils';
 
-const db = DataStore.create(dbOptions('folders.json'));
+const dataStore = new NeDBInstance(dbOptions('folders.json'));
+const db = DataStore.fromInstance(dataStore);
 
 export const getAllFolders = () => {
-  return db.find({}).sort({ createdAt: 1 });
+  return db.cfind({}).sort({ createdAt: 1 }).exec();
 };
 
 export const getFolderById = (id: string) => {

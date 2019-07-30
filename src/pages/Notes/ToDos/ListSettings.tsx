@@ -15,20 +15,19 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 type MapDispatch = typeof mapDispatch;
 
 type Props = MapDispatch & {
-  listKey: string,
-  listIndex: number,
+  listId: string,
   noteId: string,
   settings: ToDoListSettings,
   handleCreateCopy: () => void,
 }
 
 const ListSettings: React.FC<Props> = (props) => {
-  const { listKey, settings, listIndex, noteId } = props;
+  const { settings, listId, noteId } = props;
 
   const handlePositionChange = (completedPosition: CompletedPosition) => {
     props.updateListSettings({
       noteId,
-      listIndex,
+      listId,
       settings: {
         ...settings,
         completedPosition,
@@ -42,7 +41,7 @@ const ListSettings: React.FC<Props> = (props) => {
         <FontAwesomeIcon icon="copy" /> Copy list
       </div>
       <PositionSettings
-        listKey={listKey}
+        listId={listId}
         value={settings.completedPosition}
         onChange={handlePositionChange}
       />

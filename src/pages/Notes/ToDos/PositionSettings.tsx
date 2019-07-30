@@ -3,20 +3,20 @@ import React from 'react';
 import s from './ToDos.css';
 
 interface Props {
-  listKey: string,
+  listId: string,
   value: string,
   onChange: (v: string) => void,
 }
 
 const PositionSettings: React.FC<Props> = (props) => {
-  const { listKey, value } = props;
+  const { listId, value } = props;
   const handleChange = (e: React.FormEvent<HTMLInputElement>) => {
     props.onChange(e.currentTarget.value);
   };
 
-  const bottomId = `positionBottom-${listKey}`;
-  const offId = `positionOff-${listKey}`;
-  const topId = `positionTop-${listKey}`;
+  const bottomId = `positionBottom-${listId}`;
+  const offId = `positionOff-${listId}`;
+  const topId = `positionTop-${listId}`;
   return (
     <div>
       <div className={s.positionTitle}>Checked items</div>
@@ -25,7 +25,7 @@ const PositionSettings: React.FC<Props> = (props) => {
         type="radio"
         value="bottom"
         checked={'bottom' === value}
-        name={listKey}
+        name={listId}
         className={s.positionInput}
         onChange={handleChange}
       />
@@ -35,7 +35,7 @@ const PositionSettings: React.FC<Props> = (props) => {
         type="radio"
         value="off"
         checked={'off' === value}
-        name={listKey}
+        name={listId}
         className={s.positionInput}
         onChange={handleChange}
       />
@@ -45,7 +45,7 @@ const PositionSettings: React.FC<Props> = (props) => {
         type="radio"
         value="top"
         checked={'top' === value}
-        name={listKey}
+        name={listId}
         className={s.positionInput}
         onChange={handleChange}
       />

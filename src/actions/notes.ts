@@ -2,17 +2,19 @@ import { createReducer, createAction } from 'redux-act';
 import {
   AddNotePayload,
   ChangeNoteTitlePayload,
-  Note, RemoveToDoListPayload,
+  Note,
+  RemoveToDoListPayload,
   AddToDoListPayload,
   UpdateListSettingsPayload,
   UpdateNoteTextPayload,
-  UpdateToDoListPayload,
   UpdateAllListsPayload,
   UpdateNoteContentSettingsPayload,
   NoteFilter,
   ArchiveNotePayload,
   RemoveNotePayload,
   MoveNotesPayload,
+  UpdateToDoListItemsPayload,
+  UpdateToDoListTitlePayload,
 } from 'types/notes';
 
 export const fetchNotes = createAction<NoteFilter>('FETCH_NOTES');
@@ -30,10 +32,11 @@ export const removeNote = createAction<RemoveNotePayload>('REMOVE_NOTE');
 export const removeAllFolderNotes = createAction<string>('REMOVE_ALL_FOLDER_NOTES');
 
 export const addToDoList = createAction<AddToDoListPayload>('ADD_TO_DO_LIST');
-export const updateToDoList = createAction<UpdateToDoListPayload>('UPDATE_TO_DO_LIST');
+export const updateToDoListItems = createAction<UpdateToDoListItemsPayload>('UPDATE_TO_DO_LIST_ITEMS');
 export const updateListSettings = createAction<UpdateListSettingsPayload>('UPDATE_LIST_SETTINGS');
 export const deleteToDoList = createAction<RemoveToDoListPayload>('DELETE_TO_DO_LIST');
 export const updateAllLists = createAction<UpdateAllListsPayload>('UPDATE_ALL_TO_DO_LISTS');
+export const updateToDoListTitle = createAction<UpdateToDoListTitlePayload>('UPDATE_TO_DO_LIST_TITLE');
 
 export const setNoteContentSettings = createAction<UpdateNoteContentSettingsPayload>('SET_NOTE_CONTENT_SETTINGS');
 export const changeNoteArchiveStatus = createAction<ArchiveNotePayload>('CHANGE_NOTE_ARCHIVE_STATUS');

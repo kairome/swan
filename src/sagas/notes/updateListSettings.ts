@@ -10,8 +10,8 @@ import { UpdateListSettingsPayload } from 'types/notes';
 
 function* updateListSettingsSaga (arg: SagaArg<UpdateListSettingsPayload>) {
   try {
-    const { noteId, listIndex, settings } = arg.payload;
-    yield call(updateToDoListSettings, noteId, listIndex, settings);
+    const { noteId, listId, settings } = arg.payload;
+    yield call(updateToDoListSettings, listId, settings);
     yield put(fetchCurrentNote(noteId));
   } catch (e) {
     console.error(e);

@@ -1,11 +1,12 @@
 import { AppUser } from 'types/user';
 
-const DataStore = require('nedb-promises');
+import DataStore from 'nedb-promise';
 import { dbOptions } from 'data/utils';
 import { Location } from 'history';
+import NeDBInstance from 'nedb-core';
 
-const db = DataStore.create(dbOptions('user.json'));
-
+const dataStore = new NeDBInstance(dbOptions('user.json'));
+const db = DataStore.fromInstance(dataStore);
 export const saveUserLocation = (location: Location) => {
   return db.update({ userName: 'guest'}, {
     $set: {

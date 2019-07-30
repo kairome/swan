@@ -1,17 +1,17 @@
 import { call, put } from 'redux-saga/effects';
-import { updateToDos } from 'data/notes';
+import { updateListToDos } from 'data/notes';
 
 // actions
-import { fetchCurrentNote, updateToDoList } from 'actions/notes';
+import { fetchCurrentNote, updateToDoListItems } from 'actions/notes';
 
 // types
 import { SagaArg } from 'types/saga';
-import { UpdateToDoListPayload } from 'types/notes';
+import { UpdateToDoListItemsPayload } from 'types/notes';
 
-function* updateNoteToDosSaga (arg: SagaArg<UpdateToDoListPayload>) {
+function* updateToDosSaga (arg: SagaArg<UpdateToDoListItemsPayload>) {
   try {
-    const { noteId, list, listIndex } = arg.payload;
-    yield call(updateToDos, noteId, listIndex, list);
+    const { noteId, items, listId } = arg.payload;
+    yield call(updateListToDos, listId, items);
     yield put(fetchCurrentNote(noteId));
   } catch (e) {
     console.error(e);
@@ -19,6 +19,6 @@ function* updateNoteToDosSaga (arg: SagaArg<UpdateToDoListPayload>) {
 }
 
 export default {
-  type: updateToDoList.getType(),
-  saga: updateNoteToDosSaga,
+  type: updateToDoListItems.getType(),
+  saga: updateToDosSaga,
 }
