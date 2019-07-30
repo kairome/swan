@@ -9,14 +9,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // types
 import { ReduxState } from 'types/redux';
 
-// @ts-ignore
+
 import s from './Interactive.css';
 
 type MapState = ReturnType<typeof mapState>;
 type MapDispatch = typeof mapDispatch;
 type Props = MapState & MapDispatch;
 
-const Interactive: React.FC<Props> = (props) => {
+const Interactive: React.FC<Props> = props => {
   const { enableMoveNotes, showSidebar } = props;
   if (!enableMoveNotes) {
     return null;
@@ -40,12 +40,10 @@ const Interactive: React.FC<Props> = (props) => {
   );
 };
 
-const mapState = (state: ReduxState) => {
-  return {
-    enableMoveNotes: state.interactive.enableMoveNotes,
-    showSidebar: state.navigation.show,
-  };
-};
+const mapState = (state: ReduxState) => ({
+  enableMoveNotes: state.interactive.enableMoveNotes,
+  showSidebar: state.navigation.show,
+});
 
 const mapDispatch = {
   toggleNavigation,

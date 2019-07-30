@@ -1,12 +1,12 @@
 module.exports = {
   plugins: {
     'postcss-import': {
-      path: ['./src']
+      path: ['./src'],
     },
     'postcss-cssnext': {},
-    'cssnano': {},
+    cssnano: {},
     'postcss-nested': {},
     'postcss-css-variables': {},
-    'postcss-custom-media': {}
+    'postcss-custom-media': {},
   },
 };

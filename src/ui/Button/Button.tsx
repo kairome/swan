@@ -4,17 +4,24 @@ import classNames from 'classnames';
 import s from './Button.css';
 
 interface Props {
-  text: string,
-  type?: 'button' | 'submit',
-  shape?: 'block' | 'link',
-  theme: 'info' | 'danger',
-  className?: string,
-  onClick?: () => void,
-  disabled?: boolean,
+  text: string;
+  type?: 'button' | 'submit';
+  shape?: 'block' | 'link';
+  theme: 'info' | 'danger';
+  className?: string;
+  onClick?: () => void;
+  disabled?: boolean;
 }
 
 const Button = (props: Props) => {
-  const { theme, text, shape, className, ...rest } = props;
+  const {
+    theme,
+    text,
+    shape,
+    className,
+    type,
+    ...rest
+  } = props;
   const themeClass = () => {
     const shapeClass = shape ? s[shape] : s.block;
     switch (theme) {
@@ -30,7 +37,7 @@ const Button = (props: Props) => {
   const btnClasses = classNames(s.button, themeClass(), className);
 
   return (
-    <button {...rest} className={btnClasses}>
+    <button {...rest} type={type || 'button'} className={btnClasses}>
       {text}
     </button>
   );

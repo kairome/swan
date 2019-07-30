@@ -14,14 +14,14 @@ import { SortList } from 'ui/Sortable/Sortable';
 import { ReduxState } from 'types/redux';
 import { DraggableSortArg } from 'types/entities';
 
-// @ts-ignore
+
 import s from './ToDos.css';
 
 type MapState = ReturnType<typeof mapState>;
 type MapDispatch = typeof mapDispatch;
 type Props = MapState & MapDispatch;
 
-const ToDoLists: React.FC<Props> = (props) => {
+const ToDoLists: React.FC<Props> = props => {
   const { currentNote } = props;
   if (!currentNote._id) {
     return null;
@@ -33,19 +33,17 @@ const ToDoLists: React.FC<Props> = (props) => {
       noteId: currentNote._id,
       lists: sortedLists,
     });
-  }
+  };
 
   const renderLists = () => {
-    const listItems = _.map(currentNote.todoLists, (list) => {
-      return (
-        <ToDoList
-          key={`todo-list-${list.id}`}
-          listItem={list}
-          noteId={currentNote._id}
-          totalLists={currentNote.todoLists.length}
-        />
-      );
-    });
+    const listItems = _.map(currentNote.todoLists, list => (
+      <ToDoList
+        key={`todo-list-${list.id}`}
+        listItem={list}
+        noteId={currentNote._id}
+        totalLists={currentNote.todoLists.length}
+      />
+    ));
 
     return (
       <div className={s.listsContainer}>
@@ -64,11 +62,9 @@ const ToDoLists: React.FC<Props> = (props) => {
   );
 };
 
-const mapState = (state: ReduxState) => {
-  return {
-    currentNote: state.notes.current,
-  };
-}
+const mapState = (state: ReduxState) => ({
+  currentNote: state.notes.current,
+});
 
 const mapDispatch = {
   updateAllLists,

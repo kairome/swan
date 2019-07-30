@@ -11,7 +11,9 @@ import { RemoveNotePayload } from 'types/notes';
 
 function* removeNoteSaga(arg: SagaArg<RemoveNotePayload>) {
   try {
-    const { noteId, folderId, isArchived, inList } = arg.payload;
+    const {
+      noteId, folderId, isArchived, inList,
+    } = arg.payload;
     yield call(removeNoteById, noteId);
     if (inList) {
       const filter = {
@@ -31,4 +33,4 @@ function* removeNoteSaga(arg: SagaArg<RemoveNotePayload>) {
 export default {
   type: removeNote.getType(),
   saga: removeNoteSaga,
-}
+};

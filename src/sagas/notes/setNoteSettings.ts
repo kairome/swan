@@ -8,7 +8,7 @@ import { fetchCurrentNote, setNoteContentSettings } from 'actions/notes';
 import { SagaArg } from 'types/saga';
 import { UpdateNoteContentSettingsPayload } from 'types/notes';
 
-function* setNoteSettingsSaga (arg: SagaArg<UpdateNoteContentSettingsPayload>) {
+function* setNoteSettingsSaga(arg: SagaArg<UpdateNoteContentSettingsPayload>) {
   try {
     const { noteId, contentSettings } = arg.payload;
     yield call(updateNoteContentSettings, noteId, contentSettings);
@@ -21,4 +21,4 @@ function* setNoteSettingsSaga (arg: SagaArg<UpdateNoteContentSettingsPayload>) {
 export default {
   type: setNoteContentSettings.getType(),
   saga: setNoteSettingsSaga,
-}
+};

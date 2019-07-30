@@ -1,11 +1,9 @@
 const webpack = require('webpack');
 const merge = require('webpack-merge');
 const path = require('path');
-// const dotenv = require('dotenv');
 
 const devConfig = require('./webpack/dev');
 const prodConfig = require('./webpack/prod');
-// dotenv.config();
 
 const isProduction = process.env.NODE_ENV === 'production';
 
@@ -16,44 +14,44 @@ const fixNedbForElectronRenderer = {
     // Plug in after the description file (package.json) has been
     // identified for the import, which makes sure we're not getting
     // mixed up with a different package.
-      .getHook("beforeDescribed-relative")
+      .getHook('beforeDescribed-relative')
       .tapAsync(
-        "FixNedbForElectronRenderer",
+        'FixNedbForElectronRenderer',
         (request, resolveContext, callback) => {
           // When a require/import matches the target files, we
           // short-circuit the Webpack resolution process by calling the
           // callback with the finalized request object -- meaning that
           // the `path` is pointing at the file that should be imported.
-          const isNedbImport = request.descriptionFileData["name"] === "nedb-core"
+          const isNedbImport = request.descriptionFileData.name === 'nedb-core';
 
           if (isNedbImport && /storage(\.js)?/.test(request.path)) {
             const newRequest = Object.assign({}, request, {
               path: resolver.join(
                 request.descriptionFileRoot,
-                "lib/storage.js"
-              )
-            })
-            callback(null, newRequest)
+                'lib/storage.js',
+              ),
+            });
+            callback(null, newRequest);
           } else if (
-            isNedbImport &&
-            /customUtils(\.js)?/.test(request.path)
+            isNedbImport
+            && /customUtils(\.js)?/.test(request.path)
           ) {
             const newRequest = Object.assign({}, request, {
               path: resolver.join(
                 request.descriptionFileRoot,
-                "lib/customUtils.js"
-              )
-            })
-            callback(null, newRequest)
+                'lib/customUtils.js',
+              ),
+            });
+            callback(null, newRequest);
           } else {
             // Calling `callback` with no parameters proceeds with the
             // normal resolution process.
-            return callback()
+            return callback();
           }
-        }
-      )
-  }
-}
+        },
+      );
+  },
+};
 const clientConfig = {
   target: 'electron-renderer',
   entry: ['@babel/polyfill', './src/index.tsx'],
@@ -67,7 +65,7 @@ const clientConfig = {
     rules: [
       {
         test: /\.ts[x]?$/,
-        use: ['awesome-typescript-loader'],
+        use: ['babel-loader'],
         include: [`${__dirname}/src`],
       },
       {
@@ -85,12 +83,12 @@ const clientConfig = {
     ],
   },
   resolve: {
-    extensions: ['.ts', '.tsx', '.js'],
+    extensions: ['.ts', '.tsx', '.js', '.css'],
     modules: [
       path.resolve('./src'),
       path.resolve('./node_modules'),
     ],
-    plugins: [fixNedbForElectronRenderer]
+    plugins: [fixNedbForElectronRenderer],
   },
   plugins: [
     new webpack.DefinePlugin({
@@ -98,16 +96,6 @@ const clientConfig = {
         ENV_NAME: JSON.stringify(process.env.ENV_NAME),
       },
     }),
-    // new CopyWebpackPlugin([
-    //   {
-    //     from: 'public/',
-    //     to: 'assets/'
-    //   },
-    //   {
-    //     from: 'server/resources/',
-    //     to: '../resources'
-    //   },
-    // ])
   ],
 };
 

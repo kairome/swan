@@ -7,6 +7,4 @@ export const moveArray = <T>(newIndex: number, oldIndex: number, items: T[]): T[
   return newItems;
 };
 
-export const generateId = (): string => {
-  return uuid().replace(/[-]/g, '');
-};
+export const generateId = (): string => uuid().replace(/[-]/g, '');

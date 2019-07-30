@@ -14,19 +14,19 @@ import { CompletedPosition, ToDoItem } from 'types/notes';
 import { DraggableSortArg } from 'types/entities';
 
 // css
-// @ts-ignore
+
 import s from './ToDos.css';
 
 interface Props {
-  items: ToDoItem[],
-  completedPosition: CompletedPosition,
-  listId: string,
-  save: (i: ToDoItem[]) => void,
+  items: ToDoItem[];
+  completedPosition: CompletedPosition;
+  listId: string;
+  save: (i: ToDoItem[]) => void;
 }
 
 interface State {
-  todos: ToDoItem[],
-  focusedIndex: number,
+  todos: ToDoItem[];
+  focusedIndex: number;
 }
 
 class ToDoItems extends React.Component<Props, State> {
@@ -36,9 +36,10 @@ class ToDoItems extends React.Component<Props, State> {
   };
 
   private currentInput: any;
+
   private todoTimeout: number | null;
 
-  componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<State>, snapshot?: any): void {
+  componentDidUpdate(prevProps: Readonly<Props>): void {
     const { completedPosition } = this.props;
     if (this.state.focusedIndex !== -1 && this.currentInput) {
       this.currentInput.focus();
@@ -55,7 +56,7 @@ class ToDoItems extends React.Component<Props, State> {
     if (index === this.state.focusedIndex) {
       this.currentInput = elem;
     }
-  }
+  };
 
   handleAdd = (index?: number) => {
     const todos = [...this.state.todos];
@@ -78,7 +79,7 @@ class ToDoItems extends React.Component<Props, State> {
       focusedIndex: typeof nextIsCompleted === 'number' ? nextIsCompleted : todos.length - 1,
     });
     this.props.save(sorted);
-  }
+  };
 
   handleNew = () => {
     const { completedPosition } = this.props;
@@ -88,18 +89,18 @@ class ToDoItems extends React.Component<Props, State> {
     }
 
     this.handleAdd();
-  }
+  };
 
   handleRemoveClick = (index: number) => () => {
     this.handleRemove(index);
-  }
+  };
 
   handleRemove = (index: number) => {
     const todos = [...this.state.todos];
     todos.splice(index, 1);
     this.setState({ todos });
     this.props.save(todos);
-  }
+  };
 
   handleTextChange = (index: number) => (e: React.FormEvent<HTMLInputElement>) => {
     if (this.todoTimeout !== null) {
@@ -113,7 +114,7 @@ class ToDoItems extends React.Component<Props, State> {
     this.todoTimeout = window.setTimeout(() => {
       this.props.save(this.state.todos);
     }, 2000);
-  }
+  };
 
   handleKeyPress = (index: number) => (e: React.KeyboardEvent<HTMLInputElement>) => {
     const { key, currentTarget } = e;
@@ -150,16 +151,16 @@ class ToDoItems extends React.Component<Props, State> {
       this.handleRemove(index);
       e.preventDefault();
     }
-  }
+  };
 
   handleSaveToDos = () => {
     this.setState({ focusedIndex: -1 });
     this.props.save(this.state.todos);
-  }
+  };
 
   handleFocus = (index: number) => () => {
     this.setState({ focusedIndex: index });
-  }
+  };
 
   getSortedToDos = (todos: ToDoItem[]) => {
     const { completedPosition } = this.props;
@@ -172,7 +173,7 @@ class ToDoItems extends React.Component<Props, State> {
     }
 
     return todos;
-  }
+  };
 
   handleComplete = (index: number) => (e: React.FormEvent<HTMLInputElement>) => {
     const { checked } = e.currentTarget;
@@ -182,13 +183,13 @@ class ToDoItems extends React.Component<Props, State> {
 
     this.setState({ todos: sorted });
     this.props.save(sorted);
-  }
+  };
 
   handleSort = (arg: DraggableSortArg) => {
     const sortedTodos = moveArray(arg.newIndex, arg.oldIndex, this.state.todos);
     this.setState({ todos: sortedTodos });
     this.props.save(sortedTodos);
-  }
+  };
 
   renderItems = () => {
     const { todos, focusedIndex } = this.state;
@@ -233,7 +234,7 @@ class ToDoItems extends React.Component<Props, State> {
         />
       </div>
     );
-  }
+  };
 
   renderAddTodo = () => {
     const { completedPosition } = this.props;
@@ -243,7 +244,7 @@ class ToDoItems extends React.Component<Props, State> {
         + Item
       </div>
     );
-  }
+  };
 
   render() {
     return (

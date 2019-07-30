@@ -39,4 +39,4 @@ function* addNoteSaga(arg: SagaArg<AddNotePayload>) {
 export default {
   type: addNote.getType(),
   saga: addNoteSaga,
-}
+};

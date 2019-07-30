@@ -23,7 +23,7 @@ type MapState = ReturnType<typeof mapState>;
 type MapDispatch = typeof mapDispatch;
 type Props = MapState & MapDispatch;
 
-const TopBarNoteOptions: React.FC<Props> = (props) => {
+const TopBarNoteOptions: React.FC<Props> = props => {
   const { currentNote } = props;
   const setListId = useScrollToList('', currentNote.todoLists.length);
   if (!currentNote._id) {
@@ -50,15 +50,18 @@ const TopBarNoteOptions: React.FC<Props> = (props) => {
   const handleToggleLists = (minimize: boolean) => () => {
     const { todoLists } = currentNote;
 
-    const newLists = _.map(todoLists, list => {
-      list.settings.minimized = minimize;
-      return list;
-    });
+    const newLists = _.map(todoLists, list => ({
+      ...list,
+      settings: {
+        ...list.settings,
+        minimized: minimize,
+      },
+    }));
 
     props.updateAllLists({
       noteId: currentNote._id,
       lists: newLists,
-    })
+    });
   };
 
   const handleContentSettings = (entity: keyof NoteContentSettings) => () => {
@@ -110,23 +113,29 @@ const TopBarNoteOptions: React.FC<Props> = (props) => {
       </div>
       <ContextMenu
         actions={options}
-        icon={(<div className={s.optionsButton}><FontAwesomeIcon icon="tools" /> Options</div>)}
+        icon={(
+          <div className={s.optionsButton}>
+            <FontAwesomeIcon icon="tools" /> Options
+          </div>
+        )}
         menuClassName={s.optionsMenu}
       />
       <ContextNoteActions
         note={currentNote}
-        menuIcon={(<div className={s.optionsButton}><FontAwesomeIcon icon="sliders-h" /> Actions</div>)}
+        menuIcon={(
+          <div className={s.optionsButton}>
+            <FontAwesomeIcon icon="sliders-h" /> Actions
+          </div>
+        )}
         className={s.optionsMenu}
       />
     </div>
   );
 };
 
-const mapState = (state: ReduxState) => {
-  return {
-    currentNote: state.notes.current,
-  };
-}
+const mapState = (state: ReduxState) => ({
+  currentNote: state.notes.current,
+});
 
 const mapDispatch = {
   addToDoList,

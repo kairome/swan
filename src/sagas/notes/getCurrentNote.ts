@@ -7,9 +7,8 @@ import { getCurrentFolderSelector } from 'selectors/folders';
 import { FolderItem } from 'types/folders';
 import { fetchCurrentFolder } from 'actions/folders';
 
-function* getCurrentNoteSaga (arg: SagaArg<string>) {
+function* getCurrentNoteSaga(arg: SagaArg<string>) {
   try {
-
     const currentNote = yield call(getNoteById, arg.payload);
     if (currentNote == null) {
       return;
@@ -29,4 +28,4 @@ function* getCurrentNoteSaga (arg: SagaArg<string>) {
 export default {
   type: fetchCurrentNote.getType(),
   saga: getCurrentNoteSaga,
-}
+};

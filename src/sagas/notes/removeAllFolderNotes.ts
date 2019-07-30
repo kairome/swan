@@ -18,4 +18,4 @@ function* removeNoteSaga(arg: SagaArg<string>) {
 export default {
   type: removeAllFolderNotes.getType(),
   saga: removeNoteSaga,
-}
+};

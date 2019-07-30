@@ -8,12 +8,12 @@ import { changeNoteText } from 'actions/notes';
 type MapDispatch = typeof mapDispatch;
 
 type Props = MapDispatch & {
-  noteId: string,
-  noteText: string,
-}
+  noteId: string;
+  noteText: string;
+};
 
 let timeout: number | undefined;
-const MarkdownEditor: React.FC<Props> = (props) => {
+const MarkdownEditor: React.FC<Props> = props => {
   const [editorText, setEditorText] = useState(props.noteText);
   const handleEditorChange = (value: string) => {
     if (timeout !== undefined) {
@@ -25,7 +25,7 @@ const MarkdownEditor: React.FC<Props> = (props) => {
       props.changeNoteText({
         text: editorText,
         id: props.noteId,
-      })
+      });
     }, 1000);
   };
 
@@ -44,7 +44,7 @@ const MarkdownEditor: React.FC<Props> = (props) => {
       />
     </div>
   );
-}
+};
 
 const mapDispatch = {
   changeNoteText,

@@ -14,11 +14,7 @@
     "strictNullChecks": true,
     "noUnusedLocals": true,
     "esModuleInterop": true,
-    "plugins": [
-      {
-        "name": "css-module-types"
-      }
-    ]
+    "noEmit": true
   },
   "include": [
     "cssStyles.d.ts",

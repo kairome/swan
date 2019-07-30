@@ -10,12 +10,12 @@ import Input from 'ui/Input/Input';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 // css
-// @ts-ignore
+
 import s from './Folders.css';
 
 interface State {
-  show: boolean,
-  name: string,
+  show: boolean;
+  name: string;
 }
 
 type MapDispatch = typeof mapDispatch;
@@ -29,17 +29,17 @@ class AddFolderModal extends React.Component<Props, State> {
 
   toggleModal = () => {
     this.setState(prevState => ({ show: !prevState.show, name: '' }));
-  }
+  };
 
   handleNameChange = (e: React.FormEvent<HTMLInputElement>) => {
     const { value } = e.currentTarget;
     this.setState({ name: value });
-  }
+  };
 
   handleCreate = () => {
     this.props.createFolder(this.state.name);
     this.toggleModal();
-  }
+  };
 
   renderInput = () => {
     if (!this.state.show) {
@@ -71,7 +71,7 @@ class AddFolderModal extends React.Component<Props, State> {
         </div>
       </div>
     );
-  }
+  };
 
   render() {
     return (

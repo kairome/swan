@@ -6,14 +6,14 @@ import { changeNoteTitle } from 'actions/notes';
 type MapDispatch = typeof mapDispatch;
 
 type Props = MapDispatch & {
-  noteTitle: string,
-  noteId: string,
-  noteArchived?: boolean,
-  noteFolder?: string,
-  className?: string,
-}
+  noteTitle: string;
+  noteId: string;
+  noteArchived?: boolean;
+  noteFolder?: string;
+  className?: string;
+};
 
-const ChangeNoteTitleField: React.FC<Props> = (props) => {
+const ChangeNoteTitleField: React.FC<Props> = props => {
   const [noteTitle, setNoteTitle] = useState(props.noteTitle);
 
   useEffect(() => {
@@ -59,7 +59,7 @@ const ChangeNoteTitleField: React.FC<Props> = (props) => {
       />
     </div>
   );
-}
+};
 
 const mapDispatch = {
   changeNoteTitle,

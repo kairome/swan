@@ -12,32 +12,25 @@ clean: clean-build
 	rm -rf node_modules/
 
 install: clean
-	yarn cache clean
 	yarn --pure-lockfile
 
-dev:
+check-types:
+	tsc
+
+dev: check-types
 	$(BIN_PATH)/webpack-dev-server \
     	--inline --watch --hot --progress --content-base=build --port $(DEV_PORT)
 
-nodemon:
-	DEV_PORT=$(DEV_PORT) nodemon -L --watch .env ./lib/server.js
-
-build-prod-server:
-	$(BIN_PATH)/tsc -p server/
-
-build-prod: clean-build build-prod-server
+build-prod: clean-build
 	NODE_ENV=production webpack --progress
 
-build: install check build-prod
+build: install check-types lint build-prod
 
-launch:
-	NODE_ENV=production node ./lib/server.js
-
-check:
-	yarn lint-client && yarn lint-server
+lint:
+	eslint --ext .js,.jsx,.ts,.tsx ./src ./app
 
 fix-lint:
-	yarn fix-lint-client && yarn fix-lint-server
+	eslint --ext .js,.jsx,.ts,.tsx ./src ./app --fix
 
 build-electron:
 	webpack --config webpack.electron.config.js --progress
@@ -47,4 +40,4 @@ launch-electron:
 
 electron: build-electron launch-electron
 
-.PHONY: clean-build clean install build-dev build-dev-server dev nodemon build-prod-server build-prod build launch check fix-lint
+.PHONY: clean-build clean install check-types dev build-prod build lint fix-lint build-electron launch-electron electron

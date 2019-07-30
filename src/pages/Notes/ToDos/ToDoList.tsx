@@ -11,7 +11,7 @@ import {
   deleteToDoList,
   updateListSettings,
   updateToDoListItems,
-  updateToDoListTitle
+  updateToDoListTitle,
 } from 'actions/notes';
 
 // components
@@ -31,12 +31,12 @@ import s from 'pages/Notes/ToDos/ToDos.css';
 type MapDispatch = typeof mapDispatch;
 
 type Props = MapDispatch & {
-  listItem: ToDoListItem,
-  noteId: string,
-  totalLists: number,
-}
+  listItem: ToDoListItem;
+  noteId: string;
+  totalLists: number;
+};
 
-const ToDoList: React.FC<Props> = (props) => {
+const ToDoList: React.FC<Props> = props => {
   const { listItem, noteId } = props;
   const setListId = useScrollToList('', props.totalLists);
   const [listTitle, setListTitle] = useState(listItem.title);
@@ -47,7 +47,7 @@ const ToDoList: React.FC<Props> = (props) => {
     if (listItem.title !== listTitle) {
       setListTitle(listItem.title);
     }
-  }, [listItem.title])
+  }, [listItem.title]);
 
   const handleListTitleChange = (e: React.FormEvent<HTMLInputElement>) => {
     setListTitle(e.currentTarget.value);
@@ -80,7 +80,7 @@ const ToDoList: React.FC<Props> = (props) => {
       listId: listItem.id,
       title,
     });
-  }
+  };
 
   const handleRemoveList = () => {
     setRemoveListConfirmation(false);
@@ -117,9 +117,9 @@ const ToDoList: React.FC<Props> = (props) => {
       list: {
         ...listItem,
         id: copyListId,
-        title: `${listItem.title} (Copy)`
+        title: `${listItem.title} (Copy)`,
       },
-    })
+    });
   };
 
   const renderSettings = () => {
@@ -169,7 +169,8 @@ const ToDoList: React.FC<Props> = (props) => {
       <div className={listBodyClasses}>
         <div className={s.listStat}>
           <span className={s.listStatNumber}>{checked}</span>
-          &nbsp;out of <span className={s.listStatNumber}>{listItem.items.length}</span> items completed
+          &nbsp;out of <span className={s.listStatNumber}>{listItem.items.length}</span>
+          &nbsp;items completed
         </div>
         {renderSettings()}
         <ToDoItems

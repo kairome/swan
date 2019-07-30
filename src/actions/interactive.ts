@@ -6,9 +6,9 @@ export const setNotesToMove = createAction<InteractiveMoveNotesPayload>('SET_NOT
 export const resetNotesToMove = createAction('RESET_NOTES_TO_MOVE');
 
 interface NavReducer {
-  enableMoveNotes: boolean,
-  notesToMove: string[],
-  moveFrom: string,
+  enableMoveNotes: boolean;
+  notesToMove: string[];
+  moveFrom: string;
 }
 
 const reducer = createReducer<NavReducer>({}, {
@@ -17,28 +17,22 @@ const reducer = createReducer<NavReducer>({}, {
   moveFrom: '',
 });
 
-reducer.on(toggleMoveNotes, (state) => {
-  return {
-    ...state,
-    enableMoveNotes: !state.enableMoveNotes,
-  };
-});
+reducer.on(toggleMoveNotes, state => ({
+  ...state,
+  enableMoveNotes: !state.enableMoveNotes,
+}));
 
-reducer.on(setNotesToMove, (state, payload) => {
-  return {
-    ...state,
-    enableMoveNotes: true,
-    notesToMove: payload.noteIds,
-    moveFrom: payload.moveFrom,
-  };
-});
+reducer.on(setNotesToMove, (state, payload) => ({
+  ...state,
+  enableMoveNotes: true,
+  notesToMove: payload.noteIds,
+  moveFrom: payload.moveFrom,
+}));
 
-reducer.on(resetNotesToMove, (state) => {
-  return {
-    ...state,
-    enableMoveNotes: false,
-    notesToMove: [],
-  };
-});
+reducer.on(resetNotesToMove, state => ({
+  ...state,
+  enableMoveNotes: false,
+  notesToMove: [],
+}));
 
 export default reducer;

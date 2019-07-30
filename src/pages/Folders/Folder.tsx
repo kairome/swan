@@ -15,10 +15,10 @@ import { resetCurrentNote } from 'actions/notes';
 type MapState = ReturnType<typeof mapState>;
 type MapDispatch = typeof mapDispatch;
 type Props = MapState & MapDispatch & {
-  id: string,
+  id: string;
 };
 
-const Folder: React.FC<Props> = (props) => {
+const Folder: React.FC<Props> = props => {
   useEffect(() => {
     props.resetCurrentNote();
     props.fetchCurrentFolder(props.id);
@@ -32,13 +32,11 @@ const Folder: React.FC<Props> = (props) => {
   return (
     <NotesList />
   );
-}
+};
 
-const mapState = (state: ReduxState) => {
-  return {
-    currentFolder: getCurrentFolderSelector(state),
-  };
-}
+const mapState = (state: ReduxState) => ({
+  currentFolder: getCurrentFolderSelector(state),
+});
 
 const mapDispatch = {
   fetchCurrentFolder,

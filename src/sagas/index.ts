@@ -3,9 +3,9 @@ import { all, fork, takeLatest } from 'redux-saga/effects';
 import { Saga } from 'types/saga';
 
 // sagas
+import getAllFolders from 'sagas/folders/getAllFolders';
 import folders from './folders';
 import notes from './notes';
-import getAllFolders from 'sagas/folders/getAllFolders';
 
 export default function* rootSaga() {
   const allSagas: Saga[] = [

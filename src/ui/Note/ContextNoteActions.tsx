@@ -16,14 +16,14 @@ import { Note } from 'types/notes';
 
 type MapDispatch = typeof mapDispatch;
 type Props = MapDispatch & {
-  note: Note,
-  menuIcon?: React.ReactNode,
-  actionIconClassName?: string,
-  inList?: boolean,
-  className?: string,
+  note: Note;
+  menuIcon?: React.ReactNode;
+  actionIconClassName?: string;
+  inList?: boolean;
+  className?: string;
 };
 
-const ContextNoteActions: React.FC<Props> = (props) => {
+const ContextNoteActions: React.FC<Props> = props => {
   const { note } = props;
   const { isArchived } = note;
   const [showRemoveConfirmation, setRemoveConfirmation] = useState(false);
@@ -36,7 +36,7 @@ const ContextNoteActions: React.FC<Props> = (props) => {
     props.removeNote({
       noteId: note._id,
       folderId: note.folder,
-      isArchived: isArchived,
+      isArchived,
       inList: props.inList,
     });
     toggleRemoveConfirmation();
@@ -48,7 +48,7 @@ const ContextNoteActions: React.FC<Props> = (props) => {
       folderId: note.folder,
       isArchived: !isArchived,
       inList: props.inList,
-    })
+    });
   };
 
   const handleMove = () => {

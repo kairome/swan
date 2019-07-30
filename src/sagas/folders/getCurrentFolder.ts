@@ -6,7 +6,7 @@ import { getFolderById } from 'data/folders';
 import { fetchNotes } from 'actions/notes';
 import { FolderItem } from 'types/folders';
 
-function* getCurrentFolderSaga (arg: SagaArg<string>) {
+function* getCurrentFolderSaga(arg: SagaArg<string>) {
   try {
     const currentFolder: FolderItem | null = yield call(getFolderById, arg.payload);
     if (currentFolder === null) {
@@ -23,4 +23,4 @@ function* getCurrentFolderSaga (arg: SagaArg<string>) {
 export default {
   type: fetchCurrentFolder.getType(),
   saga: getCurrentFolderSaga,
-}
+};

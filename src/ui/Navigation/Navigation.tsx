@@ -16,14 +16,14 @@ import FoldersList from 'pages/Folders/FoldersList';
 import { ReduxState } from 'types/redux';
 
 // css
-// @ts-ignore
+
 import s from './Navigation.css';
 
 type MapState = ReturnType<typeof mapState>;
 type MapDispatch = typeof mapDispatch;
 type Props = MapState & MapDispatch & RouteComponentProps;
 
-const Navigation: React.FC<Props> = (props) => {
+const Navigation: React.FC<Props> = props => {
   const handleArchivedRedirect = () => {
     history.push('/archived');
   };
@@ -50,7 +50,7 @@ const Navigation: React.FC<Props> = (props) => {
 
     const archivedClasses = classNames(s.archivedSection, {
       [s.archivedSectionActive]: props.location.pathname === '/archived',
-    })
+    });
 
     return (
       <React.Fragment>
@@ -77,13 +77,11 @@ const Navigation: React.FC<Props> = (props) => {
       </div>
     </React.Fragment>
   );
-}
-
-const mapState = (state: ReduxState) => {
-  return {
-    show: state.navigation.show,
-  };
 };
+
+const mapState = (state: ReduxState) => ({
+  show: state.navigation.show,
+});
 
 const mapDispatch = {
   toggleNavigation,

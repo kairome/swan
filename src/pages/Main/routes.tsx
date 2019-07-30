@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
-//pages
+// pages
 import Folder from 'pages/Folders/Folder';
 import Note from 'pages/Notes/Note';
 import Archived from 'pages/Archived/Archived';
@@ -9,17 +9,13 @@ import Archived from 'pages/Archived/Archived';
 // types
 import { IdRouter } from 'types/router';
 
-const renderCurrentFolder = (props: IdRouter) => {
-  return (
-    <Folder id={props.match.params.id} />
-  );
-};
+const renderCurrentFolder = (props: IdRouter) => (
+  <Folder id={props.match.params.id} />
+);
 
-const renderCurrentNote = (props: IdRouter) => {
-  return (
-    <Note id={props.match.params.id} />
-  );
-};
+const renderCurrentNote = (props: IdRouter) => (
+  <Note id={props.match.params.id} />
+);
 
 const routes = (
   <Switch>

@@ -8,7 +8,7 @@ import { fetchCurrentNote, addToDoList } from 'actions/notes';
 import { SagaArg } from 'types/saga';
 import { AddToDoListPayload } from 'types/notes';
 
-function* addNoteToDoSaga (arg: SagaArg<AddToDoListPayload>) {
+function* addNoteToDoSaga(arg: SagaArg<AddToDoListPayload>) {
   try {
     const { noteId, list } = arg.payload;
     yield call(addNoteToDoList, noteId, list);
@@ -21,4 +21,4 @@ function* addNoteToDoSaga (arg: SagaArg<AddToDoListPayload>) {
 export default {
   type: addToDoList.getType(),
   saga: addNoteToDoSaga,
-}
+};

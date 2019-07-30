@@ -14,7 +14,7 @@ const createWindow = () => {
   });
   if (process.env.NODE_ENV === 'development') {
     const appData = app.getPath('appData');
-    const appName = 'Smart Notes';
+    const appName = 'Swan';
     const userDataPath = path.join(appData, appName);
     app.setPath('userData', userDataPath);
     if (!fs.existsSync(userDataPath)) {
@@ -23,7 +23,6 @@ const createWindow = () => {
     window.loadURL('http://localhost:4005');
     window.setMenuBarVisibility(false);
     window.setAutoHideMenuBar(true);
-    return;
   }
 };
 

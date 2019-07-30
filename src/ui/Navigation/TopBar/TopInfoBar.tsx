@@ -21,7 +21,7 @@ type MapState = ReturnType<typeof mapState>;
 type MapDispatch = typeof mapDispatch;
 type Props = MapState & MapDispatch & RouteComponentProps;
 
-const TopInfoBar: React.FC<Props> = (props) => {
+const TopInfoBar: React.FC<Props> = props => {
   const { currentFolder, currentNote, show } = props;
 
   const renderNavBars = () => {
@@ -94,7 +94,7 @@ const TopInfoBar: React.FC<Props> = (props) => {
 
   const barClasses = classNames(s.infoBar, {
     [s.infoBarFull]: !show,
-  })
+  });
 
   return (
     <div className={barClasses}>
@@ -108,13 +108,11 @@ const TopInfoBar: React.FC<Props> = (props) => {
   );
 };
 
-const mapState = (state: ReduxState) => {
-  return {
-    show: state.navigation.show,
-    currentFolder: getCurrentFolderSelector(state),
-    currentNote: getCurrentNoteSelector(state),
-  };
-}
+const mapState = (state: ReduxState) => ({
+  show: state.navigation.show,
+  currentFolder: getCurrentFolderSelector(state),
+  currentNote: getCurrentNoteSelector(state),
+});
 
 const mapDispatch = {
   toggleNavigation,

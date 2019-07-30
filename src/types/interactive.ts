@@ -1,4 +1,4 @@
 export interface InteractiveMoveNotesPayload {
-  moveFrom: string,
-  noteIds: string[],
+  moveFrom: string;
+  noteIds: string[];
 }

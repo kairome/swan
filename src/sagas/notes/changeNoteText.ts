@@ -20,4 +20,4 @@ function* changeNoteTextSaga(arg: SagaArg<UpdateNoteTextPayload>) {
 export default {
   type: changeNoteText.getType(),
   saga: changeNoteTextSaga,
-}
+};

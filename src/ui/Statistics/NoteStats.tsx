@@ -7,15 +7,15 @@ import { connect } from 'react-redux';
 import { Note } from 'types/notes';
 import { ReduxState } from 'types/redux';
 
-// @ts-ignore
+
 import s from './Statistics.css';
 
 type MapState = ReturnType<typeof mapState>;
 type Props = MapState & {
-  note: Note,
-}
+  note: Note;
+};
 
-const NoteStats: React.FC<Props> = (props) => {
+const NoteStats: React.FC<Props> = props => {
   const { note } = props;
 
   const renderStatBlock = (title: string, value: string) => {
@@ -65,7 +65,7 @@ const NoteStats: React.FC<Props> = (props) => {
 
     return (
       <div className={s.noteStatBlock}>
-        <b>Archived</b>, in <b>{noteFolder ? noteFolder.name : 'Unknown'} </b>folder
+        <b>Archived</b>, in <b>{noteFolder ? noteFolder.name : 'Unknown'}</b> folder
       </div>
     );
   };
@@ -79,10 +79,8 @@ const NoteStats: React.FC<Props> = (props) => {
   );
 };
 
-const mapState = (state: ReduxState) => {
-  return {
-    folders: state.folders.list,
-  };
-};
+const mapState = (state: ReduxState) => ({
+  folders: state.folders.list,
+});
 
 export default connect(mapState, null)(NoteStats);

@@ -7,7 +7,7 @@ import { fetchNotes, saveNotes } from 'actions/notes';
 import { SagaArg } from 'types/saga';
 import { NoteFilter } from 'types/notes';
 
-function* getFolderNotesSaga (arg: SagaArg<NoteFilter>) {
+function* getFolderNotesSaga(arg: SagaArg<NoteFilter>) {
   try {
     const notes = yield call(getAllNotes, arg.payload);
     yield put(saveNotes(notes));
@@ -19,4 +19,4 @@ function* getFolderNotesSaga (arg: SagaArg<NoteFilter>) {
 export default {
   type: fetchNotes.getType(),
   saga: getFolderNotesSaga,
-}
+};

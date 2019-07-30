@@ -13,8 +13,8 @@ export const renameFolder = createAction<RenameFolderPayload>('RENAME_FOLDER');
 export const removeFolder = createAction<string>('REMOVE_FOLDER');
 
 interface FoldersReducer {
-  list: FolderItem[],
-  current: FolderItem,
+  list: FolderItem[];
+  current: FolderItem;
 }
 
 const defaultFolder = {
@@ -29,25 +29,19 @@ const reducer = createReducer<FoldersReducer>({}, {
   current: defaultFolder,
 });
 
-reducer.on(saveAllFolders, (state, list) => {
-  return {
-    ...state,
-    list,
-  };
-});
+reducer.on(saveAllFolders, (state, list) => ({
+  ...state,
+  list,
+}));
 
-reducer.on(saveCurrentFolder, (state, current) => {
-  return {
-    ...state,
-    current,
-  };
-});
+reducer.on(saveCurrentFolder, (state, current) => ({
+  ...state,
+  current,
+}));
 
-reducer.on(resetCurrentFolder, (state) => {
-  return {
-    ...state,
-    current: defaultFolder,
-  };
-});
+reducer.on(resetCurrentFolder, state => ({
+  ...state,
+  current: defaultFolder,
+}));
 
 export default reducer;

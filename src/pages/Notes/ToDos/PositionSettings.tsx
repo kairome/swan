@@ -3,12 +3,12 @@ import React from 'react';
 import s from './ToDos.css';
 
 interface Props {
-  listId: string,
-  value: string,
-  onChange: (v: string) => void,
+  listId: string;
+  value: string;
+  onChange: (v: string) => void;
 }
 
-const PositionSettings: React.FC<Props> = (props) => {
+const PositionSettings: React.FC<Props> = props => {
   const { listId, value } = props;
   const handleChange = (e: React.FormEvent<HTMLInputElement>) => {
     props.onChange(e.currentTarget.value);
@@ -24,7 +24,7 @@ const PositionSettings: React.FC<Props> = (props) => {
         id={bottomId}
         type="radio"
         value="bottom"
-        checked={'bottom' === value}
+        checked={value === 'bottom'}
         name={listId}
         className={s.positionInput}
         onChange={handleChange}
@@ -34,7 +34,7 @@ const PositionSettings: React.FC<Props> = (props) => {
         id={offId}
         type="radio"
         value="off"
-        checked={'off' === value}
+        checked={value === 'off'}
         name={listId}
         className={s.positionInput}
         onChange={handleChange}
@@ -44,7 +44,7 @@ const PositionSettings: React.FC<Props> = (props) => {
         id={topId}
         type="radio"
         value="top"
-        checked={'top' === value}
+        checked={value === 'top'}
         name={listId}
         className={s.positionInput}
         onChange={handleChange}

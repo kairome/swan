@@ -6,7 +6,7 @@ import { fetchFolders, removeFolder } from 'actions/folders';
 // types
 import { SagaArg } from 'types/saga';
 
-function* removeFolderSaga (arg: SagaArg<string>) {
+function* removeFolderSaga(arg: SagaArg<string>) {
   try {
     yield call(removeFolderById, arg.payload);
     yield put(fetchFolders());
@@ -18,4 +18,4 @@ function* removeFolderSaga (arg: SagaArg<string>) {
 export default {
   type: removeFolder.getType(),
   saga: removeFolderSaga,
-}
+};

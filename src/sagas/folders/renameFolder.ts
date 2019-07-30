@@ -5,7 +5,7 @@ import { SagaArg } from 'types/saga';
 import { updateFolderName } from 'data/folders';
 import { RenameFolderPayload } from 'types/folders';
 
-function* renameFolderSaga (arg: SagaArg<RenameFolderPayload>) {
+function* renameFolderSaga(arg: SagaArg<RenameFolderPayload>) {
   try {
     const { folderId, name, isCurrentFolder } = arg.payload;
     yield call(updateFolderName, folderId, name);
@@ -21,4 +21,4 @@ function* renameFolderSaga (arg: SagaArg<RenameFolderPayload>) {
 export default {
   type: renameFolder.getType(),
   saga: renameFolderSaga,
-}
+};

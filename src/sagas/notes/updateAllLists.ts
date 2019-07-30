@@ -8,7 +8,7 @@ import { fetchCurrentNote, updateAllLists } from 'actions/notes';
 import { SagaArg } from 'types/saga';
 import { UpdateAllListsPayload } from 'types/notes';
 
-function* updateAllListsSaga (arg: SagaArg<UpdateAllListsPayload>) {
+function* updateAllListsSaga(arg: SagaArg<UpdateAllListsPayload>) {
   try {
     const { noteId, lists } = arg.payload;
     yield call(updateToDoLists, noteId, lists);
@@ -21,4 +21,4 @@ function* updateAllListsSaga (arg: SagaArg<UpdateAllListsPayload>) {
 export default {
   type: updateAllLists.getType(),
   saga: updateAllListsSaga,
-}
+};

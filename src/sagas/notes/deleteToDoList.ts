@@ -8,7 +8,7 @@ import { fetchCurrentNote, deleteToDoList } from 'actions/notes';
 import { SagaArg } from 'types/saga';
 import { RemoveToDoListPayload } from 'types/notes';
 
-function* deleteToDoListSaga (arg: SagaArg<RemoveToDoListPayload>) {
+function* deleteToDoListSaga(arg: SagaArg<RemoveToDoListPayload>) {
   try {
     const { noteId, listId } = arg.payload;
     yield call(removeToDoList, noteId, listId);
@@ -21,4 +21,4 @@ function* deleteToDoListSaga (arg: SagaArg<RemoveToDoListPayload>) {
 export default {
   type: deleteToDoList.getType(),
   saga: deleteToDoListSaga,
-}
+};

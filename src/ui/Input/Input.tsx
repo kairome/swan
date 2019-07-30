@@ -3,23 +3,27 @@ import classNames from 'classnames';
 
 import s from './Input.css';
 
+type InputElement = HTMLInputElement | HTMLTextAreaElement;
+
 export interface InputProps {
-  type: string,
-  value: string,
-  onChange: (e: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>) => void,
-  placeholder?: string,
-  className?: string,
-  autoFocus?: boolean,
-  embedded?: boolean,
-  onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => void,
-  onBlur?: (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => void,
-  onFocus?: (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => void,
-  assignRef?: (elem: any) => void,
-  textArea?: boolean,
+  type: string;
+  value: string;
+  onChange: (e: React.FormEvent<InputElement>) => void;
+  placeholder?: string;
+  className?: string;
+  autoFocus?: boolean;
+  embedded?: boolean;
+  onKeyDown?: (e: React.KeyboardEvent<InputElement>) => void;
+  onBlur?: (e: React.FocusEvent<InputElement>) => void;
+  onFocus?: (e: React.FocusEvent<InputElement>) => void;
+  assignRef?: (elem: InputElement | null) => void;
+  textArea?: boolean;
 }
 
 const Input = (props: InputProps) => {
-  const { className, embedded, assignRef, textArea, ...rest } = props;
+  const {
+    className, embedded, assignRef, textArea, ...rest
+  } = props;
   const mainClass = embedded ? s.embeddedInput : s.input;
   const inputClasses = classNames(mainClass, className);
 
@@ -32,6 +36,6 @@ const Input = (props: InputProps) => {
   return (
     <input {...rest} className={inputClasses} ref={assignRef} />
   );
-}
+};
 
 export default Input;

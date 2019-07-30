@@ -1,0 +1,66 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "env": {
+    "browser": true,
+    "es6": true,
+    "node": true
+  },
+  "extends": [
+    "airbnb-typescript",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "plugins": [
+    "react",
+    "@typescript-eslint"
+  ],
+  "rules": {
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "import/no-extraneous-dependencies": "off",
+    "import/prefer-default-export": "off",
+    "react/prop-types": "off",
+    "no-underscore-dangle": [
+      "error",
+      {
+        "allow": [
+          "_id"
+        ]
+      }
+    ],
+    "react/destructuring-assignment": "off",
+    "import/no-unresolved": "off",
+    "no-console": [
+      "error",
+      {
+        "allow": [
+          "error",
+          "warning"
+        ]
+      }
+    ],
+    "max-len": [
+      "error",
+      120
+    ],
+    "@typescript-eslint/no-use-before-define": [
+      "off",
+      {
+        "typedefs": false
+      }
+    ],
+    "jsx-a11y/click-events-have-key-events": "off",
+    "jsx-a11y/no-static-element-interactions": "off",
+    "@typescript-eslint/explicit-member-accessibility": "off",
+    "jsx-a11y/label-has-for": "off",
+    "jsx-a11y/label-has-associated-control": "off",
+    "implicit-arrow-linebreak": "off",
+    "import/no-webpack-loader-syntax": "off",
+    "react/no-did-update-set-state": "warn",
+    "react/no-access-state-in-setstate": "off",
+    "react/button-has-type": "off",
+    "react/jsx-one-expression-per-line": "off"
+  }
+}

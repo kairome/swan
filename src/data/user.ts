@@ -7,14 +7,10 @@ import NeDBInstance from 'nedb-core';
 
 const dataStore = new NeDBInstance(dbOptions('user.json'));
 const db = DataStore.fromInstance(dataStore);
-export const saveUserLocation = (location: Location) => {
-  return db.update({ userName: 'guest'}, {
-    $set: {
-      location,
-    },
-  })
-};
+export const saveUserLocation = (location: Location) => db.update({ userName: 'guest' }, {
+  $set: {
+    location,
+  },
+});
 
-export const getUserLocation = () => {
-  return db.findOne({ userName: 'guest' }).then((resp: AppUser) => resp.location);
-};
+export const getUserLocation = () => db.findOne({ userName: 'guest' }).then((resp: AppUser) => resp.location);

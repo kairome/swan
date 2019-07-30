@@ -6,25 +6,26 @@ import ContextMenu from 'ui/ContextMenu/ContextMenu';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import EditableField from 'ui/EditableField/EditableField';
 import Confirmation from 'ui/Confirmation/Confirmation';
-import Button from 'ui/Button/Button';
 
 // types
 import { FolderItem as FolderItemType } from 'types/folders';
-import { ContextMenuAction } from 'types/entities';
+import Button from 'ui/Button/Button';
 
-import s from 'pages/Folders/Folders.css';
+import { ContextMenuAction } from 'types/entities';
+import s from './Folders.css';
+
 
 type NotesAction = 'move' | 'delete';
 
 interface Props {
-  folder: FolderItemType,
-  isActive: boolean,
-  handleFolderClick: () => void,
-  handleRename: (n: string) => void,
-  handleRemoveFolder: (action: NotesAction) => void,
+  folder: FolderItemType;
+  isActive: boolean;
+  handleFolderClick: () => void;
+  handleRename: (n: string) => void;
+  handleRemoveFolder: (action: NotesAction) => void;
 }
 
-const FolderItem: React.FC<Props> = (props) => {
+const FolderItem: React.FC<Props> = props => {
   const { folder } = props;
 
   const [folderName, setFolderName] = useState(folder.name);
@@ -107,7 +108,7 @@ const FolderItem: React.FC<Props> = (props) => {
         message={`Are you sure you want to remove ${folder.name} folder?`}
       >
         <div className={s.removeConfirmationText}>
-          All notes associated with the folder <b>will be removed</b>.
+          All notes associated with the folder <b>will be removed</b>
           <div className={s.removeConfirmationText}>
             You can choose to&nbsp;
             <Button

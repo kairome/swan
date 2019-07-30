@@ -9,23 +9,21 @@ import NoteItem from 'pages/Notes/NoteItem';
 import { ReduxState } from 'types/redux';
 
 // css
-// @ts-ignore
+
 import s from './Notes.css';
 
 type MapState = ReturnType<typeof mapState>;
 type MapDispatch = typeof mapDispatch;
 type Props = MapState & MapDispatch;
 
-const NotesList: React.FC<Props> = (props) => {
+const NotesList: React.FC<Props> = props => {
   const renderNotes = () => {
-    const notes = _.map(props.notes, (note) => {
-      return (
-        <NoteItem
-          key={note._id}
-          note={note}
-        />
-      );
-    });
+    const notes = _.map(props.notes, note => (
+      <NoteItem
+        key={note._id}
+        note={note}
+      />
+    ));
 
     return (
       <div className={s.notes}>
@@ -39,13 +37,11 @@ const NotesList: React.FC<Props> = (props) => {
       {renderNotes()}
     </div>
   );
-}
+};
 
-const mapState = (state: ReduxState) => {
-  return {
-    notes: state.notes.list,
-  };
-}
+const mapState = (state: ReduxState) => ({
+  notes: state.notes.list,
+});
 
 const mapDispatch = {};
 

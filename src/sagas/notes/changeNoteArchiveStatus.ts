@@ -8,7 +8,9 @@ import history from 'utils/history';
 
 function* changeNoteTextSaga(arg: SagaArg<ArchiveNotePayload>) {
   try {
-    const { noteId, isArchived, folderId, inList } = arg.payload;
+    const {
+      noteId, isArchived, folderId, inList,
+    } = arg.payload;
 
     yield call(updateNoteArchiveStatus, noteId, isArchived);
     if (inList) {
@@ -36,4 +38,4 @@ function* changeNoteTextSaga(arg: SagaArg<ArchiveNotePayload>) {
 export default {
   type: changeNoteArchiveStatus.getType(),
   saga: changeNoteTextSaga,
-}
+};

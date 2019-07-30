@@ -13,16 +13,16 @@ import NoteStats from 'ui/Statistics/NoteStats';
 import { ReduxState } from 'types/redux';
 
 // css
-// @ts-ignore
+
 import s from './Notes.css';
 
 type MapState = ReturnType<typeof mapState>;
 type MapDispatch = typeof mapDispatch;
 type Props = MapState & MapDispatch & {
-  id: string,
+  id: string;
 };
 
-const Note: React.FC<Props> = (props) => {
+const Note: React.FC<Props> = props => {
   useEffect(() => {
     props.fetchCurrentNote(props.id);
   }, [props.id]);
@@ -73,13 +73,11 @@ const Note: React.FC<Props> = (props) => {
       {renderTodoLists()}
     </div>
   );
-}
-
-const mapState = (state: ReduxState) => {
-  return {
-    currentNote: state.notes.current,
-  };
 };
+
+const mapState = (state: ReduxState) => ({
+  currentNote: state.notes.current,
+});
 
 const mapDispatch = {
   fetchCurrentNote,

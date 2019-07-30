@@ -11,23 +11,22 @@ import { setNotesToMove, toggleMoveNotes } from 'actions/interactive';
 import { moveNotesToFolder, removeAllFolderNotes } from 'actions/notes';
 
 // components
+import { ReduxState } from 'types/redux';
 import AddFolderModal from './AddFolderModal';
-import FolderItem from 'pages/Folders/FolderItem';
+import FolderItem from './FolderItem';
 
 // types
-import { ReduxState } from 'types/redux';
 
 // css
-// @ts-ignore
 import s from './Folders.css';
 
 type MapState = ReturnType<typeof mapState>;
 type MapDispatch = typeof mapDispatch;
 type Props = MapState & MapDispatch;
 
-const FoldersList: React.FC<Props> = (props) => {
+const FoldersList: React.FC<Props> = props => {
   const { folders, currentFolder } = props;
-  const [removeFolder, setRemoveFolder] = useState(false);
+  const [shouldRemoveFolder, setRemoveFolder] = useState(false);
 
   const handleRename = (folderId: string) => (name: string) => {
     props.renameFolder({
@@ -55,7 +54,7 @@ const FoldersList: React.FC<Props> = (props) => {
         noteIds: props.notesToMove,
       });
 
-      if (removeFolder) {
+      if (shouldRemoveFolder) {
         props.removeFolder(moveNoteFrom);
         setRemoveFolder(false);
       }
@@ -85,7 +84,7 @@ const FoldersList: React.FC<Props> = (props) => {
   };
 
   const renderList = () => {
-    const list = _.map(folders, (folder) => {
+    const list = _.map(folders, folder => {
       const { _id } = folder;
       return (
         <FolderItem
@@ -118,17 +117,15 @@ const FoldersList: React.FC<Props> = (props) => {
       {renderList()}
     </div>
   );
-}
+};
 
-const mapState = (state: ReduxState) => {
-  return {
-    folders: getFoldersSelector(state),
-    currentFolder: getCurrentFolderSelector(state),
-    enableMoveNotes: state.interactive.enableMoveNotes,
-    moveNoteFrom: state.interactive.moveFrom,
-    notesToMove: state.interactive.notesToMove,
-  };
-}
+const mapState = (state: ReduxState) => ({
+  folders: getFoldersSelector(state),
+  currentFolder: getCurrentFolderSelector(state),
+  enableMoveNotes: state.interactive.enableMoveNotes,
+  moveNoteFrom: state.interactive.moveFrom,
+  notesToMove: state.interactive.notesToMove,
+});
 
 const mapDispatch = {
   renameFolder,

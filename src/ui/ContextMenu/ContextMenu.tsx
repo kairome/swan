@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import _ from 'lodash';
 
@@ -8,19 +8,19 @@ import { ContextMenuAction } from 'types/entities';
 import s from './ContextMenu.css';
 
 interface Props {
-  actions: ContextMenuAction[],
-  icon?: React.ReactNode,
-  menuClassName?: string,
-  menuIconClassName?: string,
+  actions: ContextMenuAction[];
+  icon?: React.ReactNode;
+  menuClassName?: string;
+  menuIconClassName?: string;
 }
 
-const ContextMenu: React.FC<Props> = (props) => {
-  const containerElem = React.useRef(null);
+const ContextMenu: React.FC<Props> = props => {
+  const containerElem = useRef<HTMLDivElement | null>(null);
   const [showMenu, toggleMenu] = React.useState(false);
 
   React.useEffect(() => {
-    const handleOutsideClick = (e: MouseEvent) => {
-      if (containerElem !== null && (containerElem.current as any).contains(e.target)) {
+    const handleOutsideClick = (e: Event) => {
+      if (containerElem !== null && (containerElem.current as HTMLDivElement).contains((e.target as Node))) {
         return;
       }
 
@@ -50,13 +50,11 @@ const ContextMenu: React.FC<Props> = (props) => {
 
     const classes = menuClassName ? `${s.contextMenu} ${menuClassName}` : s.contextMenu;
 
-    const actionList = _.map(actions, (action, index) => {
-      return (
-        <div key={`menu-action-${index}`} className={s.contextMenuItem} onClick={executeAction(action.execute)}>
-          <FontAwesomeIcon icon={action.icon} /> {action.title}
-        </div>
-      );
-    });
+    const actionList = _.map(actions, (action, index) => (
+      <div key={`menu-action-${index}`} className={s.contextMenuItem} onClick={executeAction(action.execute)}>
+        <FontAwesomeIcon icon={action.icon} /> {action.title}
+      </div>
+    ));
 
     return (
       <div className={classes}>

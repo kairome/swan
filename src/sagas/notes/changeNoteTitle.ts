@@ -7,7 +7,9 @@ import { ChangeNoteTitlePayload } from 'types/notes';
 
 function* changeNoteTitleSaga(arg: SagaArg<ChangeNoteTitlePayload>) {
   try {
-    const { id, title, folderId, noteArchived } = arg.payload;
+    const {
+      id, title, folderId, noteArchived,
+    } = arg.payload;
 
     yield call(updateNoteTitle, id, title);
     if (folderId !== undefined && noteArchived !== undefined) {
@@ -28,4 +30,4 @@ function* changeNoteTitleSaga(arg: SagaArg<ChangeNoteTitlePayload>) {
 export default {
   type: changeNoteTitle.getType(),
   saga: changeNoteTitleSaga,
-}
+};

@@ -17,7 +17,7 @@ const electronConfig = {
     rules: [
       {
         test: /\.ts[x]?$/,
-        use: ['awesome-typescript-loader'],
+        use: ['babel-loader'],
         include: [`${__dirname}/app`],
       },
     ],

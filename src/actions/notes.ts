@@ -44,8 +44,8 @@ export const changeNoteArchiveStatus = createAction<ArchiveNotePayload>('CHANGE_
 export const moveNotesToFolder = createAction<MoveNotesPayload>('MOVE_NOTES_TO_FOLDER');
 
 interface NotesReducer {
-  current: Note,
-  list: Note[],
+  current: Note;
+  list: Note[];
 }
 
 const defaultCurrentNote = {
@@ -68,25 +68,19 @@ const reducer = createReducer<NotesReducer>({}, {
   list: [],
 });
 
-reducer.on(saveCurrentNote, (state, current) => {
-  return {
-    ...state,
-    current,
-  };
-});
+reducer.on(saveCurrentNote, (state, current) => ({
+  ...state,
+  current,
+}));
 
-reducer.on(resetCurrentNote, (state) => {
-  return {
-    ...state,
-    current: defaultCurrentNote,
-  };
-});
+reducer.on(resetCurrentNote, state => ({
+  ...state,
+  current: defaultCurrentNote,
+}));
 
-reducer.on(saveNotes, (state, list) => {
-  return {
-    ...state,
-    list,
-  };
-});
+reducer.on(saveNotes, (state, list) => ({
+  ...state,
+  list,
+}));
 
 export default reducer;

@@ -31,4 +31,4 @@ function* moveNotesToFolderSaga(arg: SagaArg<MoveNotesPayload>) {
 export default {
   type: moveNotesToFolder.getType(),
   saga: moveNotesToFolderSaga,
-}
+};
