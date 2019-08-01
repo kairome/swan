@@ -21,7 +21,7 @@ dev: check-types
 	$(BIN_PATH)/webpack-dev-server \
     	--inline --watch --hot --progress --content-base=build --port $(DEV_PORT)
 
-build-prod: clean-build
+build-prod: clean-build build-electron-prod
 	NODE_ENV=production webpack --progress
 
 build: install check-types lint build-prod
@@ -35,9 +35,12 @@ fix-lint:
 build-electron:
 	webpack --config webpack.electron.config.js --progress
 
+build-electron-prod:
+	NODE_ENV=production webpack --config webpack.electron.config.js --progress
+
 launch-electron:
 	electron ./build/main.js
 
 electron: build-electron launch-electron
 
-.PHONY: clean-build clean install check-types dev build-prod build lint fix-lint build-electron launch-electron electron
+.PHONY: clean-build clean install check-types dev build-prod build lint fix-lint build-electron launch-electron electron build-electron-prod

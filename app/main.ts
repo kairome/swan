@@ -12,17 +12,20 @@ const createWindow = () => {
       nodeIntegration: true,
     },
   });
-  if (process.env.NODE_ENV === 'development') {
-    const appData = app.getPath('appData');
-    const appName = 'Swan';
-    const userDataPath = path.join(appData, appName);
-    app.setPath('userData', userDataPath);
-    if (!fs.existsSync(userDataPath)) {
-      fs.mkdirSync(userDataPath);
-    }
+  const appData = app.getPath('appData');
+  const appName = 'Swan';
+  const userDataPath = path.join(appData, appName);
+  app.setPath('userData', userDataPath);
+  if (!fs.existsSync(userDataPath)) {
+    fs.mkdirSync(userDataPath);
+  }
+  window.setMenuBarVisibility(false);
+  window.setAutoHideMenuBar(true);
+
+  if (process.env.NODE_ENV === 'production') {
+    window.loadFile(`${__dirname}/public/index.html`);
+  } else {
     window.loadURL('http://localhost:4005');
-    window.setMenuBarVisibility(false);
-    window.setAutoHideMenuBar(true);
   }
 };
 

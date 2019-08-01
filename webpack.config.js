@@ -58,7 +58,6 @@ const clientConfig = {
   output: {
     filename: 'app.[hash].js',
     path: `${__dirname}/build/public`,
-    publicPath: '/',
   },
   mode: nodeEnv,
   module: {

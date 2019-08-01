@@ -13,6 +13,10 @@ const electronConfig = {
     publicPath: '/',
   },
   mode: nodeEnv,
+  node: {
+    __dirname: false,
+    __filename: false
+  },
   module: {
     rules: [
       {
