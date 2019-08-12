@@ -1,0 +1,59 @@
+.settingsPage {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: #fff;
+  z-index: 7;
+  font-size: 15px;
+}
+
+.settingsButton {
+  cursor: pointer;
+  color: #545454;
+  width: fit-content;
+}
+
+.closeButton {
+  cursor: pointer;
+  font-size: 20px;
+  padding: 10px;
+  color: #545454;
+}
+
+.settingsContent {
+  display: flex;
+  overflow: hidden;
+}
+
+.settingsNavigation {
+  overflow-y: auto;
+  width: 200px;
+  height: 100vh;
+  box-sizing: border-box;
+  background: #f6f6f6;
+}
+
+.navigationItem {
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color .3s;
+  color: #545454;
+
+  &:hover {
+    background: #ececec;
+  }
+}
+
+.navigationItemActive {
+  background: #ececec;
+}
+
+.settingsItemPage {
+  overflow-y: auto;
+  width: 100%;
+  padding: 15px 20px;
+  height: 100vh;
+  box-sizing: border-box;
+  background: #fbfbfb;
+}

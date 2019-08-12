@@ -11,12 +11,12 @@ import { toggleNavigation } from 'actions/navigation';
 import TopInfoBar from 'ui/Navigation/TopBar/TopInfoBar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import FoldersList from 'pages/Folders/FoldersList';
+import Settings from 'pages/Settings/Settings';
 
 // types
 import { ReduxState } from 'types/redux';
 
 // css
-
 import s from './Navigation.css';
 
 type MapState = ReturnType<typeof mapState>;
@@ -24,25 +24,16 @@ type MapDispatch = typeof mapDispatch;
 type Props = MapState & MapDispatch & RouteComponentProps;
 
 const Navigation: React.FC<Props> = props => {
-  const handleArchivedRedirect = () => {
+  const handleArchiveRedirect = () => {
     history.push('/archived');
   };
 
-  const renderNavBars = () => {
-    if (!props.show) {
-      return null;
-    }
 
-    return (
-      <div className={s.navIconContainer} onClick={props.toggleNavigation}>
-        <FontAwesomeIcon
-          icon="bars"
-          className={s.navIcon}
-        />
-      </div>
-    );
-  };
-
+  const renderUserMenu = () => (
+    <React.Fragment>
+      <Settings />
+    </React.Fragment>
+  );
   const renderContent = () => {
     if (!props.show) {
       return null;
@@ -54,8 +45,17 @@ const Navigation: React.FC<Props> = props => {
 
     return (
       <React.Fragment>
+        <div className={s.navIconContainer} onClick={props.toggleNavigation}>
+          <FontAwesomeIcon
+            icon="bars"
+            className={s.navIcon}
+          />
+        </div>
+        <div className={s.userMenu}>
+          {renderUserMenu()}
+        </div>
         <FoldersList />
-        <div className={archivedClasses} onClick={handleArchivedRedirect}>
+        <div className={archivedClasses} onClick={handleArchiveRedirect}>
           <FontAwesomeIcon icon="inbox" /> Archived
         </div>
       </React.Fragment>
@@ -70,11 +70,11 @@ const Navigation: React.FC<Props> = props => {
     <React.Fragment>
       <TopInfoBar />
       <div className={s.relative}>
-        {renderNavBars()}
         <div className={navClasses}>
           {renderContent()}
         </div>
       </div>
+
     </React.Fragment>
   );
 };

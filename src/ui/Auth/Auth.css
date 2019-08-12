@@ -1,0 +1,15 @@
+.error {
+  margin: 10px 0;
+  color: #ec2424;
+  font-size: 16px;
+}
+
+.clearData {
+  composes: error;
+  cursor: pointer;
+  width: fit-content;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

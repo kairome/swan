@@ -18,14 +18,22 @@ export interface InputProps {
   onFocus?: (e: React.FocusEvent<InputElement>) => void;
   assignRef?: (elem: InputElement | null) => void;
   textArea?: boolean;
+  theme?: 'password';
 }
 
 const Input = (props: InputProps) => {
   const {
-    className, embedded, assignRef, textArea, ...rest
+    className,
+    embedded,
+    assignRef,
+    textArea,
+    theme,
+    ...rest
   } = props;
   const mainClass = embedded ? s.embeddedInput : s.input;
-  const inputClasses = classNames(mainClass, className);
+  const inputClasses = classNames(mainClass, className, {
+    [s.passwordInput]: theme === 'password',
+  });
 
   if (textArea) {
     return (

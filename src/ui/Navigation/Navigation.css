@@ -49,3 +49,9 @@
 .archivedSectionActive {
   background: rgba(101,101,101,.2);
 }
+
+.userMenu {
+  padding: 20px 15px;
+  font-size: 15px;
+  color: #333;
+}

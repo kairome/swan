@@ -15,8 +15,6 @@ import { ReduxState } from 'types/redux';
 import AddFolderModal from './AddFolderModal';
 import FolderItem from './FolderItem';
 
-// types
-
 // css
 import s from './Folders.css';
 
@@ -98,7 +96,7 @@ const FoldersList: React.FC<Props> = props => {
       );
     });
 
-    const listClasses = classNames(s.folderList, {
+    const listClasses = classNames(s.foldersList, {
       [s.folderListInteractive]: props.enableMoveNotes,
     });
 

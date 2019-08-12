@@ -2,10 +2,15 @@ import { FolderPayload } from 'types/folders';
 
 import DataStore from 'nedb-promise';
 import NeDBInstance from 'nedb-core';
-import { dbOptions } from 'data/utils';
+import dbOptions from 'data/options';
+import { ipcRenderer } from 'electron';
 
 const dataStore = new NeDBInstance(dbOptions('folders.json'));
 const db = DataStore.fromInstance(dataStore);
+
+ipcRenderer.on('load-app', () => {
+  db.loadDatabase();
+});
 
 export const getAllFolders = () => db.cfind({}).sort({ createdAt: 1 }).exec();
 

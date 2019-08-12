@@ -11,3 +11,5 @@ export interface ContextMenuAction {
   icon: IconProp;
   execute: () => void;
 }
+
+export type SettingsPageId = 'encryption';

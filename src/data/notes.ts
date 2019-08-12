@@ -1,6 +1,6 @@
 import DataStore from 'nedb-promise';
 import NeDBInstance from 'nedb-core';
-import { dbOptions } from 'data/utils';
+import dbOptions from 'data/options';
 
 import {
   NewNotePayload,
@@ -10,10 +10,15 @@ import {
   ToDoListItem,
   ToDoListSettings,
 } from 'types/notes';
+import { ipcRenderer } from 'electron';
 
 
 const dataStore = new NeDBInstance(dbOptions('notes.json'));
 const db = DataStore.fromInstance(dataStore);
+
+ipcRenderer.on('load-app', () => {
+  db.loadDatabase();
+});
 
 interface NoteQuery {
   folder?: string;

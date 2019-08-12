@@ -36,3 +36,20 @@
     outline: none;
   }
 }
+
+.passwordInput {
+  border-color: #adadad;
+  border-radius: 0;
+  background: #fdfdfd;
+
+  &::-webkit-input-placeholder {
+    color: #adadad;
+    font-size: 15px;
+    text-align: start;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: #adadad;
+  }
+}
