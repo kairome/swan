@@ -1,5 +1,6 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
 import path from 'path';
+import os from 'os';
 import fs from 'fs';
 import ElectronStore from 'electron-store';
 import crypto from 'crypto-js';
@@ -17,6 +18,11 @@ const appName = 'Swan';
 const userDataPath = path.join(appData, appName);
 app.setPath('userData', userDataPath);
 
+const getUserId = () => {
+  const cpus = os.cpus().map(c => c.model).join('');
+  return `${cpus}-${os.hostname()}-${os.platform()}${os.arch()}`;
+};
+
 const store = new ElectronStore<any>({
   defaults: {
     window: {
@@ -25,8 +31,7 @@ const store = new ElectronStore<any>({
     },
     isProtected: false,
   },
-  // encrypt for obscurity TODO: randomize for every application
-  encryptionKey: crypto.SHA256(crypto.lib.WordArray.random(256 / 8)).toString(),
+  encryptionKey: crypto.SHA256(getUserId()).toString(),
 });
 
 const createWindow = () => {
