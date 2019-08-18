@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import { generateId } from 'utils/helpers';
-import { useScrollToList } from 'utils/hooks';
 
 // actions
 import { addToDoList, setNoteContentSettings, updateAllLists } from 'actions/notes';
@@ -25,14 +24,12 @@ type Props = MapState & MapDispatch;
 
 const TopBarNoteOptions: React.FC<Props> = props => {
   const { currentNote } = props;
-  const setListId = useScrollToList('', currentNote.todoLists.length);
   if (!currentNote._id) {
     return null;
   }
 
   const handleAddNewList = () => {
     const newListId = generateId();
-    setListId(newListId);
     props.addToDoList({
       noteId: currentNote._id,
       list: {

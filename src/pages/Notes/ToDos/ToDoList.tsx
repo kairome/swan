@@ -3,7 +3,6 @@ import classNames from 'classnames';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import { generateId } from 'utils/helpers';
-import { useScrollToList } from 'utils/hooks';
 
 // actions
 import {
@@ -38,7 +37,6 @@ type Props = MapDispatch & {
 
 const ToDoList: React.FC<Props> = props => {
   const { listItem, noteId } = props;
-  const setListId = useScrollToList('', props.totalLists);
   const [listTitle, setListTitle] = useState(listItem.title);
   const [showRemoveListConfirmation, setRemoveListConfirmation] = useState(false);
   const [showListSettings, toggleListSettings] = useState(false);
@@ -111,7 +109,6 @@ const ToDoList: React.FC<Props> = props => {
 
   const handleCopy = () => {
     const copyListId = generateId();
-    setListId(copyListId);
     props.addToDoList({
       noteId,
       list: {
@@ -156,7 +153,7 @@ const ToDoList: React.FC<Props> = props => {
           type="text"
           value={listTitle}
           onChange={handleListTitleChange}
-          defaultText={listItem.title ? listItem.title : 'New list'}
+          defaultText={listTitle ? listTitle : 'New list'}
           textClassName={s.listTitle}
           className={s.listTitle}
           save={handleSaveListTitle}
