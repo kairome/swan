@@ -19,7 +19,7 @@ import s from './Notes.css';
 type MapState = ReturnType<typeof mapState>;
 type MapDispatch = typeof mapDispatch;
 type Props = MapState & MapDispatch & {
-  id: string;
+  id: string,
 };
 
 const Note: React.FC<Props> = props => {

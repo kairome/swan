@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import Input, { InputProps } from 'ui/Input/Input';
 
 interface CommonProps {
-  defaultText: string;
-  save: () => void;
-  reset: () => void;
-  textArea?: boolean;
-  activateEditMode?: boolean;
-  textClassName?: string;
+  defaultText: string,
+  save: () => void,
+  reset: () => void,
+  textArea?: boolean,
+  activateEditMode?: boolean,
+  textClassName?: string,
 }
 
 type InputFieldProps = InputProps & CommonProps;

@@ -6,11 +6,11 @@ import Button from 'ui/Button/Button';
 import s from './Confirmation.css';
 
 interface Props {
-  show: boolean;
-  toggle: () => void;
-  message: string;
-  confirm: () => void;
-  children?: React.ReactNode;
+  show: boolean,
+  toggle: () => void,
+  message: string,
+  confirm: () => void,
+  children?: React.ReactNode,
 }
 
 const Confirmation: React.FC<Props> = props => (

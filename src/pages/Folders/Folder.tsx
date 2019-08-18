@@ -15,7 +15,7 @@ import { resetCurrentNote } from 'actions/notes';
 type MapState = ReturnType<typeof mapState>;
 type MapDispatch = typeof mapDispatch;
 type Props = MapState & MapDispatch & {
-  id: string;
+  id: string,
 };
 
 const Folder: React.FC<Props> = props => {

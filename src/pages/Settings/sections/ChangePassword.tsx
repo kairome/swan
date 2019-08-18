@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { ipcRenderer } from 'electron';
 import crypto from 'crypto-js';
+import { connect } from 'react-redux';
+
+// actions
+import { dispatchToastr } from 'actions/toastr';
 
 // components
 import AuthConfirmation from 'ui/Auth/AuthConfirmation';
@@ -9,18 +13,18 @@ import NewPassword from 'pages/Settings/sections/NewPassword';
 import s from './SettingsSections.css';
 
 interface State {
-  newPass: string;
-  confirmPass: string;
-  changed: boolean;
+  newPass: string,
+  confirmPass: string,
 }
 
 const defaultState = {
   newPass: '',
   confirmPass: '',
-  changed: false,
 };
 
-const ChangePassword: React.FC = () => {
+type MapDispatch = typeof mapDispatch;
+
+const ChangePassword: React.FC<MapDispatch> = props => {
   const [passState, setPassState] = useState<State>(defaultState);
 
   const handleNewPassChange = (type: 'newPass' | 'confirmPass', value: string) => {
@@ -38,25 +42,13 @@ const ChangePassword: React.FC = () => {
     ipcRenderer.send('change-hash', { oldHash: encPass, newHash: newEncPass });
     setPassState({
       ...defaultState,
-      changed: true,
     });
+    props.dispatchToastr({ message: 'Password changed.' });
   };
 
   const isChangeDisabled = () => {
     const { newPass, confirmPass } = passState;
     return !newPass || newPass !== confirmPass;
-  };
-
-  const renderMessage = () => {
-    if (!passState.changed) {
-      return null;
-    }
-
-    return (
-      <div className={s.success}>
-        Password changed!
-      </div>
-    );
   };
 
   return (
@@ -74,10 +66,13 @@ const ChangePassword: React.FC = () => {
           confirmPass={passState.confirmPass}
           onChange={handleNewPassChange}
         />
-        {renderMessage()}
       </AuthConfirmation>
     </div>
   );
 };
 
-export default ChangePassword;
+const mapDispatch = {
+  dispatchToastr,
+};
+
+export default connect(null, mapDispatch)(ChangePassword);

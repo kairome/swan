@@ -12,7 +12,7 @@ import s from './Statistics.css';
 
 type MapState = ReturnType<typeof mapState>;
 type Props = MapState & {
-  note: Note;
+  note: Note,
 };
 
 const NoteStats: React.FC<Props> = props => {

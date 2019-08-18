@@ -34,7 +34,7 @@ const ToDoLists: React.FC<Props> = props => {
     if (!_.isEqual(currentNote.todoLists, lists)) {
       setLists(currentNote.todoLists);
     }
-  }, [currentNote.todoLists])
+  }, [currentNote.todoLists]);
 
   useEffect(() => {
     if (elemsLen < lists.length) {

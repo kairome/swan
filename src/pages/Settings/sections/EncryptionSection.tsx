@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { ipcRenderer } from 'electron';
 import crypto from 'crypto-js';
+import { connect } from 'react-redux';
+
+// actions
+import { dispatchToastr } from 'actions/toastr';
 
 // components
 import AuthConfirmation from 'ui/Auth/AuthConfirmation';
@@ -11,19 +15,20 @@ import NewPassword from 'pages/Settings/sections/NewPassword';
 
 import s from './SettingsSections.css';
 
-interface Props {
-  isProtected: boolean;
-  updateProtectedStatus: () => void;
-}
-
 interface PassState {
-  newPass: string;
-  confirmPass: string;
+  newPass: string,
+  confirmPass: string,
 }
 
 const defaultPassState = {
   newPass: '',
   confirmPass: '',
+};
+
+type MapDispatch = typeof mapDispatch;
+type Props = MapDispatch & {
+  isProtected: boolean,
+  updateProtectedStatus: () => void,
 };
 
 const EncryptionSection: React.FC<Props> = props => {
@@ -44,6 +49,7 @@ const EncryptionSection: React.FC<Props> = props => {
     ipcRenderer.send('turn-encryption-off', encPass);
     toggleEncModal();
     props.updateProtectedStatus();
+    props.dispatchToastr({ message: 'Encryption turned off.' });
   };
 
   const handleEncryptionOn = () => {
@@ -52,6 +58,7 @@ const EncryptionSection: React.FC<Props> = props => {
     setPassState(defaultPassState);
     toggleEncModal();
     props.updateProtectedStatus();
+    props.dispatchToastr({ message: 'Encryption turned on.' });
   };
 
   const renderEncryptionModalBody = () => {
@@ -148,4 +155,8 @@ const EncryptionSection: React.FC<Props> = props => {
   );
 };
 
-export default EncryptionSection;
+const mapDispatch = {
+  dispatchToastr,
+};
+
+export default connect(null, mapDispatch)(EncryptionSection);

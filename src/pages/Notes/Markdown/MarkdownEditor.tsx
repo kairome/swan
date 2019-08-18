@@ -8,8 +8,8 @@ import { changeNoteText } from 'actions/notes';
 type MapDispatch = typeof mapDispatch;
 
 type Props = MapDispatch & {
-  noteId: string;
-  noteText: string;
+  noteId: string,
+  noteText: string,
 };
 
 let timeout: number | undefined;

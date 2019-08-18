@@ -8,9 +8,9 @@ import s from './SettingsSections.css';
 type PassField = 'newPass' | 'confirmPass';
 
 interface Props {
-  newPass: string;
-  confirmPass: string;
-  onChange: (type: PassField, confirm: string) => void;
+  newPass: string,
+  confirmPass: string,
+  onChange: (type: PassField, confirm: string) => void,
 }
 
 const NewPassword: React.FC<Props> = props => {

@@ -5,10 +5,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import s from './CheckBox.css';
 
 interface Props {
-  id: string;
-  checked: boolean;
-  onChange: (e: React.FormEvent<HTMLInputElement>) => void;
-  className?: string;
+  id: string,
+  checked: boolean,
+  onChange: (e: React.FormEvent<HTMLInputElement>) => void,
+  className?: string,
 }
 
 const CheckBox = (props: Props) => {

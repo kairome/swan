@@ -16,11 +16,11 @@ import { Note } from 'types/notes';
 
 type MapDispatch = typeof mapDispatch;
 type Props = MapDispatch & {
-  note: Note;
-  menuIcon?: React.ReactNode;
-  actionIconClassName?: string;
-  inList?: boolean;
-  className?: string;
+  note: Note,
+  menuIcon?: React.ReactNode,
+  actionIconClassName?: string,
+  inList?: boolean,
+  className?: string,
 };
 
 const ContextNoteActions: React.FC<Props> = props => {

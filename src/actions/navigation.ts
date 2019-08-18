@@ -3,7 +3,7 @@ import { createReducer, createAction } from 'redux-act';
 export const toggleNavigation = createAction('TOGGLE_NAVIGATION');
 
 interface NavReducer {
-  show: boolean;
+  show: boolean,
 }
 
 const reducer = createReducer<NavReducer>({}, {

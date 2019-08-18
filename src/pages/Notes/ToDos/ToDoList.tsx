@@ -30,9 +30,9 @@ import s from 'pages/Notes/ToDos/ToDos.css';
 type MapDispatch = typeof mapDispatch;
 
 type Props = MapDispatch & {
-  listItem: ToDoListItem;
-  noteId: string;
-  totalLists: number;
+  listItem: ToDoListItem,
+  noteId: string,
+  totalLists: number,
 };
 
 const ToDoList: React.FC<Props> = props => {
@@ -153,7 +153,7 @@ const ToDoList: React.FC<Props> = props => {
           type="text"
           value={listTitle}
           onChange={handleListTitleChange}
-          defaultText={listTitle ? listTitle : 'New list'}
+          defaultText={listTitle || 'New list'}
           textClassName={s.listTitle}
           className={s.listTitle}
           save={handleSaveListTitle}

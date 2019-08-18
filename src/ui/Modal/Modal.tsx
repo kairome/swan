@@ -3,9 +3,9 @@ import React from 'react';
 import s from './Modal.css';
 
 interface Props {
-  children: React.ReactNode;
-  show: boolean;
-  toggle: () => void;
+  children: React.ReactNode,
+  show: boolean,
+  toggle: () => void,
 }
 
 const Modal = (props: Props) => {

@@ -8,10 +8,10 @@ import { ContextMenuAction } from 'types/entities';
 import s from './ContextMenu.css';
 
 interface Props {
-  actions: ContextMenuAction[];
-  icon?: React.ReactNode;
-  menuClassName?: string;
-  menuIconClassName?: string;
+  actions: ContextMenuAction[],
+  icon?: React.ReactNode,
+  menuClassName?: string,
+  menuIconClassName?: string,
 }
 
 const ContextMenu: React.FC<Props> = props => {

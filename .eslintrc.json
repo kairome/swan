@@ -61,6 +61,19 @@
     "react/no-did-update-set-state": "warn",
     "react/no-access-state-in-setstate": "off",
     "react/button-has-type": "off",
-    "react/jsx-one-expression-per-line": "off"
+    "react/jsx-one-expression-per-line": "off",
+    "@typescript-eslint/member-delimiter-style": [
+      "error",
+      {
+        "multiline": {
+          "delimiter": "comma",
+          "requireLast": true
+        },
+        "singleline": {
+          "delimiter": "comma",
+          "requireLast": true
+        }
+      }
+    ]
   }
 }

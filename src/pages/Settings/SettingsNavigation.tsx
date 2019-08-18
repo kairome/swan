@@ -8,14 +8,14 @@ import classNames from 'classnames';
 import s from './Settings.css';
 
 interface Props {
-  currentId: SettingsPageId;
-  handleNavigate: (id: SettingsPageId) => void;
+  currentId: SettingsPageId,
+  handleNavigate: (id: SettingsPageId) => void,
 }
 
 interface NavItem {
-  id: SettingsPageId;
-  title: string;
-  icon: IconProp;
+  id: SettingsPageId,
+  title: string,
+  icon: IconProp,
 }
 
 const SettingsNavigation: React.FC<Props> = props => {

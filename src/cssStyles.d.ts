@@ -1,4 +1,4 @@
 declare module '*.css' {
-  const exports: { [exportName: string]: string };
+  const exports: { [exportName: string]: string, };
   export = exports;
 }

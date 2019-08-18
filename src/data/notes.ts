@@ -21,8 +21,8 @@ ipcRenderer.on('load-app', () => {
 });
 
 interface NoteQuery {
-  folder?: string;
-  isArchived?: boolean;
+  folder?: string,
+  isArchived?: boolean,
 }
 
 export const getAllNotes = (filter: NoteFilter) => {

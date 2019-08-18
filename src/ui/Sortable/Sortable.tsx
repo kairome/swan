@@ -10,14 +10,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import _ from 'lodash';
 
 type SortListProps = SortableContainerProps & {
-  items: React.ReactNode[];
+  items: React.ReactNode[],
 };
 
 type SortListItemProps = SortableElementProps & {
-  value: React.ReactNode;
+  value: React.ReactNode,
 };
 
-export const SortHandle = SortableHandle((props: { className?: string }) => (
+export const SortHandle = SortableHandle((props: { className?: string, }) => (
   <div className={props.className}><FontAwesomeIcon icon="grip-horizontal" /></div>
 ));
 

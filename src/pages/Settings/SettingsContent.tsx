@@ -7,7 +7,7 @@ import Encryption from 'pages/Settings/sections/Encryption';
 import { SettingsPageId } from 'types/entities';
 
 interface Props {
-  pageId: SettingsPageId;
+  pageId: SettingsPageId,
 }
 
 const SettingsContent: React.FC<Props> = props => {

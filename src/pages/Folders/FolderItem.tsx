@@ -18,11 +18,11 @@ import s from './Folders.css';
 type NotesAction = 'move' | 'delete';
 
 interface Props {
-  folder: FolderItemType;
-  isActive: boolean;
-  handleFolderClick: () => void;
-  handleRename: (n: string) => void;
-  handleRemoveFolder: (action: NotesAction) => void;
+  folder: FolderItemType,
+  isActive: boolean,
+  handleFolderClick: () => void,
+  handleRename: (n: string) => void,
+  handleRemoveFolder: (action: NotesAction) => void,
 }
 
 const FolderItem: React.FC<Props> = props => {

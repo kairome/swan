@@ -13,8 +13,8 @@ export const renameFolder = createAction<RenameFolderPayload>('RENAME_FOLDER');
 export const removeFolder = createAction<string>('REMOVE_FOLDER');
 
 interface FoldersReducer {
-  list: FolderItem[];
-  current: FolderItem;
+  list: FolderItem[],
+  current: FolderItem,
 }
 
 const defaultFolder = {

@@ -3,9 +3,9 @@ import React from 'react';
 import s from './ToDos.css';
 
 interface Props {
-  listId: string;
-  value: string;
-  onChange: (v: string) => void;
+  listId: string,
+  value: string,
+  onChange: (v: string) => void,
 }
 
 const PositionSettings: React.FC<Props> = props => {

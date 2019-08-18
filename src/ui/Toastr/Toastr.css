@@ -1,0 +1,81 @@
+.toastrWrapper {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  padding: 0 20px;
+  z-index: 15;
+}
+
+.toastrItem {
+  width: 250px;
+  height: 60px;
+  margin-bottom: 20px;
+  background: #313235;
+  color: #dcdcdc;
+  box-sizing: border-box;
+  padding: 30px;
+  display: flex;
+  align-items: center;
+  border-radius: 4px;
+  box-shadow: 0 3px 5px rgba(15, 15, 16, .2);
+  cursor: pointer;
+  animation: bounce .3s ease-in;
+}
+
+.remove {
+  animation: bounceOut .3s ease-in;
+}
+
+@keyframes bounce {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+
+  25% {
+    transform: translateY(-75%);
+    opacity: 0.2;
+  }
+
+  50% {
+    transform: translateY(-50%);
+    opacity: 0.4;
+  }
+
+  75% {
+    transform: translateY(-25%);
+    opacity: 0.6;
+  }
+
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes bounceOut {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  25% {
+    transform: translateY(-25%);
+    opacity: 0.6;
+  }
+
+  50% {
+    transform: translateY(-50%);
+    opacity: 0.4;
+  }
+
+  75% {
+    transform: translateY(-75%);
+    opacity: 0.2;
+  }
+
+  100% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+}

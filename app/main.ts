@@ -7,8 +7,8 @@ import crypto from 'crypto-js';
 import { changeDbFilesEncryption, clearDbFilesData } from './dbUtils';
 
 interface ChangeHashPayload {
-  oldHash: string;
-  newHash: string;
+  oldHash: string,
+  newHash: string,
 }
 
 let window: BrowserWindow | null;

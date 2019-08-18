@@ -18,15 +18,15 @@ import { DraggableSortArg } from 'types/entities';
 import s from './ToDos.css';
 
 interface Props {
-  items: ToDoItem[];
-  completedPosition: CompletedPosition;
-  listId: string;
-  save: (i: ToDoItem[]) => void;
+  items: ToDoItem[],
+  completedPosition: CompletedPosition,
+  listId: string,
+  save: (i: ToDoItem[]) => void,
 }
 
 interface State {
-  todos: ToDoItem[];
-  focusedIndex: number;
+  todos: ToDoItem[],
+  focusedIndex: number,
 }
 
 class ToDoItems extends React.Component<Props, State> {

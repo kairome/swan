@@ -14,8 +14,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import s from './Folders.css';
 
 interface State {
-  show: boolean;
-  name: string;
+  show: boolean,
+  name: string,
 }
 
 type MapDispatch = typeof mapDispatch;

@@ -4,9 +4,9 @@ import path from 'path';
 import crypto from 'crypto-js';
 
 interface ChangeEncryptionPayload {
-  key: string;
-  newKey?: string;
-  firstEncryption?: boolean;
+  key: string,
+  newKey?: string,
+  firstEncryption?: boolean,
 }
 
 const encrypt = (text: string, key: string) => crypto.AES.encrypt(text, key).toString();

@@ -4,13 +4,13 @@ import classNames from 'classnames';
 import s from './Button.css';
 
 interface Props {
-  text: string;
-  type?: 'button' | 'submit';
-  shape?: 'block' | 'link';
-  theme: 'info' | 'danger';
-  className?: string;
-  onClick?: () => void;
-  disabled?: boolean;
+  text: string,
+  type?: 'button' | 'submit',
+  shape?: 'block' | 'link',
+  theme: 'info' | 'danger',
+  className?: string,
+  onClick?: () => void,
+  disabled?: boolean,
 }
 
 const Button = (props: Props) => {

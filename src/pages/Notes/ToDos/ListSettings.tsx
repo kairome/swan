@@ -15,10 +15,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 type MapDispatch = typeof mapDispatch;
 
 type Props = MapDispatch & {
-  listId: string;
-  noteId: string;
-  settings: ToDoListSettings;
-  handleCreateCopy: () => void;
+  listId: string,
+  noteId: string,
+  settings: ToDoListSettings,
+  handleCreateCopy: () => void,
 };
 
 const ListSettings: React.FC<Props> = props => {

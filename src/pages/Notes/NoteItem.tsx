@@ -12,7 +12,7 @@ import { Note } from 'types/notes';
 import s from 'pages/Notes/Notes.css';
 
 interface Props {
-  note: Note;
+  note: Note,
 }
 
 const NoteItem: React.FC<Props> = props => {

@@ -8,14 +8,14 @@ import Button from 'ui/Button/Button';
 import s from './Auth.css';
 
 interface Props {
-  onSubmit: (p: string) => void;
-  inputClassName?: string;
-  inputPlaceholder?: string;
-  modalButton?: React.ReactNode;
-  buttonClassName?: string;
-  buttonText?: string;
-  children?: React.ReactNode;
-  disableButton?: boolean;
+  onSubmit: (p: string) => void,
+  inputClassName?: string,
+  inputPlaceholder?: string,
+  modalButton?: React.ReactNode,
+  buttonClassName?: string,
+  buttonText?: string,
+  children?: React.ReactNode,
+  disableButton?: boolean,
 }
 
 const AuthConfirmation: React.FC<Props> = props => {
