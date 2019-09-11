@@ -1,9 +1,12 @@
 const webpack = require('webpack');
 const merge = require('webpack-merge');
 const path = require('path');
+const dotenv = require('dotenv');
 
 const devConfig = require('./webpack/dev');
 const prodConfig = require('./webpack/prod');
+
+dotenv.config();
 
 const isProduction = process.env.NODE_ENV === 'production';
 
@@ -93,7 +96,8 @@ const clientConfig = {
   plugins: [
     new webpack.DefinePlugin({
       'process.env': {
-        ENV_NAME: JSON.stringify(process.env.ENV_NAME),
+        CLIENT_ID: JSON.stringify(process.env.CLIENT_ID),
+        REDIRECT_URI: JSON.stringify(process.env.REDIRECT_URI),
       },
     }),
   ],

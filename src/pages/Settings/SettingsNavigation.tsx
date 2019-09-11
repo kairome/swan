@@ -8,7 +8,7 @@ import classNames from 'classnames';
 import s from './Settings.css';
 
 interface Props {
-  currentId: SettingsPageId,
+  pageId: SettingsPageId,
   handleNavigate: (id: SettingsPageId) => void,
 }
 
@@ -18,7 +18,7 @@ interface NavItem {
   icon: IconProp,
 }
 
-const SettingsNavigation: React.FC<Props> = props => {
+const SettingsNavigation: React.FC<Props> = (props) => {
   const handleClick = (id: SettingsPageId) => () => {
     props.handleNavigate(id);
   };
@@ -29,11 +29,16 @@ const SettingsNavigation: React.FC<Props> = props => {
       title: 'Encryption',
       icon: 'user-lock',
     },
+    {
+      id: 'sync',
+      title: 'Synchronization',
+      icon: 'sync',
+    },
   ];
 
-  const itemsList = _.map(items, item => {
+  const itemsList = _.map(items, (item) => {
     const itemClasses = classNames(s.navigationItem, {
-      [s.navigationItemActive]: item.id === props.currentId,
+      [s.navigationItemActive]: item.id === props.pageId,
     });
 
     return (

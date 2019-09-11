@@ -1,0 +1,11 @@
+.syncFrequency {
+  margin-bottom: 20px;
+}
+
+.sectionButtons {
+  display: flex;
+}
+
+.sectionButton {
+  margin-right: 15px;
+}

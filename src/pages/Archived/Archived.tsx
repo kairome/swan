@@ -11,7 +11,7 @@ import NotesList from 'pages/Notes/NotesList';
 type MapDispatch = typeof mapDispatch;
 type Props = MapDispatch;
 
-const Archived: React.FC<Props> = props => {
+const Archived: React.FC<Props> = (props) => {
   useEffect(() => {
     props.fetchNotes({ isArchived: true });
     props.resetCurrentFolder();

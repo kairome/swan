@@ -1,38 +1,42 @@
 import React, { useState } from 'react';
-
-// components
-import ChangePassword from 'pages/Settings/sections/ChangePassword';
-import EncryptionSection from 'pages/Settings/sections/EncryptionSection';
 import { ipcRenderer } from 'electron';
 
-const Encryption: React.FC = () => {
+// components
+import ChangePassword from './ChangePassword';
+import EncryptionInfo from './EncryptionInfo';
+
+interface Props {
+  triggerEncModal: boolean,
+}
+
+const EncryptionSection: React.FC<Props> = (props) => {
   const [isProtected, setIsProtected] = useState(ipcRenderer.sendSync('get-auth-status'));
 
   const updateProtectedStatus = () => {
     setIsProtected(ipcRenderer.sendSync('get-auth-status'));
   };
 
-  const renderContent = () => {
+  const renderPasswordSection = () => {
     if (!isProtected) {
       return null;
     }
 
     return (
-      <React.Fragment>
-        <ChangePassword />
-      </React.Fragment>
+      <ChangePassword />
     );
   };
+
   return (
     <div>
       <h3>Encryption and privacy</h3>
-      <EncryptionSection
+      <EncryptionInfo
         isProtected={isProtected}
+        triggerEncModal={props.triggerEncModal}
         updateProtectedStatus={updateProtectedStatus}
       />
-      {renderContent()}
+      {renderPasswordSection()}
     </div>
   );
 };
 
-export default Encryption;
+export default EncryptionSection;

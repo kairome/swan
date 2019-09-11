@@ -5,15 +5,21 @@ import { connect } from 'react-redux';
 
 // actions
 import { dispatchToastr } from 'actions/toastr';
+import { revokeGoogleCredentials } from 'actions/user';
 
 // components
 import AuthConfirmation from 'ui/Auth/AuthConfirmation';
 import Modal from 'ui/Modal/Modal';
 import Button from 'ui/Button/Button';
 import ClearDataModal from 'ui/Auth/ClearDataModal';
-import NewPassword from 'pages/Settings/sections/NewPassword';
+import NewPassword from './NewPassword';
 
-import s from './SettingsSections.css';
+// types
+import { ReduxState } from 'types/redux';
+
+// css
+import s from './EncryptionSection.css';
+
 
 interface PassState {
   newPass: string,
@@ -25,14 +31,16 @@ const defaultPassState = {
   confirmPass: '',
 };
 
+type MapState = ReturnType<typeof mapState>;
 type MapDispatch = typeof mapDispatch;
-type Props = MapDispatch & {
+type Props = MapState & MapDispatch & {
   isProtected: boolean,
   updateProtectedStatus: () => void,
+  triggerEncModal: boolean,
 };
 
-const EncryptionSection: React.FC<Props> = props => {
-  const [showEncModal, setShowEncModal] = useState(false);
+const EncryptionInfo: React.FC<Props> = (props) => {
+  const [showEncModal, setShowEncModal] = useState(props.triggerEncModal);
   const [passState, setPassState] = useState<PassState>(defaultPassState);
 
   const toggleEncModal = () => {
@@ -46,9 +54,13 @@ const EncryptionSection: React.FC<Props> = props => {
   };
 
   const handleEncryptionOff = (encPass: string) => {
-    ipcRenderer.send('turn-encryption-off', encPass);
     toggleEncModal();
     props.updateProtectedStatus();
+    const { sync } = props;
+    if (sync !== null) {
+      props.revokeGoogleCredentials(sync.googleCredentials.refresh_token);
+    }
+    ipcRenderer.send('turn-encryption-off', encPass);
     props.dispatchToastr({ message: 'Encryption turned off.' });
   };
 
@@ -95,6 +107,7 @@ const EncryptionSection: React.FC<Props> = props => {
         <div className={s.encMessage}>
           <div>Are you sure you want to turn off encryption?</div>
           <div>All data will be unprotected and stored in plain text.</div>
+          <p><b>If sync is enabled, the access to google drive will be revoked.</b></p>
           <p>Enter password to confirm.</p>
         </div>
         <AuthConfirmation
@@ -125,7 +138,6 @@ const EncryptionSection: React.FC<Props> = props => {
         <React.Fragment>
           <p>Encryption is disabled. Your local data is not protected and stored in plain text.</p>
           <p>That means that anybody with access to the data can read it.</p>
-          <p> If synchronization is enabled, your notes will not be secure during transfer.</p>
           <div className={s.encryptionButton} onClick={toggleEncModal}>
             Turn encryption on
           </div>
@@ -155,8 +167,13 @@ const EncryptionSection: React.FC<Props> = props => {
   );
 };
 
+const mapState = (state: ReduxState) => ({
+  sync: state.user.sync,
+});
+
 const mapDispatch = {
   dispatchToastr,
+  revokeGoogleCredentials,
 };
 
-export default connect(null, mapDispatch)(EncryptionSection);
+export default connect(mapState, mapDispatch)(EncryptionInfo);

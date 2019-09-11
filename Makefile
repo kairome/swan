@@ -27,10 +27,10 @@ build-prod: clean-build build-electron-prod
 build: install check-types lint build-prod
 
 lint:
-	eslint --ext .js,.jsx,.ts,.tsx ./src ./app
+	eslint --ext .ts,.tsx ./src ./app
 
 fix-lint:
-	eslint --ext .js,.jsx,.ts,.tsx ./src ./app --fix
+	eslint --ext .ts,.tsx ./src ./app --fix
 
 build-electron:
 	webpack --config webpack.electron.config.js --progress

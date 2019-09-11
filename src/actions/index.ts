@@ -7,6 +7,7 @@ import folders from './folders';
 import notes from './notes';
 import interactive from './interactive';
 import toastr from './toastr';
+import user from './user';
 
 const reducer = combineReducers({
   navigation,
@@ -14,6 +15,7 @@ const reducer = combineReducers({
   notes,
   interactive,
   toastr,
+  user,
   router: connectRouter(history),
 });
 

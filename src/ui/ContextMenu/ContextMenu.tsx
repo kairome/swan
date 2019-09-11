@@ -1,10 +1,12 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import _ from 'lodash';
+import useOutsideClick from 'utils/clickHook';
 
 // types
 import { ContextMenuAction } from 'types/entities';
 
+// css
 import s from './ContextMenu.css';
 
 interface Props {
@@ -14,24 +16,10 @@ interface Props {
   menuIconClassName?: string,
 }
 
-const ContextMenu: React.FC<Props> = props => {
+const ContextMenu: React.FC<Props> = (props) => {
   const containerElem = useRef<HTMLDivElement | null>(null);
-  const [showMenu, toggleMenu] = React.useState(false);
-
-  React.useEffect(() => {
-    const handleOutsideClick = (e: Event) => {
-      if (containerElem !== null && (containerElem.current as HTMLDivElement).contains((e.target as Node))) {
-        return;
-      }
-
-      toggleMenu(false);
-    };
-
-    window.addEventListener('click', handleOutsideClick, false);
-    return () => {
-      window.removeEventListener('click', handleOutsideClick, false);
-    };
-  });
+  const [showMenu, toggleMenu] = useState(false);
+  useOutsideClick(containerElem.current, toggleMenu);
   const handleMenuToggle = () => {
     toggleMenu(!showMenu);
   };

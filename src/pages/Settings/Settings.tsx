@@ -8,6 +8,7 @@ import SettingsContent from 'pages/Settings/SettingsContent';
 // types
 import { SettingsPageId } from 'types/entities';
 
+// css
 import s from './Settings.css';
 
 const Settings: React.FC = () => {
@@ -35,13 +36,14 @@ const Settings: React.FC = () => {
               <FontAwesomeIcon icon="arrow-left" />
             </div>
             <SettingsNavigation
-              currentId={currentPage}
+              pageId={currentPage}
               handleNavigate={handleNavigate}
             />
           </div>
           <div className={s.settingsItemPage}>
             <SettingsContent
               pageId={currentPage}
+              handleNavigate={handleNavigate}
             />
           </div>
         </div>

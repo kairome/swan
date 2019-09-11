@@ -1,7 +1,8 @@
 import fs from 'fs';
 import _ from 'lodash';
 import path from 'path';
-import crypto from 'crypto-js';
+import { sync as writeAtomicSync } from 'write-file-atomic';
+import { decrypt, encrypt } from './encryptUtils';
 
 interface ChangeEncryptionPayload {
   key: string,
@@ -9,24 +10,17 @@ interface ChangeEncryptionPayload {
   firstEncryption?: boolean,
 }
 
-const encrypt = (text: string, key: string) => crypto.AES.encrypt(text, key).toString();
-
-const decrypt = (text: string, key: string) => {
-  try {
-    return crypto.AES.decrypt(text, key).toString(crypto.enc.Utf8);
-  } catch (e) {
-    console.error('Decryption failed. ', e);
-    return text;
-  }
+const writeOptions = {
+  encoding: 'utf8',
 };
 
 export const clearDbFilesData = (userDataPath: string) => {
   const dbFilesPath = path.join(userDataPath, 'nedb');
   const files = fs.readdirSync(dbFilesPath);
   const filteredFiles = _.filter(files, f => _.includes(f, '.json'));
-  _.forEach(filteredFiles, fileName => {
+  _.forEach(filteredFiles, (fileName) => {
     const filePath = path.join(dbFilesPath, fileName);
-    fs.writeFileSync(filePath, '', 'utf8');
+    writeAtomicSync(filePath, '', writeOptions);
   });
 };
 
@@ -34,14 +28,14 @@ export const changeDbFilesEncryption = (userDataPath: string, payload: ChangeEnc
   const dbFilesPath = path.join(userDataPath, 'nedb');
   const files = fs.readdirSync(dbFilesPath);
   const filteredFiles = _.filter(files, f => _.includes(f, '.json'));
-  _.forEach(filteredFiles, fileName => {
+  _.forEach(filteredFiles, (fileName) => {
     const filePath = path.join(dbFilesPath, fileName);
     const file = fs.readFileSync(filePath).toString();
     const fileLines = file.trim().split('\n');
 
     if (!_.isEmpty(fileLines)) {
       const { key, newKey, firstEncryption } = payload;
-      const newLines = _.map(fileLines, fileLine => {
+      const newLines = _.map(fileLines, (fileLine) => {
         try {
           if (firstEncryption) {
             return encrypt(fileLine, key);
@@ -58,7 +52,17 @@ export const changeDbFilesEncryption = (userDataPath: string, payload: ChangeEnc
         }
       });
 
-      fs.writeFileSync(filePath, newLines.join('\n'), 'utf8');
+      writeAtomicSync(filePath, newLines.join('\n'), writeOptions);
     }
   });
+};
+
+export const getDbFiles = (userDataPath: string) => {
+  const dbFilesPath = path.join(userDataPath, 'nedb');
+  const files = fs.readdirSync(dbFilesPath);
+  const filteredFiles = _.filter(files, f => _.includes(f, '.json') && f !== 'user.json');
+  return _.reduce(filteredFiles, (acc, fileName) => ({
+    ...acc,
+    [fileName]: fs.readFileSync(path.join(dbFilesPath, fileName), 'utf8'),
+  }), {});
 };

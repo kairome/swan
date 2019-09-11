@@ -12,4 +12,16 @@ export interface ContextMenuAction {
   execute: () => void,
 }
 
-export type SettingsPageId = 'encryption';
+export type SettingsPageId = 'encryption' | 'sync';
+
+export interface DownloadedFile {
+  fileName: string,
+  fileContent: string,
+}
+
+export type DownloadFileResult = DownloadedFile | null;
+
+export interface OptionValue {
+  label: string,
+  value: string | number,
+}

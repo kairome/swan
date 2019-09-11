@@ -1,0 +1,54 @@
+.optionsContainer {
+  position: relative;
+  display: inline-block;
+}
+
+.optionsList {
+  position: absolute;
+  background: #fff;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.4);
+  top: 0;
+  left: 0;
+  min-width: 100px;
+  z-index: 10;
+  animation: maximize .1s ease-in;
+}
+
+.option {
+  padding: 15px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #ececec;
+  }
+}
+
+.selectedValue {
+  border-bottom: 1px dashed #5f5f5f;
+  color: #5f5f5f;
+  cursor: pointer;
+}
+
+.currentOption {
+  background-color: #5f5f5f;
+  color: #fff;
+
+  &:hover {
+    background-color: #5f5f5f;
+  }
+}
+
+@keyframes maximize {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  30% {
+    transform: scale(0.5);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}

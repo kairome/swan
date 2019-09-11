@@ -1,12 +1,15 @@
 const path = require('path');
 const webpack = require('webpack');
+const dotenv = require('dotenv');
+
+dotenv.config();
 
 const isProduction = process.env.NODE_ENV === 'production';
 
 const nodeEnv = isProduction ? 'production' : 'development';
 const electronConfig = {
   target: 'electron-main',
-  entry: ['./app/main.ts'],
+  entry: ['@babel/polyfill', './app/main.ts'],
   output: {
     filename: 'main.js',
     path: `${__dirname}/build`,
@@ -15,7 +18,7 @@ const electronConfig = {
   mode: nodeEnv,
   node: {
     __dirname: false,
-    __filename: false
+    __filename: false,
   },
   module: {
     rules: [
@@ -37,6 +40,8 @@ const electronConfig = {
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify(nodeEnv),
+        CLIENT_ID: JSON.stringify(process.env.CLIENT_ID),
+        REDIRECT_URI: JSON.stringify(process.env.REDIRECT_URI),
       },
     }),
   ],

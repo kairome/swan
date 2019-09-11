@@ -8,9 +8,10 @@ import { dispatchToastr } from 'actions/toastr';
 
 // components
 import AuthConfirmation from 'ui/Auth/AuthConfirmation';
-import NewPassword from 'pages/Settings/sections/NewPassword';
+import NewPassword from './NewPassword';
 
-import s from './SettingsSections.css';
+// css
+import s from './EncryptionSection.css';
 
 interface State {
   newPass: string,
@@ -24,7 +25,7 @@ const defaultState = {
 
 type MapDispatch = typeof mapDispatch;
 
-const ChangePassword: React.FC<MapDispatch> = props => {
+const ChangePassword: React.FC<MapDispatch> = (props) => {
   const [passState, setPassState] = useState<State>(defaultState);
 
   const handleNewPassChange = (type: 'newPass' | 'confirmPass', value: string) => {

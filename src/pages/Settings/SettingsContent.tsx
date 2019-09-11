@@ -1,21 +1,32 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 // components
-import Encryption from 'pages/Settings/sections/Encryption';
+import EncryptionSection from './sections/encryption/EncryptionSection';
+import SyncSection from './sections/sync/SyncSection';
 
 // types
 import { SettingsPageId } from 'types/entities';
 
 interface Props {
   pageId: SettingsPageId,
+  handleNavigate: (id: SettingsPageId) => void,
 }
 
-const SettingsContent: React.FC<Props> = props => {
+const SettingsContent: React.FC<Props> = (props) => {
   const { pageId } = props;
+  const [triggerEncModal, setEncModalTrigger] = useState(false);
+  const handleEncModalFromSync = () => {
+    props.handleNavigate('encryption');
+    setEncModalTrigger(true);
+  };
   switch (pageId) {
     case 'encryption':
       return (
-        <Encryption />
+        <EncryptionSection triggerEncModal={triggerEncModal} />
+      );
+    case 'sync':
+      return (
+        <SyncSection toggleEncModal={handleEncModalFromSync} />
       );
     default:
       return null;

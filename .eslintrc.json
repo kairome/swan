@@ -37,7 +37,8 @@
       {
         "allow": [
           "error",
-          "warning"
+          "warning",
+          "info"
         ]
       }
     ],
@@ -73,6 +74,26 @@
           "delimiter": "comma",
           "requireLast": true
         }
+      }
+    ],
+    "@typescript-eslint/camelcase": [
+      "error",
+      {
+        "allow": [
+          "access_token",
+          "expiry_date",
+          "drive_v3",
+          "response_type",
+          "redirect_uri",
+          "client_id"
+        ]
+      }
+    ],
+    "arrow-parens": [
+      "warn",
+      "as-needed",
+      {
+        "requireForBlockBody": true
       }
     ]
   }

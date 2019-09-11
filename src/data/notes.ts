@@ -1,6 +1,6 @@
 import DataStore from 'nedb-promise';
 import NeDBInstance from 'nedb-core';
-import dbOptions from 'data/options';
+import dbOptions, { handleOnLoadError } from 'data/options';
 
 import {
   NewNotePayload,
@@ -17,7 +17,7 @@ const dataStore = new NeDBInstance(dbOptions('notes.json'));
 const db = DataStore.fromInstance(dataStore);
 
 ipcRenderer.on('load-app', () => {
-  db.loadDatabase();
+  dataStore.loadDatabase(handleOnLoadError);
 });
 
 interface NoteQuery {

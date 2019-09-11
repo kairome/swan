@@ -3,7 +3,8 @@ import React from 'react';
 // components
 import Input from 'ui/Input/Input';
 
-import s from './SettingsSections.css';
+// css
+import s from './EncryptionSection.css';
 
 type PassField = 'newPass' | 'confirmPass';
 
@@ -13,7 +14,7 @@ interface Props {
   onChange: (type: PassField, confirm: string) => void,
 }
 
-const NewPassword: React.FC<Props> = props => {
+const NewPassword: React.FC<Props> = (props) => {
   const handleInputChange = (type: PassField) => (e: React.FormEvent<HTMLInputElement>) => {
     props.onChange(type, e.currentTarget.value);
   };

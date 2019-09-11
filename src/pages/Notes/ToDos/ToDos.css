@@ -122,6 +122,7 @@
   color: #6a1384;
   cursor: pointer;
   margin: 10px 0 15px;
+  width: fit-content;
 }
 
 .removeList {

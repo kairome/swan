@@ -6,7 +6,6 @@ import routes from './routes';
 
 import s from './Main.css';
 
-
 const Main = () => (
   <div className={s.mainPage}>
     <div className={s.content}>

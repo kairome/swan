@@ -1,5 +1,7 @@
 import { remote, ipcRenderer } from 'electron';
 import crypto from 'crypto-js';
+import { store } from 'index';
+import { showDbLoadError } from 'actions/interactive';
 
 const isJson = (doc: string) => {
   try {
@@ -11,7 +13,7 @@ const isJson = (doc: string) => {
 };
 
 let key = '';
-ipcRenderer.on('hash-ready', (event: any, arg: string) => {
+ipcRenderer.on('hash-ready', (event: Event, arg: string) => {
   key = arg;
 });
 
@@ -38,5 +40,11 @@ const dbOptions = (dbName: string) => ({
     }
   },
 });
+
+export const handleOnLoadError = (error: Error | null) => {
+  if (error && !store.getState().interactive.dbLoadError) {
+    store.dispatch(showDbLoadError());
+  }
+};
 
 export default dbOptions;

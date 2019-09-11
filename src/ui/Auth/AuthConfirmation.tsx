@@ -18,7 +18,7 @@ interface Props {
   disableButton?: boolean,
 }
 
-const AuthConfirmation: React.FC<Props> = props => {
+const AuthConfirmation: React.FC<Props> = (props) => {
   const [pass, setPass] = useState('');
   const [isPassValid, setPassValid] = useState(true);
 

@@ -18,7 +18,7 @@ type Props = MapState & MapDispatch & {
   id: string,
 };
 
-const Folder: React.FC<Props> = props => {
+const Folder: React.FC<Props> = (props) => {
   useEffect(() => {
     props.resetCurrentNote();
     props.fetchCurrentFolder(props.id);

@@ -8,7 +8,7 @@ interface Props {
   clear: (id: string) => void,
 }
 
-const ToastrMessage: React.FC<Props> = props => {
+const ToastrMessage: React.FC<Props> = (props) => {
   const [willClear, setToClear] = useState(false);
   const timeOut = useRef<number | null>(null);
   const { toastr } = props;

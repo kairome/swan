@@ -25,7 +25,7 @@ interface Props {
   handleRemoveFolder: (action: NotesAction) => void,
 }
 
-const FolderItem: React.FC<Props> = props => {
+const FolderItem: React.FC<Props> = (props) => {
   const { folder } = props;
 
   const [folderName, setFolderName] = useState(folder.name);
