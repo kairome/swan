@@ -68,12 +68,10 @@ const SyncMismatchModal: React.FC<Props> = (props) => {
   );
 };
 
-const mapState = (state: ReduxState) => {
-  return {
-    show: state.interactive.syncMismatch,
-    sync: state.user.sync,
-  };
-};
+const mapState = (state: ReduxState) => ({
+  show: state.interactive.syncMismatch,
+  sync: state.user.sync,
+});
 
 const mapDispatch = {
   toggleSyncMismatchModal,

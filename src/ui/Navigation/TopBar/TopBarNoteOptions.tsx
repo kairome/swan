@@ -22,7 +22,7 @@ type MapState = ReturnType<typeof mapState>;
 type MapDispatch = typeof mapDispatch;
 type Props = MapState & MapDispatch;
 
-const TopBarNoteOptions: React.FC<Props> = props => {
+const TopBarNoteOptions: React.FC<Props> = (props) => {
   const { currentNote } = props;
   if (!currentNote._id) {
     return null;

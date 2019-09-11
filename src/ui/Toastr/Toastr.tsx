@@ -11,7 +11,7 @@ type MapState = ReturnType<typeof mapState>;
 type MapDispatch = typeof mapDispatch;
 type Props = MapState & MapDispatch;
 
-const Toastr: React.FC<Props> = props => {
+const Toastr: React.FC<Props> = (props) => {
   const { toastrs } = props;
   if (_.isEmpty(toastrs)) {
     return null;

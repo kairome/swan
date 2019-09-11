@@ -21,7 +21,7 @@ type MapState = ReturnType<typeof mapState>;
 type MapDispatch = typeof mapDispatch;
 type Props = MapState & MapDispatch;
 
-const ToDoLists: React.FC<Props> = props => {
+const ToDoLists: React.FC<Props> = (props) => {
   const { currentNote } = props;
   if (!currentNote._id) {
     return null;

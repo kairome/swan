@@ -13,7 +13,7 @@ type Props = MapDispatch & {
 };
 
 let timeout: number | undefined;
-const MarkdownEditor: React.FC<Props> = props => {
+const MarkdownEditor: React.FC<Props> = (props) => {
   const [editorText, setEditorText] = useState(props.noteText);
   const handleEditorChange = (value: string) => {
     if (timeout !== undefined) {

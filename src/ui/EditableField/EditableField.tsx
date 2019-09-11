@@ -14,7 +14,7 @@ type InputFieldProps = InputProps & CommonProps;
 
 type Props = InputFieldProps;
 
-const EditableField: React.FC<Props> = props => {
+const EditableField: React.FC<Props> = (props) => {
   const [editMode, setEditMode] = useState(false);
   const {
     defaultText, textArea, textClassName, save, activateEditMode, reset, ...fieldProps

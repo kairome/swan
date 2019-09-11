@@ -15,7 +15,7 @@ interface Props {
   note: Note,
 }
 
-const NoteItem: React.FC<Props> = props => {
+const NoteItem: React.FC<Props> = (props) => {
   const { note } = props;
 
   const handleSetCurrent = () => {

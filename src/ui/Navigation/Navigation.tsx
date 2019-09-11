@@ -23,7 +23,7 @@ type MapState = ReturnType<typeof mapState>;
 type MapDispatch = typeof mapDispatch;
 type Props = MapState & MapDispatch & RouteComponentProps;
 
-const Navigation: React.FC<Props> = props => {
+const Navigation: React.FC<Props> = (props) => {
   const handleArchiveRedirect = () => {
     history.push('/archived');
   };

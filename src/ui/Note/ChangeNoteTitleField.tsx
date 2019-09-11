@@ -13,7 +13,7 @@ type Props = MapDispatch & {
   className?: string,
 };
 
-const ChangeNoteTitleField: React.FC<Props> = props => {
+const ChangeNoteTitleField: React.FC<Props> = (props) => {
   const [noteTitle, setNoteTitle] = useState(props.noteTitle);
 
   useEffect(() => {

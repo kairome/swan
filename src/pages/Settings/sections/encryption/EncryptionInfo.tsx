@@ -12,10 +12,10 @@ import AuthConfirmation from 'ui/Auth/AuthConfirmation';
 import Modal from 'ui/Modal/Modal';
 import Button from 'ui/Button/Button';
 import ClearDataModal from 'ui/Auth/ClearDataModal';
+import { ReduxState } from 'types/redux';
 import NewPassword from './NewPassword';
 
 // types
-import { ReduxState } from 'types/redux';
 
 // css
 import s from './EncryptionSection.css';

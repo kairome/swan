@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 
 // components
+import { SettingsPageId } from 'types/entities';
 import EncryptionSection from './sections/encryption/EncryptionSection';
 import SyncSection from './sections/sync/SyncSection';
 
 // types
-import { SettingsPageId } from 'types/entities';
 
 interface Props {
   pageId: SettingsPageId,

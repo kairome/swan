@@ -35,7 +35,7 @@ type Props = MapDispatch & {
   totalLists: number,
 };
 
-const ToDoList: React.FC<Props> = props => {
+const ToDoList: React.FC<Props> = (props) => {
   const { listItem, noteId } = props;
   const [listTitle, setListTitle] = useState(listItem.title);
   const [showRemoveListConfirmation, setRemoveListConfirmation] = useState(false);

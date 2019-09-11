@@ -16,7 +16,7 @@ type MapState = ReturnType<typeof mapState>;
 type MapDispatch = typeof mapDispatch;
 type Props = MapState & MapDispatch;
 
-const Interactive: React.FC<Props> = props => {
+const Interactive: React.FC<Props> = (props) => {
   const { enableMoveNotes, showSidebar } = props;
   if (!enableMoveNotes) {
     return null;

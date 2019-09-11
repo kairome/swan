@@ -21,7 +21,7 @@ type MapState = ReturnType<typeof mapState>;
 type MapDispatch = typeof mapDispatch;
 type Props = MapState & MapDispatch & RouteComponentProps;
 
-const TopInfoBar: React.FC<Props> = props => {
+const TopInfoBar: React.FC<Props> = (props) => {
   const { currentFolder, currentNote, show } = props;
 
   const renderNavBars = () => {

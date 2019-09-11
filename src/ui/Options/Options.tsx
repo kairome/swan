@@ -4,10 +4,10 @@ import _ from 'lodash';
 import classNames from 'classnames';
 
 // css
+import { OptionValue } from 'types/entities';
 import s from './Options.css';
 
 // types
-import { OptionValue } from 'types/entities';
 
 interface Props {
   value: string | number,

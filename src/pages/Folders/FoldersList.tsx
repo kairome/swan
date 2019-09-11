@@ -22,7 +22,7 @@ type MapState = ReturnType<typeof mapState>;
 type MapDispatch = typeof mapDispatch;
 type Props = MapState & MapDispatch;
 
-const FoldersList: React.FC<Props> = props => {
+const FoldersList: React.FC<Props> = (props) => {
   const { folders, currentFolder } = props;
   const [shouldRemoveFolder, setRemoveFolder] = useState(false);
 
@@ -82,7 +82,7 @@ const FoldersList: React.FC<Props> = props => {
   };
 
   const renderList = () => {
-    const list = _.map(folders, folder => {
+    const list = _.map(folders, (folder) => {
       const { _id } = folder;
       return (
         <FolderItem

@@ -10,7 +10,7 @@ type MapState = ReturnType<typeof mapState>;
 type MapDispatch = typeof mapDispatch;
 type Props = MapState & MapDispatch;
 
-const TopBarFolderOptions: React.FC<Props> = props => {
+const TopBarFolderOptions: React.FC<Props> = (props) => {
   const { currentFolder } = props;
   if (!currentFolder._id) {
     return null;

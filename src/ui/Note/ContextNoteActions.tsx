@@ -23,7 +23,7 @@ type Props = MapDispatch & {
   className?: string,
 };
 
-const ContextNoteActions: React.FC<Props> = props => {
+const ContextNoteActions: React.FC<Props> = (props) => {
   const { note } = props;
   const { isArchived } = note;
   const [showRemoveConfirmation, setRemoveConfirmation] = useState(false);

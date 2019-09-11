@@ -15,7 +15,7 @@ type Props = MapState & {
   note: Note,
 };
 
-const NoteStats: React.FC<Props> = props => {
+const NoteStats: React.FC<Props> = (props) => {
   const { note } = props;
 
   const renderStatBlock = (title: string, value: string) => {

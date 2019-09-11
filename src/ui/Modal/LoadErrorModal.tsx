@@ -51,10 +51,8 @@ const LoadErrorModal: React.FC<Props> = (props) => {
   );
 };
 
-const mapState = (state: ReduxState) => {
-  return {
-    show: state.interactive.dbLoadError,
-  };
-};
+const mapState = (state: ReduxState) => ({
+  show: state.interactive.dbLoadError,
+});
 
 export default connect(mapState)(LoadErrorModal);

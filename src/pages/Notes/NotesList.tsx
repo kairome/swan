@@ -16,7 +16,7 @@ type MapState = ReturnType<typeof mapState>;
 type MapDispatch = typeof mapDispatch;
 type Props = MapState & MapDispatch;
 
-const NotesList: React.FC<Props> = props => {
+const NotesList: React.FC<Props> = (props) => {
   const renderNotes = () => {
     const notes = _.map(props.notes, note => (
       <NoteItem

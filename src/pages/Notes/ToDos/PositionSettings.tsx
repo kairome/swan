@@ -8,7 +8,7 @@ interface Props {
   onChange: (v: string) => void,
 }
 
-const PositionSettings: React.FC<Props> = props => {
+const PositionSettings: React.FC<Props> = (props) => {
   const { listId, value } = props;
   const handleChange = (e: React.FormEvent<HTMLInputElement>) => {
     props.onChange(e.currentTarget.value);
