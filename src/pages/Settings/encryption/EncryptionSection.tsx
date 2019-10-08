@@ -4,6 +4,7 @@ import { ipcRenderer } from 'electron';
 // components
 import ChangePassword from './ChangePassword';
 import EncryptionInfo from './EncryptionInfo';
+import s from 'pages/Settings/sync/SyncSection.css';
 
 interface Props {
   triggerEncModal: boolean,
@@ -27,8 +28,8 @@ const EncryptionSection: React.FC<Props> = (props) => {
   };
 
   return (
-    <div>
-      <h3>Encryption and privacy</h3>
+    <div className={s.settingSectionActive}>
+      <div className={s.sectionTitle}>Encryption and privacy</div>
       <EncryptionInfo
         isProtected={isProtected}
         triggerEncModal={props.triggerEncModal}

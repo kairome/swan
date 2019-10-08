@@ -3,18 +3,23 @@ import { connect } from 'react-redux';
 import classNames from 'classnames';
 import history from 'utils/history';
 import _ from 'lodash';
-
 import { RouteComponentProps, withRouter } from 'react-router';
+
+// actions, selectors
 import { getCurrentFolderSelector } from 'selectors/folders';
 import { getCurrentNoteSelector } from 'selectors/notes';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { toggleNavigation } from 'actions/navigation';
+import { getLoader } from 'selectors/common';
+
+// components
 import TopBarNoteOptions from 'ui/Navigation/TopBar/TopBarNoteOptions';
 import TopBarFolderOptions from 'ui/Navigation/TopBar/TopBarFolderOptions';
+import Button from 'ui/Button/Button';
 
 // types
 import { ReduxState } from 'types/redux';
 
+// css
 import s from './TopBar.css';
 
 type MapState = ReturnType<typeof mapState>;
@@ -23,21 +28,6 @@ type Props = MapState & MapDispatch & RouteComponentProps;
 
 const TopInfoBar: React.FC<Props> = (props) => {
   const { currentFolder, currentNote, show } = props;
-
-  const renderNavBars = () => {
-    if (show) {
-      return null;
-    }
-
-    return (
-      <div className={s.infoBarIconContainer} onClick={props.toggleNavigation}>
-        <FontAwesomeIcon
-          icon="bars"
-          className={s.navIcon}
-        />
-      </div>
-    );
-  };
 
   const handleBackClick = () => {
     if (!currentNote._id) {
@@ -58,11 +48,14 @@ const TopInfoBar: React.FC<Props> = (props) => {
     }
 
     return (
-      <div onClick={handleBackClick} className={s.noteBackArrow}>
-        <FontAwesomeIcon
-          icon="arrow-left"
-        />
-      </div>
+      <Button
+        text=""
+        theme="info"
+        shape="icon"
+        onClick={handleBackClick}
+        icon="arrow-left"
+        className={s.noteBackArrow}
+      />
     );
   };
 
@@ -83,6 +76,10 @@ const TopInfoBar: React.FC<Props> = (props) => {
   };
 
   const getBreadCrumbs = () => {
+    if (props.currentFolderLoading) {
+      return null;
+    }
+
     if (props.location.pathname === '/archived') {
       return 'Archived';
     }
@@ -98,7 +95,15 @@ const TopInfoBar: React.FC<Props> = (props) => {
 
   return (
     <div className={barClasses}>
-      {renderNavBars()}
+      <Button
+        text=""
+        theme="info"
+        shape="icon"
+        onClick={props.toggleNavigation}
+        icon="bars"
+        size="lg"
+        className={s.infoBarIconContainer}
+      />
       {renderBackArrow()}
       <div className={s.breadcrumbs}>
         {getBreadCrumbs()}
@@ -112,6 +117,7 @@ const mapState = (state: ReduxState) => ({
   show: state.navigation.show,
   currentFolder: getCurrentFolderSelector(state),
   currentNote: getCurrentNoteSelector(state),
+  currentFolderLoading: getLoader(state, 'currentFolder'),
 });
 
 const mapDispatch = {

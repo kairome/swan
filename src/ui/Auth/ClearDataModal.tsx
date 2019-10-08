@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { ipcRenderer } from 'electron';
+import history from 'utils/history';
 
 import Confirmation from 'ui/Confirmation/Confirmation';
-
-import s from './Auth.css';
+import Button from 'ui/Button/Button';
 
 const ClearDataModal: React.FC = () => {
   const [showClearModal, setShowClearModal] = useState(false);
@@ -14,11 +14,17 @@ const ClearDataModal: React.FC = () => {
 
   const clearData = () => {
     ipcRenderer.send('clear-data');
+    history.push('/');
   };
 
   return (
     <div>
-      <div className={s.clearData} onClick={toggleClearModal}>Clear all data</div>
+      <Button
+        text="Clear all data"
+        theme="danger"
+        shape="text"
+        onClick={toggleClearModal}
+      />
       <Confirmation
         show={showClearModal}
         toggle={toggleClearModal}

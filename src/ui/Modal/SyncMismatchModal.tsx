@@ -1,20 +1,25 @@
 import React from 'react';
-import s from 'ui/Modal/Modal.css';
-import { ReduxState } from 'types/redux';
 import { connect } from 'react-redux';
-import Button from 'ui/Button/Button';
+
+// actions
 import { toggleSyncMismatchModal } from 'actions/interactive';
 import { downloadDriveFiles, uploadAppData } from 'actions/user';
+
+// components
+import Modal from 'ui/Modal/Modal';
+import Button from 'ui/Button/Button';
+
+// types
+import { ReduxState } from 'types/redux';
+
+// css
+import s from './Modal.css';
 
 type MapState = ReturnType<typeof mapState>;
 type MapDispatch = typeof mapDispatch;
 type Props = MapState & MapDispatch;
 
 const SyncMismatchModal: React.FC<Props> = (props) => {
-  if (!props.show) {
-    return null;
-  }
-
   const { sync } = props;
 
   const handleUpload = () => {
@@ -34,37 +39,44 @@ const SyncMismatchModal: React.FC<Props> = (props) => {
     props.toggleSyncMismatchModal();
   };
 
-  return (
-    <div className={s.modalContainer}>
-      <div className={s.modalCover} />
-      <div />
-      <div className={s.modalBody}>
-        <div>
-          <div>You already have backup files stored on Google Drive</div>
-          <p>
-            <b>
-              If you choose to download from Google Drive, make sure that you use the same encryption password.
-              Otherwise it will lead to data corruption.
-            </b>
-          </p>
-          <Button
-            text="Upload local files to Google Drive"
-            theme="info"
-            onClick={handleUpload}
-          />
-          <Button
-            text="Download from Google Drive and replace local files"
-            theme="info"
-            onClick={handleDownload}
-          />
-          <Button
-            text="Do nothing"
-            theme="info"
-            onClick={handleClose}
-          />
-        </div>
-      </div>
+  const renderFooter = () => (
+    <div className={s.syncModalFooter}>
+      <Button
+        text="Do nothing"
+        theme="primary"
+        shape="text"
+        onClick={handleClose}
+      />
+      <Button
+        text="Download from Google Drive and replace local files"
+        theme="primary"
+        shape="text"
+        onClick={handleDownload}
+      />
+      <Button
+        text="Upload local files to Google Drive"
+        theme="primary"
+        shape="text"
+        onClick={handleUpload}
+      />
     </div>
+  );
+
+  return (
+    <Modal
+      show={props.show}
+      footer={renderFooter()}
+      title="Old backup files"
+    >
+      <div>You already have backup files stored on Google Drive.</div>
+      <p>
+        If you choose to download from Google Drive, make sure that you use the same encryption password that was used
+        for the previous version.
+      </p>
+      <div>
+        Otherwise it will lead to <b>data corruption</b>.
+      </div>
+    </Modal>
   );
 };
 

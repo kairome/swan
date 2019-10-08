@@ -14,6 +14,7 @@ import changeNoteArchiveStatus from 'sagas/notes/changeNoteArchiveStatus';
 import moveNotesToFolder from 'sagas/notes/moveNotesToFolder';
 import removeAllFolderNotes from 'sagas/notes/removeAllFolderNotes';
 import updateToDoListTitle from 'sagas/notes/updateToDoListTitle';
+import updateNotes from 'sagas/notes/updateNotes';
 
 export default [
   addNote,
@@ -32,4 +33,5 @@ export default [
   moveNotesToFolder,
   removeAllFolderNotes,
   updateToDoListTitle,
+  updateNotes,
 ];

@@ -6,13 +6,15 @@ import ContextMenu from 'ui/ContextMenu/ContextMenu';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import EditableField from 'ui/EditableField/EditableField';
 import Confirmation from 'ui/Confirmation/Confirmation';
+import Button from 'ui/Button/Button';
+
+// css
+import s from './Folders.css';
 
 // types
 import { FolderItem as FolderItemType } from 'types/folders';
-import Button from 'ui/Button/Button';
-
 import { ContextMenuAction } from 'types/entities';
-import s from './Folders.css';
+import { SortableHandle } from 'react-sortable-hoc';
 
 
 type NotesAction = 'move' | 'delete';
@@ -24,6 +26,8 @@ interface Props {
   handleRename: (n: string) => void,
   handleRemoveFolder: (action: NotesAction) => void,
 }
+
+const SortableFolderIcon = SortableHandle(() => (<FontAwesomeIcon icon="folder" className={s.listIcon} />));
 
 const FolderItem: React.FC<Props> = (props) => {
   const { folder } = props;
@@ -84,17 +88,17 @@ const FolderItem: React.FC<Props> = (props) => {
   return (
     <div className={folderClasses}>
       <ContextMenu
+        id="folderItem"
         actions={menuActions}
         menuClassName={s.folderMenu}
         menuIconClassName={s.folderMenuIcon}
       />
       <div className={s.folder} onClick={props.handleFolderClick}>
-        <FontAwesomeIcon icon="folder" className={s.folderIcon} />
+        <SortableFolderIcon />
         <EditableField
           type="text"
           value={folderName}
           onChange={handleNameChange}
-          defaultText={folder.name}
           save={saveFolderName}
           reset={resetFolderName}
           activateEditMode={activateEditMode}
@@ -110,14 +114,14 @@ const FolderItem: React.FC<Props> = (props) => {
         <div className={s.removeConfirmationText}>
           All notes associated with the folder <b>will be removed</b>
           <div className={s.removeConfirmationText}>
-            You can choose to&nbsp;
+            You can
             <Button
               text="move notes to another folder"
-              theme="info"
-              shape="link"
+              theme="primary"
+              shape="text"
               onClick={handleRemove('move')}
             />
-            &nbsp;instead.
+            instead.
           </div>
         </div>
       </Confirmation>

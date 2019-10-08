@@ -4,12 +4,15 @@ import { connect } from 'react-redux';
 // actions
 import { toggleNavigation } from 'actions/navigation';
 import { toggleMoveNotes } from 'actions/interactive';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+// components
+import Button from 'ui/Button/Button';
+import Transition from 'ui/Transition/Transition';
 
 // types
 import { ReduxState } from 'types/redux';
 
-
+// css
 import s from './Interactive.css';
 
 type MapState = ReturnType<typeof mapState>;
@@ -18,25 +21,39 @@ type Props = MapState & MapDispatch;
 
 const Interactive: React.FC<Props> = (props) => {
   const { enableMoveNotes, showSidebar } = props;
-  if (!enableMoveNotes) {
-    return null;
-  }
 
   useEffect(() => {
-    if (!showSidebar) {
+    if (!showSidebar && enableMoveNotes) {
       props.toggleNavigation();
     }
-  }, [showSidebar]);
+  }, [showSidebar, enableMoveNotes]);
 
   return (
-    <div className={s.interactiveCover} onClick={props.toggleMoveNotes}>
-      <div className={s.interactiveHint}>
-        <div className={s.cancel}>
-          <FontAwesomeIcon icon="times" />
-        </div>
-        <div>Choose a folder to move notes to</div>
+    <Transition
+      show={enableMoveNotes}
+      duration={150}
+      enter={s.coverActive}
+      exit={s.coverDone}
+    >
+      <div className={s.interactiveCover}>
+        <Transition
+          show={enableMoveNotes}
+          duration={150}
+          enter={s.hintActive}
+          exit={s.hintDone}
+        >
+          <div className={s.interactiveHint}>
+            <div>Select a folder</div>
+            <Button
+              text="Cancel"
+              theme="primary"
+              shape="text"
+              onClick={props.toggleMoveNotes}
+            />
+          </div>
+        </Transition>
       </div>
-    </div>
+    </Transition>
   );
 };
 

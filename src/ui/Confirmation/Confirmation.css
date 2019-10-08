@@ -1,13 +1,10 @@
 .footer {
   display: flex;
   margin-top: 20px;
-  justify-content: center;
+  justify-content: flex-end;
+  text-transform: uppercase;
 }
 
-.confirmBtn {
-  margin-right: 15px;
-}
-
-.confirmationText {
-  color: #333;
+.cancelBtn {
+  margin-right: 10px;
 }

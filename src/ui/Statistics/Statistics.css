@@ -6,3 +6,7 @@
 .noteStatSection {
   display: flex;
 }
+.noteStats {
+  color: var(--text);
+  opacity: var(--stats-opactity);
+}

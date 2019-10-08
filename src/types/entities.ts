@@ -1,5 +1,4 @@
-import React from 'react';
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import { IconName } from '@fortawesome/fontawesome-svg-core';
 
 export interface DraggableSortArg {
   oldIndex: number,
@@ -7,12 +6,12 @@ export interface DraggableSortArg {
 }
 
 export interface ContextMenuAction {
-  title: string | React.ReactNode,
-  icon: IconProp,
+  title: string,
+  icon: IconName,
   execute: () => void,
 }
 
-export type SettingsPageId = 'encryption' | 'sync';
+export type SettingsPageId = 'encryption' | 'sync' | 'customization';
 
 export interface DownloadedFile {
   fileName: string,
@@ -25,3 +24,9 @@ export interface OptionValue {
   label: string,
   value: string | number,
 }
+
+export type LoaderName = 'notes' | 'currentFolder' | 'sync';
+
+export type LoaderPayload = {
+  [k in LoaderName]?: boolean
+};

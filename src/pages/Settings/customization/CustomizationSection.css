@@ -1,0 +1,198 @@
+@import "../SettingsSection.css";
+
+:root {
+  --triangle-color: var(--accent-color);
+}
+
+.accentColor {
+}
+
+.selectColorBtn {
+  margin-left: 20px;
+}
+
+.selectWrapper {
+  position: relative;
+}
+
+.colorListWrapper {
+  margin-top: 15px;
+  width: 160px;
+  border: 1px solid var(--border);
+  background: var(--background);
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, .3);
+  padding: 10px 0 10px 10px;
+  border-radius: 12px;
+}
+
+.colorList {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.recentTitle {
+  font-size: 13px;
+  margin-bottom: 10px;
+}
+
+.recentColors {
+  margin-bottom: 10px;
+}
+
+.recentDivider {
+  margin-right: 10px;
+  height: 1px;
+  background: var(--border);
+}
+
+.colorBlock {
+  width: 22px;
+  height: 22px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 10px;
+  margin-bottom: 10px;
+
+  &:hover {
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, .3);
+  }
+}
+
+.primaryBlock {
+  width: 170px;
+  height: 50px;
+  cursor: pointer;
+  border-radius: 4px;
+
+  &:hover {
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, .3);
+  }
+}
+
+.chromeColorSelect {
+  position: absolute;
+  top: 0;
+  left: 170px;
+  display: flex;
+}
+
+.colorTriangle {
+  width: 25px;
+  height: 25px;
+  background: var(--triangle-color);
+  transform: rotate(45deg);
+  position: relative;
+  top: 5px;
+  left: 15px;
+}
+
+.themeSelectorWrapper {
+  display: flex;
+}
+
+.themeSelector {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 50px;
+}
+
+.text {
+  width: 100%;
+  height: 20px;
+  margin-bottom: 5px;
+  border-radius: 4px;
+}
+
+.textLight {
+  composes: text;
+  background: #333;
+}
+
+.textDark {
+  composes: text;
+  background: #eaeaea;
+}
+
+.textBlockWrapper {
+  display: flex;
+  margin-bottom: 5px;
+}
+
+.textBlock {
+  width: 35px;
+  height: 35px;
+  margin-right: 12px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  &:last-child {
+    margin-right: 0;
+  }
+}
+
+.textBlockLight {
+  composes: textBlock;
+  background: #333;
+}
+
+.textBlockDark {
+  composes: textBlock;
+  background: #eaeaea;
+}
+
+.sidebar {
+  width: 50px;
+  border-top-left-radius: 12px;
+  border-bottom-left-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+.sidebarLight {
+  composes: sidebar;
+  background: #f6f6f6;
+}
+
+.sidebarDark {
+  composes: sidebar;
+  background: #2a2a2a;
+}
+
+.themeContent {
+  padding: 10px;
+  width: 100%;
+}
+
+.themeWindow {
+  margin-top: 10px;
+  width: 250px;
+  height: 150px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  display: flex;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.themeWindowLight {
+  composes: themeWindow;
+  background: #fbfbfb;
+  box-shadow: 1px 1px 10px rgba(0, 0, 0, .5);
+}
+
+.themeWindowDark {
+  composes: themeWindow;
+  background: #505050;
+  box-shadow: 1px 1px 10px rgba(0, 0, 0, .5);
+}
+
+.themeFolder {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  background: var(--triangle-color);
+}

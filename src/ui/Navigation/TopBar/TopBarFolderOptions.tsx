@@ -2,7 +2,8 @@ import React from 'react';
 import { ReduxState } from 'types/redux';
 import { addNote } from 'actions/notes';
 import { connect } from 'react-redux';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import Button from 'ui/Button/Button';
 
 import s from './TopBar.css';
 
@@ -29,9 +30,13 @@ const TopBarFolderOptions: React.FC<Props> = (props) => {
 
   return (
     <div className={s.barOptions}>
-      <div onClick={handleAddNote} className={s.optionsButton}>
-        <FontAwesomeIcon icon="sticky-note" /> New note
-      </div>
+      <Button
+        text="New note"
+        theme="primary"
+        shape="text"
+        icon="sticky-note"
+        onClick={handleAddNote}
+      />
     </div>
   );
 };

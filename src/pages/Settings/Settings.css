@@ -1,24 +1,28 @@
+@import "css/common.css";
+@import "css/animations.css";
+
 .settingsPage {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  background: #fff;
   z-index: 7;
   font-size: 15px;
 }
 
-.settingsButton {
-  cursor: pointer;
-  color: #545454;
-  width: fit-content;
+.settingPageActive {
+  animation: dropIn .3s ease-in;
+}
+
+.settingPageDone {
+  animation: dropOut .3s ease-in;
 }
 
 .closeButton {
-  cursor: pointer;
   font-size: 20px;
-  padding: 10px;
-  color: #545454;
+  width: 40px;
+  height: 40px;
+  margin-bottom: 15px;
 }
 
 .settingsContent {
@@ -31,29 +35,14 @@
   width: 200px;
   height: 100vh;
   box-sizing: border-box;
-  background: #f6f6f6;
-}
-
-.navigationItem {
-  padding: 10px;
-  cursor: pointer;
-  transition: background-color .3s;
-  color: #545454;
-
-  &:hover {
-    background: #ececec;
-  }
-}
-
-.navigationItemActive {
-  background: #ececec;
+  background: var(--sidebar);
 }
 
 .settingsItemPage {
   overflow-y: auto;
   width: 100%;
-  padding: 15px 20px;
+  padding: 20px 25px;
   height: 100vh;
   box-sizing: border-box;
-  background: #fbfbfb;
+  background: var(--background);
 }

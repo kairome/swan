@@ -83,6 +83,12 @@ const clientConfig = {
           'svg-inline-loader',
         ],
       },
+      {
+        test: /\.(woff(2)?|ttf|eot)?$/i,
+        use: [
+          'file-loader',
+        ],
+      },
     ],
   },
   resolve: {

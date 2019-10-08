@@ -2,12 +2,19 @@ import React, { useState } from 'react';
 import { ipcRenderer } from 'electron';
 
 // components
-import AuthConfirmation from 'ui/Auth/AuthConfirmation';
 import ClearDataModal from 'ui/Auth/ClearDataModal';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Transition from 'ui/Transition/Transition';
+import PasswordInput from 'ui/Auth/PasswordInput';
 
+// css
 import s from './Auth.css';
 
-const Auth: React.FC = () => {
+interface Props {
+  show: boolean,
+}
+
+const Auth: React.FC<Props> = (props) => {
   const [showForgot, setShowForgot] = useState(false);
 
   const handleSubmit = (encPass: string) => {
@@ -38,22 +45,35 @@ const Auth: React.FC = () => {
   };
 
   return (
-    <div className={s.authPage}>
-      <div className={s.authContent}>
-        <div className={s.authModal}>
-          <div className={s.authHeader}>Authentication</div>
-          <div className={s.authForm}>
-            <AuthConfirmation
-              inputClassName={s.authInput}
-              buttonClassName={s.authButton}
-              buttonText="Unlock"
-              onSubmit={handleSubmit}
-            />
-            {renderForgotMessage()}
+    <Transition
+      show={props.show}
+      duration={150}
+      enter={s.authPageActive}
+      exit={s.authPageDone}
+    >
+      <div className={s.authPage}>
+        <div className={s.authContent}>
+          <div className={s.authModal}>
+            <div className={s.centerElement}>
+              <div className={s.authIcon}>
+                <FontAwesomeIcon icon="lock" />
+              </div>
+            </div>
+            <div className={s.authHeader}>App is locked</div>
+            <div className={s.authForm}>
+              <PasswordInput
+                mode="authConfirmation"
+                onSubmit={handleSubmit}
+                inputClassName={s.authInput}
+                buttonClassName={s.authButton}
+                buttonText="Unlock"
+              />
+              {renderForgotMessage()}
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </Transition>
   );
 };
 

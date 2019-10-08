@@ -15,7 +15,7 @@
   display: block;
 
   &:hover {
-    border-color: #565656;
+    border-color: var(--checkbox-highlight);
   }
 }
 

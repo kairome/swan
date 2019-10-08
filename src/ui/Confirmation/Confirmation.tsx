@@ -1,4 +1,6 @@
 import React from 'react';
+
+// components
 import Modal from 'ui/Modal/Modal';
 import Button from 'ui/Button/Button';
 
@@ -13,31 +15,38 @@ interface Props {
   children?: React.ReactNode,
 }
 
-const Confirmation: React.FC<Props> = props => (
-  <Modal
-    show={props.show}
-    toggle={props.toggle}
-  >
-    <div>
-      <div className={s.confirmationText}>
+const Confirmation: React.FC<Props> = (props) => {
+  const renderFooter = () => (
+    <React.Fragment>
+      <Button
+        text="Cancel"
+        theme="danger"
+        shape="text"
+        onClick={props.toggle}
+        className={s.cancelBtn}
+      />
+      <Button
+        text="Confirm"
+        theme="primary"
+        shape="text"
+        onClick={props.confirm}
+        className={s.confirmBtn}
+      />
+    </React.Fragment>
+  );
+
+  return (
+    <Modal
+      show={props.show}
+      toggle={props.toggle}
+      footer={renderFooter()}
+    >
+      <div>
         {props.message}
         {props.children}
       </div>
-      <div className={s.footer}>
-        <Button
-          text="Confirm"
-          theme="info"
-          onClick={props.confirm}
-          className={s.confirmBtn}
-        />
-        <Button
-          text="Cancel"
-          theme="danger"
-          onClick={props.toggle}
-        />
-      </div>
-    </div>
-  </Modal>
-);
+    </Modal>
+  );
+};
 
 export default Confirmation;

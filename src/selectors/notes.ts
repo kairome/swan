@@ -5,3 +5,8 @@ export const getCurrentNoteSelector = createSelector(
   rootSelector,
   state => state.notes.current,
 );
+
+export const getNotesLength = createSelector(
+  rootSelector,
+  state => state.notes.list.length,
+);

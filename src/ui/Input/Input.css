@@ -1,24 +1,28 @@
 .input {
-  padding: 10px;
-  border: 1px solid transparent;
-  border-radius: 4px;
+  padding: 10px 0;
+  border: none;
+  border-bottom: 1px solid var(--input-border);
   outline: none;
   width: 100%;
   box-sizing: border-box;
+  background: transparent;
+  color: var(--text);
 
-  &:focus {
+  &:focus, &:hover {
     outline: none;
-    border-color: #ddd;
+    border-color: var(--input-border-highlight);
   }
 
   &::-webkit-input-placeholder {
-    color: #b3acac;
+    color: var(--text-color);
+    opacity: .4;
     font-size: 15px;
     text-align: start;
   }
 }
 
 .embeddedInput {
+  color: var(--text);
   border: none;
   outline: none;
   padding: 0;
@@ -34,22 +38,5 @@
 
   &:focus {
     outline: none;
-  }
-}
-
-.passwordInput {
-  border-color: #adadad;
-  border-radius: 0;
-  background: #fdfdfd;
-
-  &::-webkit-input-placeholder {
-    color: #adadad;
-    font-size: 15px;
-    text-align: start;
-  }
-
-  &:focus {
-    outline: none;
-    border-color: #adadad;
   }
 }

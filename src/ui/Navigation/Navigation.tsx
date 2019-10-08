@@ -39,24 +39,20 @@ const Navigation: React.FC<Props> = (props) => {
       return null;
     }
 
-    const archivedClasses = classNames(s.archivedSection, {
-      [s.archivedSectionActive]: props.location.pathname === '/archived',
+    const archivedClasses = classNames(s.listItemWrapper, s.archivedSection, {
+      [s.listItemActive]: props.location.pathname === '/archived',
     });
 
     return (
       <React.Fragment>
-        <div className={s.navIconContainer} onClick={props.toggleNavigation}>
-          <FontAwesomeIcon
-            icon="bars"
-            className={s.navIcon}
-          />
-        </div>
         <div className={s.userMenu}>
           {renderUserMenu()}
         </div>
         <FoldersList />
         <div className={archivedClasses} onClick={handleArchiveRedirect}>
-          <FontAwesomeIcon icon="inbox" /> Archived
+          <div className={s.listItem}>
+            <FontAwesomeIcon icon="inbox" className={s.listIcon} /> Archived
+          </div>
         </div>
       </React.Fragment>
     );
@@ -74,7 +70,6 @@ const Navigation: React.FC<Props> = (props) => {
           {renderContent()}
         </div>
       </div>
-
     </React.Fragment>
   );
 };

@@ -1,0 +1,44 @@
+.mde {
+  :global(.editor-toolbar button) {
+    color: var(--text);
+    opacity: .7;
+
+    &:hover, &:global(.active) {
+      background: var(--shadow3);
+    }
+  }
+
+  :global(.CodeMirror), :global(.editor-toolbar), :global(.editor-preview), :global(.editor-preview-active), :global(.editor-preview-side) {
+    color: var(--text);
+    background: var(--background);
+  }
+
+  :global(.editor-toolbar) {
+    &::before, &::after {
+      background: var(--background);
+    }
+  }
+
+  :global(.CodeMirror-cursor) {
+    border-color: var(--text);
+  }
+
+  :global(.CodeMirror-selectedtext) {
+    background: var(--mde-selected-text);
+  }
+}
+
+.mdeHeight {
+  :global(.CodeMirror-scroll) {
+    height: 300px;
+  }
+
+  :global(.CodeMirror-fullscreen .CodeMirror-scroll) {
+    height: auto;
+  }
+
+  :global(.lock-height) {
+    background: var(--shadow3);
+    border-color: #95a5a6;
+  }
+}

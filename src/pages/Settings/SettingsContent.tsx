@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 
 // components
-import { SettingsPageId } from 'types/entities';
-import EncryptionSection from './sections/encryption/EncryptionSection';
-import SyncSection from './sections/sync/SyncSection';
+import EncryptionSection from './encryption/EncryptionSection';
+import SyncSection from './sync/SyncSection';
+import CustomizationSection from './customization/CustomizationSection';
 
 // types
+import { SettingsPageId } from 'types/entities';
 
 interface Props {
   pageId: SettingsPageId,
@@ -19,6 +20,7 @@ const SettingsContent: React.FC<Props> = (props) => {
     props.handleNavigate('encryption');
     setEncModalTrigger(true);
   };
+
   switch (pageId) {
     case 'encryption':
       return (
@@ -27,6 +29,10 @@ const SettingsContent: React.FC<Props> = (props) => {
     case 'sync':
       return (
         <SyncSection toggleEncModal={handleEncModalFromSync} />
+      );
+    case 'customization':
+      return (
+        <CustomizationSection />
       );
     default:
       return null;

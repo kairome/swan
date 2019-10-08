@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import Input, { InputProps } from 'ui/Input/Input';
 
 interface CommonProps {
-  defaultText: string,
   save: () => void,
   reset: () => void,
   textArea?: boolean,
@@ -17,7 +16,12 @@ type Props = InputFieldProps;
 const EditableField: React.FC<Props> = (props) => {
   const [editMode, setEditMode] = useState(false);
   const {
-    defaultText, textArea, textClassName, save, activateEditMode, reset, ...fieldProps
+    textArea,
+    textClassName,
+    save,
+    activateEditMode,
+    reset,
+    ...fieldProps
   } = props;
 
   useEffect(() => {
@@ -37,7 +41,7 @@ const EditableField: React.FC<Props> = (props) => {
   if (!editMode) {
     return (
       <div onClick={toggleEditMode} className={textClassName}>
-        {defaultText}
+        {fieldProps.value}
       </div>
     );
   }
@@ -60,11 +64,16 @@ const EditableField: React.FC<Props> = (props) => {
     setEditMode(false);
   };
 
+  const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
+    e.currentTarget.select();
+  };
+
   return (
     <Input
       {...fieldProps}
       onBlur={handleBlur}
       onKeyDown={handleKeyPress}
+      onFocus={handleFocus}
       autoFocus
       embedded
       textArea={textArea}

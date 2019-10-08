@@ -1,0 +1,161 @@
+@keyframes maximize {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  30% {
+    transform: scale(0.5);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes minimize {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  30% {
+    transform: scale(0.5);
+    opacity: 0.5;
+  }
+
+  100% {
+    transform: scale(0);
+    opacity: 0;
+  }
+}
+
+@keyframes dropIn {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+
+  25% {
+    transform: translateY(-75%);
+    opacity: 0.25;
+  }
+
+  50% {
+    transform: translateY(-50%);
+    opacity: 0.5;
+  }
+
+  75% {
+    transform: translateY(-25%);
+    opacity: 0.75;
+  }
+
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes dropOut {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  25% {
+    transform: translateY(-25%);
+    opacity: 0.75;
+  }
+
+  50% {
+    transform: translateY(-50%);
+    opacity: 0.5;
+  }
+
+  75% {
+    transform: translateY(-75%);
+    opacity: 0.25;
+  }
+
+  100% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+}
+
+@keyframes skewing {
+  0% {
+    transform: skew(10deg);
+    opacity: 0;
+  }
+
+  100% {
+    transform: skew(0deg);
+    opacity: 1;
+  }
+}
+
+@keyframes appear {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes disappear {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes slideIn {
+  0% {
+    transform: translate(100%);
+  }
+
+  100% {
+    transform: translate(0);
+  }
+}
+
+@keyframes slideOut {
+  0% {
+    transform: translate(0);
+  }
+
+  100% {
+    transform: translate(100%);
+  }
+}
+
+@keyframes flipIn {
+  0% {
+    transform: perspective(1000em) rotate3d(1, 0, 0, 90deg);
+    opacity: 0;
+  }
+
+  100% {
+    transform: perspective(1000em) rotate3d(1, 0, 0, 0deg);
+    opacity: 1;
+  }
+}
+
+@keyframes flipOut {
+  0% {
+    transform: perspective(1000em) rotate3d(1, 0, 0, 0deg);
+    opacity: 1;
+  }
+
+  100% {
+    transform: perspective(1000em) rotate3d(1, 0, 0, 90deg);
+    opacity: 0;
+  }
+}

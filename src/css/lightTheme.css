@@ -1,0 +1,29 @@
+html {
+  --background: #fbfbfb;
+  --sidebar: #f6f6f6;
+  --text: #333;
+  --text-navigation: #717171;
+  --list-icon: #909090;
+  --list-icon: #6d6d6d;
+  --input-border: rgba(0, 0, 0, 0.2);
+  --input-border-highlight: rgba(0, 0, 0, 0.6);
+  --danger-color: #cc0000;
+  --list-background: #f9f9f9;
+  --button-text: #fff;
+  --modal-bg: #fff;
+  --border: #ddd;
+  --stats-opactity: .6;
+  --checkbox-highlight: #565656;
+  --note-highlight: #efefef;
+
+  --shadow-light: rgba(0, 0, 0, .04);
+  --shadow1: rgba(0, 0, 0, 0.1);
+  --shadow2: rgba(0, 0, 0, 0.2);
+  --shadow3: rgba(0, 0, 0, 0.3);
+  --shadow4: rgba(0, 0, 0, 0.4);
+  --shadow5: rgba(0, 0, 0, 0.5);
+  --shadow-full: rgb(0, 0, 0);
+
+  --context-menu-shadow: var(--shadow5);
+  --mde-selected-text: var(--shadow1);
+}

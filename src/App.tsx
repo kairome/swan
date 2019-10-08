@@ -15,13 +15,40 @@ import Auth from 'pages/Auth/Auth';
 import { ReduxState } from 'types/redux';
 import LoadErrorModal from 'ui/Modal/LoadErrorModal';
 import SyncMismatchModal from 'ui/Modal/SyncMismatchModal';
+import Transition from 'ui/Transition/Transition';
+import SyncNotification from 'ui/Toastr/SyncNotification';
 
 type MapState = ReturnType<typeof mapState>;
 type MapDispatch = typeof mapDispatch;
 type Props = MapState & MapDispatch;
+type Theme = 'light' | 'dark';
+
 const App: React.FC<Props> = (props) => {
   const [showAuth, setShowAuth] = useState(ipcRenderer.sendSync('get-auth-status'));
   const interval = useRef<number | null>(null);
+
+  const updateTheme = () => {
+    const theme: Theme = ipcRenderer.sendSync('get-theme');
+    document.documentElement.setAttribute('class', theme);
+  };
+
+  const updateAccentColor = () => {
+    const accentColor: string = ipcRenderer.sendSync('get-accent-color');
+    document.documentElement.style.setProperty('--accent-color', accentColor);
+  };
+
+  ipcRenderer.on('update-theme', () => {
+    updateTheme();
+  });
+
+  ipcRenderer.on('update-accent-color', () => {
+    updateAccentColor();
+  });
+
+  useEffect(() => {
+    updateTheme();
+    updateAccentColor();
+  }, [updateTheme, updateAccentColor]);
 
   if (!showAuth) {
     ipcRenderer.send('init');
@@ -75,18 +102,23 @@ const App: React.FC<Props> = (props) => {
     return () => clearSyncInterval();
   }, [props.googleCredentials, props.syncFrequency, clearSyncInterval, createSyncInterval]);
 
-  if (showAuth) {
-    return (
-      <Auth />
-    );
-  }
-
   return (
     <React.Fragment>
-      <Navigation />
-      <Main />
-      <LoadErrorModal />
-      <SyncMismatchModal />
+      <Auth show={showAuth} />
+      <Transition
+        show={!showAuth}
+        duration={150}
+        delay={200}
+        passThrough
+      >
+        <React.Fragment>
+          <Navigation />
+          <Main />
+          <LoadErrorModal />
+          <SyncMismatchModal />
+          <SyncNotification />
+        </React.Fragment>
+      </Transition>
     </React.Fragment>
   );
 };

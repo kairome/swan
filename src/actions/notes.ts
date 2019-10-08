@@ -14,7 +14,7 @@ import {
   RemoveNotePayload,
   MoveNotesPayload,
   UpdateToDoListItemsPayload,
-  UpdateToDoListTitlePayload,
+  UpdateToDoListTitlePayload, UpdateNotesPayload,
 } from 'types/notes';
 
 export const fetchNotes = createAction<NoteFilter>('FETCH_NOTES');
@@ -22,6 +22,7 @@ export const saveNotes = createAction<Note[]>('SAVE_NOTES');
 
 export const addNote = createAction<AddNotePayload>('ADD_NOTE');
 export const changeNoteTitle = createAction<ChangeNoteTitlePayload>('CHANGE_NOTE_TITLE');
+export const updateNotes = createAction<UpdateNotesPayload>('UPDATE_NOTES');
 
 export const fetchCurrentNote = createAction<string>('SET_CURRENT_NOTE');
 export const saveCurrentNote = createAction<Note>('SAVE_CURRENT_NOTE');
@@ -57,9 +58,11 @@ const defaultCurrentNote = {
   createdAt: new Date(),
   updatedAt: new Date(),
   isArchived: false,
+  order: 0,
   contentSettings: {
     hideTextEditor: false,
     hideLists: false,
+    lockEditorHeight: false,
   },
 };
 

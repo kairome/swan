@@ -9,7 +9,9 @@ import ContextNoteActions from 'ui/Note/ContextNoteActions';
 // types
 import { Note } from 'types/notes';
 
+// css
 import s from 'pages/Notes/Notes.css';
+import { SortHandle } from 'ui/Sortable/Sortable';
 
 interface Props {
   note: Note,
@@ -34,13 +36,15 @@ const NoteItem: React.FC<Props> = (props) => {
       <div className={s.noteStatsListContainer} onClick={handleSetCurrent}>
         <NoteStats note={note} />
       </div>
-      <div className={s.noteControls}>
-        <ContextNoteActions
-          note={note}
-          className={s.noteListActionMenu}
-          actionIconClassName={s.noteActionIcon}
-          inList
-        />
+      <div className={s.noteControlsWrapper}>
+        <SortHandle icon="grip-lines" className={s.dragNoteIcon} />
+        <div className={s.noteControls}>
+          <ContextNoteActions
+            note={note}
+            className={s.noteListActionMenu}
+            inList
+          />
+        </div>
       </div>
     </div>
   );

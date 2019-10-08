@@ -6,8 +6,8 @@ import classNames from 'classnames';
 // components
 import Input from 'ui/Input/Input';
 import CheckBox from 'ui/Checkbox/Checkbox';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { SortHandle, SortList } from 'ui/Sortable/Sortable';
+import Button from 'ui/Button/Button';
 
 // types
 import { CompletedPosition, ToDoItem } from 'types/notes';
@@ -218,9 +218,15 @@ class ToDoItems extends React.Component<Props, State> {
             onFocus={this.handleFocus(i)}
             embedded
           />
-          <div className={s.itemRemoveIcon} onClick={this.handleRemoveClick(i)}>
-            <FontAwesomeIcon icon="trash" />
-          </div>
+          <Button
+            text=""
+            theme="info"
+            shape="icon"
+            onClick={this.handleRemoveClick(i)}
+            icon="trash"
+            size="m"
+            className={s.itemRemoveIcon}
+          />
         </div>
       );
     });
@@ -239,10 +245,15 @@ class ToDoItems extends React.Component<Props, State> {
   renderAddTodo = () => {
     const { completedPosition } = this.props;
     const topClass = completedPosition === 'bottom' ? s.addTodoTop : '';
+
     return (
-      <div className={`${s.addTodoItem} ${topClass}`} onClick={this.handleNew}>
-        + Item
-      </div>
+      <Button
+        text="+ Item"
+        theme="primary"
+        shape="text"
+        onClick={this.handleNew}
+        className={`${s.addTodoItem} ${topClass}`}
+      />
     );
   };
 

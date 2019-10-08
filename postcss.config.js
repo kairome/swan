@@ -3,10 +3,8 @@ module.exports = {
     'postcss-import': {
       path: ['./src'],
     },
-    'postcss-cssnext': {},
     cssnano: {},
     'postcss-nested': {},
-    'postcss-css-variables': {},
     'postcss-custom-media': {},
   },
 };

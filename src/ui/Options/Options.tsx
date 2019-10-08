@@ -1,13 +1,15 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import useOutsideClick from 'utils/clickHook';
 import _ from 'lodash';
 import classNames from 'classnames';
 
+import Transition from 'ui/Transition/Transition';
+
 // css
-import { OptionValue } from 'types/entities';
 import s from './Options.css';
 
 // types
+import { OptionValue } from 'types/entities';
 
 interface Props {
   value: string | number,
@@ -18,35 +20,43 @@ interface Props {
 const Options: React.FC<Props> = (props) => {
   const containerElem = useRef<HTMLDivElement | null>(null);
   const [showOptions, toggleOptions] = useState(false);
-  useOutsideClick(containerElem.current, toggleOptions);
+
+  const closeOptions = () => {
+    toggleOptions(false);
+  };
+
+  useEffect(() => useOutsideClick(containerElem.current, closeOptions), [closeOptions]);
 
   const { value, options } = props;
 
+  const handleOptionClick = (optionValue: string | number) => () => {
+    closeOptions();
+    props.onChange(optionValue);
+  };
+
   const renderOptions = () => {
-    if (!showOptions) {
-      return null;
-    }
-
     const list = _.map(options, (option) => {
-      const handleClick = () => {
-        props.onChange(option.value);
-        toggleOptions(false);
-      };
-
       const optionClasses = classNames(s.option, {
         [s.currentOption]: option.value === value,
       });
       return (
-        <div key={option.value} className={optionClasses} onClick={handleClick}>
+        <div key={option.value} className={optionClasses} onClick={handleOptionClick(option.value)}>
           {option.label}
         </div>
       );
     });
 
     return (
-      <div className={s.optionsList}>
-        {list}
-      </div>
+      <Transition
+        show={showOptions}
+        duration={200}
+        enter={s.optionsListActive}
+        exit={s.optionsListDone}
+      >
+        <div className={s.optionsList}>
+          {list}
+        </div>
+      </Transition>
     );
   };
 

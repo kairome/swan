@@ -8,8 +8,8 @@ import { addToDoList, setNoteContentSettings, updateAllLists } from 'actions/not
 
 // components
 import ContextMenu from 'ui/ContextMenu/ContextMenu';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ContextNoteActions from 'ui/Note/ContextNoteActions';
+import Button from 'ui/Button/Button';
 
 // types
 import { ReduxState } from 'types/redux';
@@ -105,25 +105,24 @@ const TopBarNoteOptions: React.FC<Props> = (props) => {
 
   return (
     <div className={s.barOptions}>
-      <div onClick={handleAddNewList} className={s.optionsButton}>
-        <FontAwesomeIcon icon="clipboard-list" /> New list
-      </div>
+      <Button
+        text="New list"
+        theme="primary"
+        shape="text"
+        icon="clipboard-list"
+        onClick={handleAddNewList}
+      />
       <ContextMenu
+        id="noteOptions"
         actions={options}
-        icon={(
-          <div className={s.optionsButton}>
-            <FontAwesomeIcon icon="tools" /> Options
-          </div>
-        )}
+        menuText="Options"
+        icon="tools"
         menuClassName={s.optionsMenu}
       />
       <ContextNoteActions
         note={currentNote}
-        menuIcon={(
-          <div className={s.optionsButton}>
-            <FontAwesomeIcon icon="sliders-h" /> Actions
-          </div>
-        )}
+        menuText="Actions"
+        menuIcon="sliders-h"
         className={s.optionsMenu}
       />
     </div>

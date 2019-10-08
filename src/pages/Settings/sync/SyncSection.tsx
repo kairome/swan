@@ -4,18 +4,15 @@ import { connect } from 'react-redux';
 
 // actions
 import {
-  downloadDriveFiles,
   fetchGoogleAuthToken,
-  removeDriveFiles,
-  revokeGoogleCredentials,
   updateSyncFrequency,
-  uploadAppData,
 } from 'actions/user';
 import { dispatchToastr } from 'actions/toastr';
 
 // components
 import Button from 'ui/Button/Button';
 import Options from 'ui/Options/Options';
+import SyncControls from 'pages/Settings/sync/SyncControls';
 
 // types
 import { ReduxState } from 'types/redux';
@@ -51,37 +48,19 @@ const SyncSection: React.FC<Props> = (props) => {
     ipcRenderer.send('google-sign-in');
   };
 
-  const handleSignOut = () => {
-    if (sync !== null) {
-      props.revokeGoogleCredentials(sync.googleCredentials.refresh_token);
-    }
-  };
-
-  const handleDownload = () => {
-    if (sync !== null) {
-      props.downloadDriveFiles(sync.googleCredentials);
-    }
-  };
-
-  const handleSync = () => {
-    if (sync !== null) {
-      props.uploadAppData(sync.googleCredentials);
-    }
-  };
-
-  const handleRemoveFiles = () => {
-    if (sync !== null) {
-      props.removeDriveFiles(sync.googleCredentials);
-    }
-  };
-
   const renderSyncContent = () => {
     if (!encEnabled) {
       return (
-        <div>
-          <div onClick={props.toggleEncModal}>Turn on encryption</div>
+        <React.Fragment>
+          <Button
+            text="Enable encryption"
+            theme="primary"
+            shape="text"
+            onClick={props.toggleEncModal}
+            className={s.enableEncButton}
+          />
           to use google synchronization
-        </div>
+        </React.Fragment>
       );
     }
 
@@ -89,7 +68,7 @@ const SyncSection: React.FC<Props> = (props) => {
       return (
         <Button
           text="Turn on synchronization"
-          theme="info"
+          theme="primary"
           onClick={handleSignIn}
         />
       );
@@ -123,8 +102,7 @@ const SyncSection: React.FC<Props> = (props) => {
     ];
 
     return (
-      <div>
-        <div>Sync is turned on!</div>
+      <React.Fragment>
         <div className={s.syncFrequency}>
           Sync frequency&nbsp;
           <Options
@@ -133,42 +111,15 @@ const SyncSection: React.FC<Props> = (props) => {
             onChange={handleSetSyncFrequency}
           />
         </div>
-        <div className={s.sectionButtons}>
-          <Button
-            text="Turn off synchronization"
-            theme="info"
-            onClick={handleSignOut}
-            className={s.sectionButton}
-          />
-          <Button
-            text="Download"
-            theme="info"
-            onClick={handleDownload}
-            className={s.sectionButton}
-          />
-          <Button
-            text="Manual sync"
-            theme="info"
-            onClick={handleSync}
-            className={s.sectionButton}
-          />
-          <Button
-            text="Delete all drive files"
-            theme="info"
-            onClick={handleRemoveFiles}
-            className={s.sectionButton}
-          />
-        </div>
-      </div>
+        <SyncControls sync={sync} />
+      </React.Fragment>
     );
   };
 
   return (
-    <div>
-      <h3>Synchronization with Google Drive</h3>
-      <p>
-        Synchronize all local data with your google drive
-      </p>
+    <div className={s.settingSectionActive}>
+      <div className={s.sectionTitle}>Synchronization with Google Drive</div>
+      <p>Synchronize all local data with your google drive</p>
       {renderSyncContent()}
     </div>
   );
@@ -180,11 +131,7 @@ const mapState = (state: ReduxState) => ({
 
 const mapDispatch = {
   fetchGoogleAuthToken,
-  revokeGoogleCredentials,
   dispatchToastr,
-  downloadDriveFiles,
-  uploadAppData,
-  removeDriveFiles,
   updateSyncFrequency,
 };
 

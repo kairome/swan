@@ -1,7 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
+
 import { ToastrItem } from 'types/toastr';
+
 import s from 'ui/Toastr/Toastr.css';
-import classNames from 'classnames';
+import Transition from 'ui/Transition/Transition';
 
 interface Props {
   toastr: ToastrItem,
@@ -39,14 +41,17 @@ const ToastrMessage: React.FC<Props> = (props) => {
     }, 300);
   };
 
-  const classes = classNames(s.toastrItem, {
-    [s.remove]: willClear,
-  });
-
   return (
-    <div className={classes} onClick={handleClear}>
-      {toastr.message}
-    </div>
+    <Transition
+      show={!willClear}
+      duration={300}
+      enter={s.toastrActive}
+      exit={s.toastrDone}
+    >
+      <div className={s.toastrItem} onClick={handleClear}>
+        {toastr.message}
+      </div>
+    </Transition>
   );
 };
 

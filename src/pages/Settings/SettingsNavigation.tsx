@@ -34,16 +34,23 @@ const SettingsNavigation: React.FC<Props> = (props) => {
       title: 'Synchronization',
       icon: 'sync',
     },
+    {
+      id: 'customization',
+      title: 'Customization',
+      icon: 'palette',
+    },
   ];
 
   const itemsList = _.map(items, (item) => {
-    const itemClasses = classNames(s.navigationItem, {
-      [s.navigationItemActive]: item.id === props.pageId,
+    const itemClasses = classNames(s.listItemWrapper, {
+      [s.listItemActive]: item.id === props.pageId,
     });
 
     return (
-      <div key={item.id} className={itemClasses} onClick={handleClick(item.id)}>
-        <FontAwesomeIcon icon={item.icon} /> {item.title}
+      <div key={item.id} className={itemClasses}>
+        <div className={s.listItem} onClick={handleClick(item.id)}>
+          <FontAwesomeIcon icon={item.icon} className={s.listIcon} /> {item.title}
+        </div>
       </div>
     );
   });

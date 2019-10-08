@@ -1,0 +1,83 @@
+.listItemWrapper {
+  display: flex;
+  position: relative;
+  align-items: center;
+
+  &::before {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    content: "";
+  }
+
+  &:hover::before {
+    background: var(--text-navigation);
+    opacity: .08;
+  }
+
+  .listIcon {
+    color: var(--list-icon);
+  }
+
+  .listItem {
+    color: var(--text);
+  }
+}
+
+.listItem {
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  z-index: 1;
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  transform: translate3d(0, 0, 0);
+  padding: 15px;
+
+  &::after {
+    content: "";
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    background-image: radial-gradient(circle, var(--accent-color) 10%, transparent 10.01%);
+    background-repeat: no-repeat;
+    background-position: 50%;
+    transform: scale(10, 10);
+    opacity: 0;
+    transition: transform .3s, opacity .8s;
+  }
+
+  &:active::after {
+    transform: scale(0, 0);
+    opacity: .2;
+    transition: 0s;
+  }
+}
+
+
+.listItemActive {
+  .listIcon {
+    color: var(--accent-color);
+  }
+
+  .listItem {
+    color: var(--accent-color);
+  }
+
+  &::before {
+    background: var(--accent-color);
+    opacity: .08;
+  }
+}
+
+.listIcon {
+  margin-right: 10px;
+}

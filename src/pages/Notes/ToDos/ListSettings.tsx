@@ -4,7 +4,7 @@ import { updateListSettings } from 'actions/notes';
 
 // components
 import Options from 'ui/Options/Options';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Button from 'ui/Button/Button';
 
 // types
 import { CompletedPosition, ToDoListSettings } from 'types/notes';
@@ -54,9 +54,6 @@ const ListSettings: React.FC<Props> = (props) => {
 
   return (
     <div className={s.listSettings}>
-      <div className={s.copyList} onClick={props.handleCreateCopy}>
-        <FontAwesomeIcon icon="copy" /> Copy list
-      </div>
       <div>
         Checked items&nbsp;
         <Options
@@ -65,6 +62,14 @@ const ListSettings: React.FC<Props> = (props) => {
           onChange={handlePositionChange}
         />
       </div>
+      <Button
+        text="Copy list"
+        theme="primary"
+        shape="text"
+        icon="copy"
+        onClick={props.handleCreateCopy}
+        className={s.copyListButton}
+      />
     </div>
   );
 };

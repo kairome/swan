@@ -1,0 +1,62 @@
+.radioWrapper {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+}
+
+.input {
+ display: none;
+}
+
+.label {
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.innerCircle {
+  width: 0;
+  height: 0;
+  background: transparent;
+  transition: all .2s ease-in-out;
+  border-radius: 100%;
+}
+
+.input:checked + .radioCircle {
+  & .outerCircle {
+    border-color: var(--accent-color);
+  }
+
+  & .innerCircle {
+    background: var(--accent-color);
+    width: 13px;
+    height: 13px;
+  }
+}
+
+.outerCircle {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--text-navigation);
+  border-radius: 100%;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    border-radius: 100%;
+    background: transparent;
+  }
+
+  &:hover::before {
+    background: var(--shadow-light);
+  }
+}

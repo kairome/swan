@@ -20,6 +20,7 @@ export interface ToDoListItem {
 export interface NoteContentSettings {
   hideTextEditor: boolean,
   hideLists: boolean,
+  lockEditorHeight: boolean,
 }
 
 export interface Note {
@@ -32,6 +33,7 @@ export interface Note {
   todoLists: ToDoListItem[],
   contentSettings: NoteContentSettings,
   isArchived: boolean,
+  order: number,
 }
 
 export type NoteCopyPayload = Omit<Note, '_id' | 'createdAt' | 'updatedAt'>;
@@ -93,6 +95,7 @@ export interface UpdateNoteContentSettingsPayload {
 export interface NoteFilter {
   folderId?: string,
   isArchived?: boolean,
+  withoutLoader?: boolean,
 }
 
 export interface ArchiveNotePayload {
@@ -108,4 +111,8 @@ export interface MoveNotesPayload {
   moveFrom: string,
   moveTo: string,
   noteIds: string[],
+}
+
+export interface UpdateNotesPayload extends NoteFilter {
+  list: Note[],
 }

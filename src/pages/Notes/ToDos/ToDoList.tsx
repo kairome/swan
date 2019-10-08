@@ -17,7 +17,6 @@ import {
 import EditableField from 'ui/EditableField/EditableField';
 import ListSettings from 'pages/Notes/ToDos/ListSettings';
 import ToDoItems from 'pages/Notes/ToDos/ToDoItems';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { SortHandle } from 'ui/Sortable/Sortable';
 import Confirmation from 'ui/Confirmation/Confirmation';
 
@@ -26,6 +25,7 @@ import { ToDoItem, ToDoListItem } from 'types/notes';
 
 // css
 import s from 'pages/Notes/ToDos/ToDos.css';
+import Button from 'ui/Button/Button';
 
 type MapDispatch = typeof mapDispatch;
 
@@ -37,12 +37,11 @@ type Props = MapDispatch & {
 
 const ToDoList: React.FC<Props> = (props) => {
   const { listItem, noteId } = props;
-  const [listTitle, setListTitle] = useState(listItem.title);
+  const [listTitle, setListTitle] = useState(listItem.title ? listItem.title : 'New list');
   const [showRemoveListConfirmation, setRemoveListConfirmation] = useState(false);
-  const [showListSettings, toggleListSettings] = useState(false);
 
   useEffect(() => {
-    if (listItem.title !== listTitle) {
+    if (listItem.title !== listTitle && listItem.title) {
       setListTitle(listItem.title);
     }
   }, [listItem.title]);
@@ -103,10 +102,6 @@ const ToDoList: React.FC<Props> = (props) => {
     });
   };
 
-  const handleListSettings = () => {
-    toggleListSettings(!showListSettings);
-  };
-
   const handleCopy = () => {
     const copyListId = generateId();
     props.addToDoList({
@@ -119,26 +114,6 @@ const ToDoList: React.FC<Props> = (props) => {
     });
   };
 
-  const renderSettings = () => {
-    if (showListSettings) {
-      return (
-        <React.Fragment>
-          <div className={s.listSettingsButton} onClick={handleListSettings}>Hide list settings</div>
-          <ListSettings
-            listId={listItem.id}
-            noteId={noteId}
-            settings={listItem.settings}
-            handleCreateCopy={handleCopy}
-          />
-        </React.Fragment>
-      );
-    }
-
-    return (
-      <div className={s.listSettingsShowButton} onClick={handleListSettings}>List settings</div>
-    );
-  };
-
   const icon = listItem.settings.minimized ? 'chevron-up' : 'chevron-down';
   const checked = _.filter(listItem.items, i => i.completed).length;
 
@@ -146,22 +121,33 @@ const ToDoList: React.FC<Props> = (props) => {
     <div className={s.listItem} id={listItem.id}>
       <div className={s.listHeader}>
         <SortHandle className={s.listHandle} />
-        <div className={s.removeList} onClick={toggleRemoveListConfirmation}>
-          <FontAwesomeIcon icon="trash-alt" />
-        </div>
+        <Button
+          text=""
+          theme="info"
+          shape="icon"
+          onClick={toggleRemoveListConfirmation}
+          icon="trash"
+          size="m"
+          className={s.removeList}
+        />
         <EditableField
           type="text"
           value={listTitle}
           onChange={handleListTitleChange}
-          defaultText={listTitle || 'New list'}
           textClassName={s.listTitle}
           className={s.listTitle}
           save={handleSaveListTitle}
           reset={resetListTitle}
         />
-        <div className={s.chevron} onClick={handleMinimize}>
-          <FontAwesomeIcon icon={icon} />
-        </div>
+        <Button
+          text=""
+          theme="info"
+          shape="icon"
+          onClick={handleMinimize}
+          icon={icon}
+          size="lg"
+          className={s.chevron}
+        />
       </div>
       <div className={listBodyClasses}>
         <div className={s.listStat}>
@@ -169,7 +155,12 @@ const ToDoList: React.FC<Props> = (props) => {
           &nbsp;out of <span className={s.listStatNumber}>{listItem.items.length}</span>
           &nbsp;items completed
         </div>
-        {renderSettings()}
+        <ListSettings
+          listId={listItem.id}
+          noteId={noteId}
+          settings={listItem.settings}
+          handleCreateCopy={handleCopy}
+        />
         <ToDoItems
           listId={listItem.id}
           completedPosition={listItem.settings.completedPosition}

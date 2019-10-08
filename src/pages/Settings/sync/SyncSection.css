@@ -1,0 +1,9 @@
+@import "../SettingsSection.css";
+
+.syncFrequency {
+  margin-bottom: 20px;
+}
+
+.enableEncButton {
+  margin-left: -5px;
+}

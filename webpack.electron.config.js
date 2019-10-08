@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const dotenv = require('dotenv');
+const CopyPlugin = require('copy-webpack-plugin');
 
 dotenv.config();
 
@@ -44,6 +45,12 @@ const electronConfig = {
         REDIRECT_URI: JSON.stringify(process.env.REDIRECT_URI),
       },
     }),
+    new CopyPlugin([
+      {
+        from: './icons',
+        to: 'icons/',
+      },
+    ]),
   ],
 };
 

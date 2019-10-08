@@ -1,13 +1,15 @@
+@import "css/common.css";
+
 .mainNavigation {
   width: 240px;
   z-index: 3;
   height: 100%;
-  background: #f6f6f6;
+  background: var(--sidebar);
   transition: width .3s ease;
   overflow-y: auto;
   flex-shrink: 0;
   box-sizing: border-box;
-  border-right: 1px solid #ddd;
+  border-right: 1px solid var(--border);
   display: flex;
   flex-direction: column;
 }
@@ -41,9 +43,6 @@
 .archivedSection {
   margin-top: auto;
   cursor: pointer;
-  font-size: 15px;
-  color: #656565;
-  padding: 10px 20px;
 }
 
 .archivedSectionActive {
@@ -51,7 +50,7 @@
 }
 
 .userMenu {
-  padding: 20px 15px;
+  padding-bottom: 20px;
   font-size: 15px;
-  color: #333;
+  color: var(--text);
 }

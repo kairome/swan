@@ -1,17 +1,18 @@
 import DataStore from 'nedb-promise';
 import NeDBInstance from 'nedb-core';
 import dbOptions, { handleOnLoadError } from 'data/options';
+import { ipcRenderer } from 'electron';
+import _ from 'lodash';
 
+// types
 import {
-  NewNotePayload,
+  NewNotePayload, Note,
   NoteContentSettings,
   NoteFilter,
   ToDoItem,
   ToDoListItem,
   ToDoListSettings,
 } from 'types/notes';
-import { ipcRenderer } from 'electron';
-
 
 const dataStore = new NeDBInstance(dbOptions('notes.json'));
 const db = DataStore.fromInstance(dataStore);
@@ -39,7 +40,7 @@ export const getAllNotes = (filter: NoteFilter) => {
     dbQuery.isArchived = isArchived;
   }
 
-  return db.cfind(dbQuery).sort({ createdAt: -1 }).exec();
+  return db.cfind(dbQuery).sort({ order: 1 }).exec();
 };
 
 export const getNoteById = (id: string) => db.findOne({ _id: id });
@@ -131,3 +132,7 @@ export const removeToDoList = (noteId: string, listId: string) => db.update({ _i
     todoLists: { id: listId },
   },
 });
+
+export const updateNoteItems = (notes: Note[]) => {
+  _.forEach(notes, note => db.update({ _id: note._id }, note, { upsert: true }));
+};

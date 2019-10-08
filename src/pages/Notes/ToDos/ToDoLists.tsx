@@ -19,7 +19,9 @@ import s from './ToDos.css';
 
 type MapState = ReturnType<typeof mapState>;
 type MapDispatch = typeof mapDispatch;
-type Props = MapState & MapDispatch;
+type Props = MapState & MapDispatch & {
+  className?: string,
+};
 
 const ToDoLists: React.FC<Props> = (props) => {
   const { currentNote } = props;
@@ -64,18 +66,24 @@ const ToDoLists: React.FC<Props> = (props) => {
       />
     ));
 
+    // disableAutoscroll not included in type definitions
+    const sortListOptions: any = {
+      disableAutoscroll: true,
+      useDragHandle: true,
+    };
+
     return (
       <div className={s.listsContainer}>
         <SortList
           items={listItems}
           onSortEnd={handleSort}
-          useDragHandle
+          {...sortListOptions}
         />
       </div>
     );
   };
   return (
-    <div>
+    <div className={props.className}>
       {renderLists()}
     </div>
   );

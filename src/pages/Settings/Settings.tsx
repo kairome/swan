@@ -4,6 +4,8 @@ import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import SettingsNavigation from 'pages/Settings/SettingsNavigation';
 import SettingsContent from 'pages/Settings/SettingsContent';
+import Button from 'ui/Button/Button';
+import Transition from 'ui/Transition/Transition';
 
 // types
 import { SettingsPageId } from 'types/entities';
@@ -23,40 +25,45 @@ const Settings: React.FC = () => {
     setShowSettings(!showSettings);
   };
 
-  const renderModal = () => {
-    if (!showSettings) {
-      return null;
-    }
-
-    return (
-      <div className={s.settingsPage}>
-        <div className={s.settingsContent}>
-          <div className={s.settingsNavigation}>
-            <div className={s.closeButton} onClick={toggleModal}>
-              <FontAwesomeIcon icon="arrow-left" />
-            </div>
-            <SettingsNavigation
-              pageId={currentPage}
-              handleNavigate={handleNavigate}
-            />
-          </div>
-          <div className={s.settingsItemPage}>
-            <SettingsContent
-              pageId={currentPage}
-              handleNavigate={handleNavigate}
-            />
-          </div>
-        </div>
-      </div>
-    );
-  };
-
   return (
     <React.Fragment>
-      <div className={s.settingsButton} onClick={toggleModal}>
-        <FontAwesomeIcon icon="cog" /> Settings
+      <div className={s.listItemWrapper} onClick={toggleModal}>
+        <div className={s.listItem}>
+          <FontAwesomeIcon icon="cog" className={s.listIcon} /> Settings
+        </div>
       </div>
-      {renderModal()}
+      <Transition
+        show={showSettings}
+        enter={s.settingPageActive}
+        exit={s.settingPageDone}
+        duration={250}
+      >
+        <div className={s.settingsPage}>
+          <div className={s.settingsContent}>
+            <div className={s.settingsNavigation}>
+              <Button
+                text=""
+                shape="icon"
+                theme="info"
+                icon="arrow-left"
+                size="lg"
+                onClick={toggleModal}
+                className={s.closeButton}
+              />
+              <SettingsNavigation
+                pageId={currentPage}
+                handleNavigate={handleNavigate}
+              />
+            </div>
+            <div className={s.settingsItemPage}>
+              <SettingsContent
+                pageId={currentPage}
+                handleNavigate={handleNavigate}
+              />
+            </div>
+          </div>
+        </div>
+      </Transition>
     </React.Fragment>
   );
 };

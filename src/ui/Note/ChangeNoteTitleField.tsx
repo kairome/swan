@@ -29,6 +29,7 @@ const ChangeNoteTitleField: React.FC<Props> = (props) => {
   const saveNoteTitle = () => {
     const currentTitle = noteTitle.trim();
     if (!currentTitle) {
+      setNoteTitle(props.noteTitle);
       return;
     }
 
@@ -53,7 +54,6 @@ const ChangeNoteTitleField: React.FC<Props> = (props) => {
         type="text"
         value={noteTitle}
         onChange={handleTitleChange}
-        defaultText={noteTitle}
         save={saveNoteTitle}
         reset={resetEdit}
       />

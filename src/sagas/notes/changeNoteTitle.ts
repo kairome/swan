@@ -16,6 +16,7 @@ function* changeNoteTitleSaga(arg: SagaArg<ChangeNoteTitlePayload>) {
       const filter = {
         isArchived: noteArchived,
         folderId: !noteArchived ? folderId : undefined,
+        withoutLoader: true,
       };
       yield put(fetchNotes(filter));
       return;

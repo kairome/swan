@@ -1,0 +1,29 @@
+:global(html.dark) {
+  --background: #505050;
+  --sidebar: #2a2a2a;
+  --text: #eaeaea;
+  --text-navigation: #b1b2ad;
+  --list-icon: #909090;
+  --input-border: rgba(195, 195, 195, 0.5);
+  --input-border-highlight: rgba(195, 195, 195, 0.8);
+  --danger-color: #ff5959;
+  --list-background: #3e3e3e;
+  --button-text: #222;
+  --modal-bg: #222;
+  --border: #8c8c8c;
+  --stats-opactity: .8;
+  --checkbox-highlight: #dadada;
+  --note-highlight: #5f5f5f;
+
+  --shadow-light: rgba(255, 255, 255, .04);
+  --shadow1: rgba(150, 150, 150, 0.1);
+  --shadow2: rgba(150, 150, 150, 0.2);
+  --shadow3: rgba(150, 150, 150, 0.3);
+  --shadow4: rgba(150, 150, 150, 0.4);
+  --shadow5: rgba(150, 150, 150, 0.5);
+  --shadow9: rgba(150, 150, 150, 0.9);
+  --shadow-full: rgb(255, 255, 255);
+
+  --context-menu-shadow: var(--shadow2);
+  --mde-selected-text: var(--shadow9);
+}

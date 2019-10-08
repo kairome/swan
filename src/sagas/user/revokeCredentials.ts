@@ -15,6 +15,7 @@ function* revokeCredentialsSaga(arg: SagaArg<string>) {
     yield call(revokeCredentialsRequest, arg.payload);
     yield call(saveUserSyncData, null);
     yield put(saveUserSync(null));
+    oauthClient.revokeCredentials();
   } catch (e) {
     console.error(e);
   }

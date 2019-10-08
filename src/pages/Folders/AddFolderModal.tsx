@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
 // actions
@@ -7,83 +7,94 @@ import { createFolder } from 'actions/folders';
 // components
 import Button from 'ui/Button/Button';
 import Input from 'ui/Input/Input';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Transition from 'ui/Transition/Transition';
 
 // css
-
 import s from './Folders.css';
 
-interface State {
-  show: boolean,
-  name: string,
-}
-
 type MapDispatch = typeof mapDispatch;
-type Props = MapDispatch;
+type Props = MapDispatch & {
+  folderOrder: number,
+};
 
-class AddFolderModal extends React.Component<Props, State> {
-  state = {
-    show: false,
-    name: '',
+const AddFolderModal: React.FC<Props> = (props) => {
+  const [showInput, setShowInput] = useState(false);
+  const [folderName, setFolderName] = useState('');
+
+  const toggleModal = () => {
+    setShowInput(!showInput);
+    setFolderName('');
   };
 
-  toggleModal = () => {
-    this.setState(prevState => ({ show: !prevState.show, name: '' }));
-  };
-
-  handleNameChange = (e: React.FormEvent<HTMLInputElement>) => {
+  const handleNameChange = (e: React.FormEvent<HTMLInputElement>) => {
     const { value } = e.currentTarget;
-    this.setState({ name: value });
+    setFolderName(value);
   };
 
-  handleCreate = () => {
-    this.props.createFolder(this.state.name);
-    this.toggleModal();
+  const handleCreate = () => {
+    props.createFolder({
+      name: folderName,
+      order: props.folderOrder,
+    });
+    toggleModal();
   };
 
-  renderInput = () => {
-    if (!this.state.show) {
-      return null;
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    const { key } = e;
+    if (key === 'Enter' && folderName.trim()) {
+      handleCreate();
     }
 
-    return (
-      <div className={s.addFolderBody}>
-        <Input
-          type="text"
-          value={this.state.name}
-          onChange={this.handleNameChange}
-          placeholder="Folder name"
-          autoFocus
-        />
-        <div className={s.folderActionBtns}>
-          <Button
-            text="Save"
-            theme="info"
-            className={s.actionBtn}
-            disabled={!this.state.name}
-            onClick={this.handleCreate}
-          />
-          <Button
-            text="Cancel"
-            theme="danger"
-            onClick={this.toggleModal}
-          />
-        </div>
-      </div>
-    );
+    if (key === 'Escape') {
+      toggleModal();
+    }
   };
 
-  render() {
-    return (
-      <React.Fragment>
-        <div className={s.addFolderButton} onClick={this.toggleModal}>
-          <FontAwesomeIcon icon="folder-plus" /> New folder
+  return (
+    <React.Fragment>
+      <Button
+        text="New folder"
+        theme="primary"
+        shape="text"
+        icon="folder-plus"
+        onClick={toggleModal}
+      />
+      <Transition
+        show={showInput}
+        duration={200}
+        enter={s.newFolderActive}
+        exit={s.newFolderDone}
+      >
+        <div className={s.addFolderBody}>
+          <Input
+            type="text"
+            value={folderName}
+            onChange={handleNameChange}
+            placeholder="Folder name"
+            onKeyDown={handleKeyPress}
+            autoFocus
+          />
+          <div className={s.folderActionBtns}>
+            <Button
+              text="Save"
+              theme="primary"
+              shape="text"
+              className={s.actionBtn}
+              disabled={!folderName}
+              onClick={handleCreate}
+            />
+            <Button
+              text="Cancel"
+              theme="info"
+              shape="text"
+              onClick={toggleModal}
+            />
+          </div>
         </div>
-        {this.renderInput()}
-      </React.Fragment>
-    );
-  }
-}
+      </Transition>
+    </React.Fragment>
+  );
+};
 
 const mapDispatch = {
   createFolder,

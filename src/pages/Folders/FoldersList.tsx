@@ -1,22 +1,32 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import classNames from 'classnames';
 import history from 'utils/history';
+import { moveArray } from 'utils/helpers';
 
 // actions, selectors
 import { getCurrentFolderSelector, getFoldersSelector } from 'selectors/folders';
-import { removeFolder, renameFolder, resetCurrentFolder } from 'actions/folders';
+import {
+  removeFolder,
+  renameFolder,
+  resetCurrentFolder,
+  updateFolders,
+} from 'actions/folders';
 import { setNotesToMove, toggleMoveNotes } from 'actions/interactive';
 import { moveNotesToFolder, removeAllFolderNotes } from 'actions/notes';
 
 // components
-import { ReduxState } from 'types/redux';
+import { SortList } from 'ui/Sortable/Sortable';
 import AddFolderModal from './AddFolderModal';
 import FolderItem from './FolderItem';
 
 // css
 import s from './Folders.css';
+
+// types
+import { ReduxState } from 'types/redux';
+import { DraggableSortArg } from 'types/entities';
 
 type MapState = ReturnType<typeof mapState>;
 type MapDispatch = typeof mapDispatch;
@@ -25,6 +35,10 @@ type Props = MapState & MapDispatch;
 const FoldersList: React.FC<Props> = (props) => {
   const { folders, currentFolder } = props;
   const [shouldRemoveFolder, setRemoveFolder] = useState(false);
+  const [folderList, setFolderList] = useState(folders);
+  useEffect(() => {
+    setFolderList(folders);
+  }, [folders]);
 
   const handleRename = (folderId: string) => (name: string) => {
     props.renameFolder({
@@ -81,8 +95,15 @@ const FoldersList: React.FC<Props> = (props) => {
     }
   };
 
+  const handleSort = (arg: DraggableSortArg) => {
+    const sorderFolders = moveArray(arg.newIndex, arg.oldIndex, folderList);
+    const newFolderList = _.map(sorderFolders, (sf, index) => ({ ...sf, order: index }));
+    setFolderList(newFolderList);
+    props.updateFolders(newFolderList);
+  };
+
   const renderList = () => {
-    const list = _.map(folders, (folder) => {
+    const list = _.map(folderList, (folder) => {
       const { _id } = folder;
       return (
         <FolderItem
@@ -101,16 +122,20 @@ const FoldersList: React.FC<Props> = (props) => {
     });
 
     return (
-      <div className={listClasses}>
-        {list}
-      </div>
+      <SortList
+        onSortEnd={handleSort}
+        items={list}
+        className={listClasses}
+        disabled={props.enableMoveNotes}
+        useDragHandle
+      />
     );
   };
 
   return (
     <div>
       <div className={s.addFolderContainer}>
-        <AddFolderModal />
+        <AddFolderModal folderOrder={folderList.length} />
       </div>
       {renderList()}
     </div>
@@ -133,6 +158,7 @@ const mapDispatch = {
   setNotesToMove,
   removeAllFolderNotes,
   resetCurrentFolder,
+  updateFolders,
 };
 
 export default connect(mapState, mapDispatch)(FoldersList);

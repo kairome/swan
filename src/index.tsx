@@ -15,6 +15,9 @@ import { createLogger } from 'redux-logger';
 import { saveUserLocation, getUserLocation } from 'data/user';
 
 import 'css/global.css';
+import 'css/darkTheme.css';
+import 'css/lightTheme.css';
+
 import { routerMiddleware, ConnectedRouter } from 'connected-react-router';
 import { Location } from 'history';
 import sagas from './sagas';

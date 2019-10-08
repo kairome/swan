@@ -31,9 +31,7 @@ const Input = (props: InputProps) => {
     ...rest
   } = props;
   const mainClass = embedded ? s.embeddedInput : s.input;
-  const inputClasses = classNames(mainClass, className, {
-    [s.passwordInput]: theme === 'password',
-  });
+  const inputClasses = classNames(mainClass, className);
 
   if (textArea) {
     return (

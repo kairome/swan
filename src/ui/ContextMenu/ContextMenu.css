@@ -1,40 +1,33 @@
+@import "css/animations.css";
+
 .menuWrapper {
  position: relative;
 }
 
-.menuIcon {
-  font-size: 12px;
-  color: #313131;
-  cursor: pointer;
-  width: 15px;
-  height: 15px;
-  display: flex;
-  justify-content: center;
-}
-
 .contextMenu {
   position: absolute;
+  padding: 8px 0;
   width: 250px;
-  background: #fff;
+  background: var(--modal-bg);
   z-index: 5;
-  border: 1px solid #ddd;
+  box-shadow: 0 2px 20px var(--context-menu-shadow);
   border-radius: 4px;
   top: -4px;
   left: 11px;
 }
 
+.contextMenuActive {
+  animation: maximize .2s ease-in;
+}
+
+.contextMenuDone {
+  animation: minimize .2s ease-out;
+}
+
 .contextMenuItem {
-  cursor: pointer;
-  border-bottom: 1px solid #ddd;
-  padding: 10px;
+  width: 100%;
+  display: block;
   font-size: 13px;
-
-  &:hover {
-    background: #ececec;
-  }
-
-  &:last-child {
-    margin-bottom: 0;
-    border-bottom: none;
-  }
+  text-align: left;
+  padding: 8px 16px;
 }

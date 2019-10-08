@@ -7,18 +7,19 @@ import { setNotesToMove } from 'actions/interactive';
 
 // components
 import ContextMenu from 'ui/ContextMenu/ContextMenu';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Confirmation from 'ui/Confirmation/Confirmation';
 
 // types
 import { ContextMenuAction } from 'types/entities';
 import { Note } from 'types/notes';
+import { IconName } from '@fortawesome/fontawesome-svg-core';
+import Button from 'ui/Button/Button';
 
 type MapDispatch = typeof mapDispatch;
 type Props = MapDispatch & {
   note: Note,
-  menuIcon?: React.ReactNode,
-  actionIconClassName?: string,
+  menuText?: string,
+  menuIcon?: IconName,
   inList?: boolean,
   className?: string,
 };
@@ -117,12 +118,20 @@ const ContextNoteActions: React.FC<Props> = (props) => {
 
     return (
       <React.Fragment>
-        <div className={props.actionIconClassName} onClick={handleArchiveStatus}>
-          <FontAwesomeIcon icon={isArchived ? 'trash-restore' : 'archive'} />
-        </div>
-        <div className={props.actionIconClassName} onClick={toggleRemoveConfirmation}>
-          <FontAwesomeIcon icon="trash-alt" />
-        </div>
+        <Button
+          text=""
+          theme="info"
+          shape="icon"
+          icon={isArchived ? 'trash-restore' : 'archive'}
+          onClick={handleArchiveStatus}
+        />
+        <Button
+          text=""
+          theme="info"
+          shape="icon"
+          icon="trash"
+          onClick={toggleRemoveConfirmation}
+        />
       </React.Fragment>
     );
   };
@@ -131,8 +140,10 @@ const ContextNoteActions: React.FC<Props> = (props) => {
     <React.Fragment>
       {renderListIcons()}
       <ContextMenu
+        id="noteActions"
         actions={actions}
         icon={props.menuIcon}
+        menuText={props.menuText}
         menuClassName={props.className}
       />
       <Confirmation

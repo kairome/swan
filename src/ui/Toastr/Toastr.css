@@ -1,3 +1,5 @@
+@import "css/animations.css";
+
 .toastrWrapper {
   position: fixed;
   bottom: 0;
@@ -19,63 +21,40 @@
   border-radius: 4px;
   box-shadow: 0 3px 5px rgba(15, 15, 16, .2);
   cursor: pointer;
-  animation: bounce .3s ease-in;
 }
 
-.remove {
-  animation: bounceOut .3s ease-in;
+.toastrActive {
+  animation: dropIn .3s ease-in;
 }
 
-@keyframes bounce {
-  0% {
-    transform: translateY(-100%);
-    opacity: 0;
-  }
-
-  25% {
-    transform: translateY(-75%);
-    opacity: 0.2;
-  }
-
-  50% {
-    transform: translateY(-50%);
-    opacity: 0.4;
-  }
-
-  75% {
-    transform: translateY(-25%);
-    opacity: 0.6;
-  }
-
-  100% {
-    transform: translateY(0);
-    opacity: 1;
-  }
+.toastrDone {
+  animation: dropOut .3s ease-in;
 }
 
-@keyframes bounceOut {
-  0% {
-    transform: translateY(0);
-    opacity: 1;
-  }
+.syncNotification {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 14;
+  background: var(--background);
+  color: var(--text);
+  padding: 10px;
+  border-radius: 12px;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+}
 
-  25% {
-    transform: translateY(-25%);
-    opacity: 0.6;
-  }
+.syncIcon {
+  margin-right: 10px;
+  animation: rotate 1s infinite linear;
+}
 
-  50% {
-    transform: translateY(-50%);
-    opacity: 0.4;
+@keyframes rotate {
+  from {
+    transform: rotate(0);
   }
-
-  75% {
-    transform: translateY(-75%);
-    opacity: 0.2;
-  }
-
-  100% {
-    transform: translateY(-100%);
-    opacity: 0;
+  to {
+    transform: rotate(360deg);
   }
 }

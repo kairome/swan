@@ -1,41 +1,80 @@
+@import "css/animations.css";
+
 .authPage {
   width: 100%;
   height: 100%;
   display: flex;
   justify-content: center;
   padding: 0 20%;
-  background: #fbfbfb;
+  background: var(--background);
+}
+
+.authPageActive {
+  animation: dropIn .3s ease-in;
+}
+
+.authPageDone {
+  animation: dropOut .3s ease-out;
 }
 
 .authContent {
   width: 400px;
-  padding-top: 30%;
+  padding-top: 20%;
 }
 
 .authModal {
-  box-shadow: 0 3px 5px rgba(15, 15, 16, 0.2);
+  box-shadow: 0 3px 5px var(--shadow2);
   border-radius: 4px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--border);
+  padding: 20px 40px;
+  box-sizing: border-box;
 }
 
 .authForm {
-  padding: 20px 15px;
+  margin-top: 20px;
 }
 
-.authHeader {
+.centerElement {
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-bottom: 1px solid #ddd;
-  color: #777;
+}
+
+.authIcon {
+  position: relative;
+  font-size: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px 0;
+  width: 60px;
+  height: 60px;
+  color: var(--accent-color);
+
+  &::before {
+    position: absolute;
+    box-shadow: 0 0 15px var(--shadow-full);
+    content: "";
+    border-radius: 100%;
+    background: var(--accent-color);
+    width: 60px;
+    height: 60px;
+    opacity: .1;
+  }
+}
+
+.authHeader {
+  composes: centerElement;
+  composes: authForm;
+  color: var(--text);
   height: 30px;
   font-size: 23px;
-  padding: 10px 0;
 }
 
 .authButton {
   width: 100%;
-  margin-top: 10px;
+  margin-top: 20px;
 }
 
 .authInput {
@@ -44,7 +83,7 @@
 
 .forgot {
   margin-top: 15px;
-  color: gray;
+  color: var(--text-navigation);
   font-size: 12px;
   cursor: pointer;
   display: flex;
@@ -60,6 +99,6 @@
 }
 
 .forgotMessage {
-  color: gray;
+  color: var(--text-navigation);
   font-size: 12px;
 }

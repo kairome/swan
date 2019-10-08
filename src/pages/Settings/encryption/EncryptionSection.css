@@ -1,0 +1,20 @@
+@import "../SettingsSection.css";
+
+.input {
+  width: 300px;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.encryptionModalButtons {
+  display: flex;
+}
+
+.cancelBtn {
+  margin-left: 10px;
+}
+
+.encMessage {
+  min-width: 200px;
+  margin-bottom: 20px;
+}

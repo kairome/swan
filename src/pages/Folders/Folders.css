@@ -1,7 +1,8 @@
+@import "css/common.css";
+@import "css/animations.css";
+
 .folderItem {
-  margin-bottom: 10px;
-  padding: 5px 0;
-  display: flex;
+  composes: listItemWrapper;
 
   &:hover {
     .folderMenuIcon {
@@ -11,18 +12,20 @@
 }
 
 .folder {
-  font-size: 14px;
-  color: #800488;
-  cursor: pointer;
-  display: flex;
+  composes: listItem;
+  padding: 15px 0;
+}
 
-  &:hover {
-    color: #c926d4;
-  }
+.newFolderActive {
+  animation: maximize .25s ease-in;
+}
+
+.newFolderDone {
+  animation: minimize .25s ease-out;
 }
 
 .active {
-  background: #ebe9ec;
+  composes: listItemActive;
 }
 
 .foldersList {
@@ -32,27 +35,24 @@
 .folderListInteractive {
   z-index: 7;
   position: absolute;
-  background: #fff;
-  width: 100%;
-  max-height: 90vh;
+  background: var(--modal-bg);
+  width: 99%;
   overflow-y: auto;
-}
-
-.folderIcon {
-  margin-right: 5px;
+  max-height: 75vh;
+  margin-bottom: 30px;
 }
 
 .folderMenuIcon {
   font-size: 12px;
   margin-right: 5px;
-  color: #867171;
+  color: var(--text);
   visibility: hidden;
 }
 
 .folderMenu {
   top: 20px;
   width: 200px;
-  color: #6a1384;
+  color: var(--accent-color);
   font-size: 15px;
 }
 
@@ -75,15 +75,13 @@
 }
 
 .addFolderContainer {
-  padding: 20px 15px;
-}
-
-.addFolderButton {
-  font-size: 17px;
-  color: #6a1384;
-  cursor: pointer;
+  padding: 0 15px;
 }
 
 .removeConfirmationText {
   margin: 10px 0;
+}
+
+.listIcon {
+  cursor: move;
 }

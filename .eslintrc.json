@@ -95,6 +95,7 @@
       {
         "requireForBlockBody": true
       }
-    ]
+    ],
+    "import/order": "off"
   }
 }

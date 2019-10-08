@@ -19,7 +19,7 @@ const Archived: React.FC<Props> = (props) => {
   }, []);
 
   return (
-    <NotesList />
+    <NotesList isArchived />
   );
 };
 

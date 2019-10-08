@@ -8,28 +8,16 @@ import { dispatchToastr } from 'actions/toastr';
 import { revokeGoogleCredentials } from 'actions/user';
 
 // components
-import AuthConfirmation from 'ui/Auth/AuthConfirmation';
 import Modal from 'ui/Modal/Modal';
 import Button from 'ui/Button/Button';
 import ClearDataModal from 'ui/Auth/ClearDataModal';
-import { ReduxState } from 'types/redux';
-import NewPassword from './NewPassword';
+import PasswordInput from 'ui/Auth/PasswordInput';
 
 // types
+import { ReduxState } from 'types/redux';
 
 // css
 import s from './EncryptionSection.css';
-
-
-interface PassState {
-  newPass: string,
-  confirmPass: string,
-}
-
-const defaultPassState = {
-  newPass: '',
-  confirmPass: '',
-};
 
 type MapState = ReturnType<typeof mapState>;
 type MapDispatch = typeof mapDispatch;
@@ -41,63 +29,48 @@ type Props = MapState & MapDispatch & {
 
 const EncryptionInfo: React.FC<Props> = (props) => {
   const [showEncModal, setShowEncModal] = useState(props.triggerEncModal);
-  const [passState, setPassState] = useState<PassState>(defaultPassState);
 
   const toggleEncModal = () => {
     setShowEncModal(!showEncModal);
   };
 
-  const handleNewPassChange = (type: 'newPass' | 'confirmPass', value: string) => {
-    const state = { ...passState };
-    state[type] = value;
-    setPassState(state);
-  };
-
   const handleEncryptionOff = (encPass: string) => {
     toggleEncModal();
-    props.updateProtectedStatus();
     const { sync } = props;
     if (sync !== null) {
       props.revokeGoogleCredentials(sync.googleCredentials.refresh_token);
     }
     ipcRenderer.send('turn-encryption-off', encPass);
-    props.dispatchToastr({ message: 'Encryption turned off.' });
+    props.dispatchToastr({ message: 'Encryption disabled.' });
+    props.updateProtectedStatus();
   };
 
-  const handleEncryptionOn = () => {
-    const newEncPass = crypto.SHA512(passState.newPass).toString();
+  const handleEncryptionOn = (pass: string) => {
+    const newEncPass = crypto.SHA512(pass).toString();
     ipcRenderer.send('turn-encryption-on', newEncPass);
-    setPassState(defaultPassState);
     toggleEncModal();
     props.updateProtectedStatus();
-    props.dispatchToastr({ message: 'Encryption turned on.' });
+    props.dispatchToastr({ message: 'Encryption enabled.' });
   };
+
+  const renderModalFooter = () => (
+    <Button
+      text="Cancel"
+      theme="danger"
+      shape="text"
+      onClick={toggleEncModal}
+    />
+  );
 
   const renderEncryptionModalBody = () => {
     if (!props.isProtected) {
-      const { newPass, confirmPass } = passState;
       return (
         <React.Fragment>
           <div className={s.encMessage}>Set a password to encrypt data with.</div>
-          <NewPassword
-            newPass={newPass}
-            confirmPass={confirmPass}
-            onChange={handleNewPassChange}
+          <PasswordInput
+            mode="newPassword"
+            onSubmit={handleEncryptionOn}
           />
-          <div className={s.encryptionModalButtons}>
-            <Button
-              text="Encrypt"
-              theme="info"
-              onClick={handleEncryptionOn}
-              disabled={!newPass || newPass !== confirmPass}
-            />
-            <Button
-              text="Cancel"
-              theme="danger"
-              className={s.cancelBtn}
-              onClick={toggleEncModal}
-            />
-          </div>
         </React.Fragment>
       );
     }
@@ -108,27 +81,24 @@ const EncryptionInfo: React.FC<Props> = (props) => {
           <div>Are you sure you want to turn off encryption?</div>
           <div>All data will be unprotected and stored in plain text.</div>
           <p><b>If sync is enabled, the access to google drive will be revoked.</b></p>
-          <p>Enter password to confirm.</p>
         </div>
-        <AuthConfirmation
+        <PasswordInput
           inputClassName={s.input}
-          inputPlaceholder="Password"
+          mode="authConfirmation"
           onSubmit={handleEncryptionOff}
-        />
-        <Button
-          text="Cancel"
-          theme="danger"
-          onClick={toggleEncModal}
         />
       </React.Fragment>
     );
   };
 
   const renderEncryptionModal = () => (
-    <Modal show={showEncModal} toggle={toggleEncModal}>
-      <div>
-        {renderEncryptionModalBody()}
-      </div>
+    <Modal
+      title={props.isProtected ? 'Disable encryption' : 'Enable encryption'}
+      show={showEncModal}
+      toggle={toggleEncModal}
+      footer={renderModalFooter()}
+    >
+      {renderEncryptionModalBody()}
     </Modal>
   );
 
@@ -138,9 +108,11 @@ const EncryptionInfo: React.FC<Props> = (props) => {
         <React.Fragment>
           <p>Encryption is disabled. Your local data is not protected and stored in plain text.</p>
           <p>That means that anybody with access to the data can read it.</p>
-          <div className={s.encryptionButton} onClick={toggleEncModal}>
-            Turn encryption on
-          </div>
+          <Button
+            text="Enable encryption"
+            theme="primary"
+            onClick={toggleEncModal}
+          />
         </React.Fragment>
       );
     }
@@ -150,16 +122,18 @@ const EncryptionInfo: React.FC<Props> = (props) => {
         <p>Encryption is enabled.</p>
         <p>Your local data is protected with your password and encrypted before storing on the local device.</p>
         <p>If synchronization is enabled, the notes are secure during transfer.</p>
-        <div className={s.encryptionOffButton} onClick={toggleEncModal}>
-          Turn encryption off
-        </div>
+        <Button
+          text="Disable encryption"
+          theme="primary"
+          onClick={toggleEncModal}
+        />
       </React.Fragment>
     );
   };
 
   return (
     <div className={s.section}>
-      <h4>Encryption</h4>
+      <div className={s.sectionSubtitle}>Encryption</div>
       {renderContent()}
       <ClearDataModal />
       {renderEncryptionModal()}

@@ -3,11 +3,12 @@
 }
 
 .listItem {
-  margin-bottom: 20px;
-  background: #f9f9f9;
-  border: 1px solid #ddd;
+  margin-bottom: 30px;
+  background: var(--list-background);
+  border: 1px solid var(--border);
   padding: 15px;
   position: relative;
+  border-radius: 4px;
 }
 
 .listBody {
@@ -27,11 +28,12 @@
   font-weight: 600;
   max-width: 90%;
   margin-left: 15px;
+  color: var(--text);
 }
 
 .listHeader {
   display: flex;
-  align-items: baseline;
+  align-items: center;
 }
 
 .checkedItem {
@@ -56,23 +58,20 @@
   }
 
   &.focused {
-    border-color: #867171;
+    border-color: #908a7d;
   }
 }
 
 .todoList {
-  margin-top: 20px;
+  margin-top: 10px;
   order: 0;
 }
 
 .addTodoItem {
   order: 1;
-  cursor: pointer;
-  padding-bottom: 5px;
-  color: #bfbebe;
-  width: 52px;
-  border-bottom: 2px solid #bfbebe;
-  margin-left: 22px;
+  width: fit-content;
+  font-size: 16px;
+  margin-left: 14px;
 }
 
 .addTodoTop {
@@ -80,30 +79,31 @@
 }
 
 .itemHandleIcon {
-  color: #867171;
   cursor: move;
   font-size: 15px;
   margin-right: 8px;
   visibility: hidden;
   transform: rotate(90deg);
+  opacity: .6;
+  color: var(--text);
 }
 
 .listHandle {
   composes: itemHandleIcon;
   visibility: visible;
-  margin-right: 20px;
-  font-size: 14px;
+  font-size: 16px;
+  display: inline-block;
 }
 
 .itemRemoveIcon {
-  color: #adadad;
+  opacity: .5;
   cursor: pointer;
   font-size: 15px;
   margin-right: 15px;
   visibility: hidden;
 
   &:hover {
-    color: #616161;
+    opacity: 1;
   }
 }
 
@@ -113,83 +113,39 @@
 }
 
 .listSettings {
-  margin-bottom: 40px;
-  margin-left: 22px;
+  margin: 15px 0 30px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  color: var(--text);
 }
 
-.copyList {
-  font-size: 15px;
-  color: #6a1384;
-  cursor: pointer;
-  margin: 10px 0 15px;
-  width: fit-content;
+.copyListButton {
+  margin-left: 20px;
 }
 
 .removeList {
   font-size: 14px;
-  color: #6b6b6b;
   cursor: pointer;
   opacity: .5;
-
-  &:hover {
-    opacity: 1;
-  }
 }
 
 .chevron {
   position: absolute;
-  color: #b5b5b5;
   font-size: 20px;
   top: 11px;
   right: 13px;
   cursor: pointer;
 }
 
-.positionTitle {
-  margin-bottom: 10px;
-  font-size: 15px;
-  color: #3c084c;
-  opacity: .8;
-}
-
-.positionInput {
-  display: none;
-}
-
-.positionInput:checked + .positionLabel, .positionLabel:hover {
-  background: #6f00a2;
-  color: #fff;
-}
-
-.positionLabel {
-  background: #fff;
-  box-sizing: border-box;
-  padding: 5px;
-  border: 1px solid #6f00a2;
-  color: #6f00a2;
-  cursor: pointer;
-  transition: background-color .3s ease;
-  font-size: 14px;
-}
 
 .listStat {
   margin-bottom: 10px;
   font-size: 14px;
-  color: #636363;
+  color: var(--text);
+  opacity: var(--stats-opactity);
 }
 
 .listStatNumber {
-  color: #424242;
   font-weight: bold;
-}
-.listSettingsButton {
-  margin: 15px 0;
-  cursor: pointer;
-  color: #6a1384;
-  font-size: 15px;
-}
-
-.listSettingsShowButton {
-  composes: listSettingsButton;
-  margin-bottom: 30px;
 }

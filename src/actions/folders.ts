@@ -1,9 +1,11 @@
 import { createReducer, createAction } from 'redux-act';
-import { FolderItem, RenameFolderPayload } from 'types/folders';
+import { CreateFolderPayload, FolderItem, RenameFolderPayload } from 'types/folders';
 
 export const fetchFolders = createAction('FETCH_FOLDERS');
 export const saveAllFolders = createAction<FolderItem[]>('SAVE_ALL_FOLDERS');
-export const createFolder = createAction<string>('CREATE_FOLDER');
+export const createFolder = createAction<CreateFolderPayload>('CREATE_FOLDER');
+
+export const updateFolders = createAction<FolderItem[]>('UPDATE_FOLDERS');
 
 export const fetchCurrentFolder = createAction<string>('SET_CURRENT_FOLDER');
 export const saveCurrentFolder = createAction<FolderItem>('SAVE_CURRENT_FOLDER');
@@ -22,6 +24,7 @@ const defaultFolder = {
   name: '',
   createdAt: new Date(),
   updatedAt: new Date(),
+  order: 0,
 };
 
 const reducer = createReducer<FoldersReducer>({}, {

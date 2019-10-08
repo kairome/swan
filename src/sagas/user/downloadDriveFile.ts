@@ -1,4 +1,4 @@
-import { call, all } from 'redux-saga/effects';
+import { call, all, put } from 'redux-saga/effects';
 import _ from 'lodash';
 import { getGoogleOAuth } from 'utils/google';
 import { ipcRenderer } from 'electron';
@@ -7,6 +7,7 @@ import { ipcRenderer } from 'electron';
 import { downloadDriveFiles } from 'actions/user';
 import getAppFiles from 'sagas/user/getAppFiles';
 import downloadAppFile from 'sagas/user/downloadAppFile';
+import { toggleLoader } from 'actions/navigation';
 
 // types
 import { SagaArg } from 'types/saga';
@@ -15,6 +16,7 @@ import { DownloadFileResult } from 'types/entities';
 
 function* downloadDriveFileSaga(arg: SagaArg<GoogleCredentials>) {
   try {
+    yield put(toggleLoader({ sync: true }));
     const oauth = getGoogleOAuth(arg.payload);
     const appData = yield call(getAppFiles, oauth);
     if (!_.isEmpty(appData.files)) {
@@ -27,7 +29,9 @@ function* downloadDriveFileSaga(arg: SagaArg<GoogleCredentials>) {
       }), {});
       ipcRenderer.send('restore-from-google', files);
     }
+    yield put(toggleLoader({ sync: false }));
   } catch (e) {
+    yield put(toggleLoader({ sync: false }));
     console.error(e);
   }
 }

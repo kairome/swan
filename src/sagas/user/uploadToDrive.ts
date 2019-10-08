@@ -12,11 +12,12 @@ import api from 'utils/api';
 // actions
 import { setIsFirstSync, uploadAppData } from 'actions/user';
 import getAppFiles from 'sagas/user/getAppFiles';
+import { toggleLoader } from 'actions/navigation';
+import { toggleSyncMismatchModal } from 'actions/interactive';
 
 // types
 import { SagaArg } from 'types/saga';
 import { GoogleCredentials } from 'types/user';
-import { toggleSyncMismatchModal } from 'actions/interactive';
 import { ReduxState } from 'types/redux';
 
 const firstSyncSelector = ({ user }: ReduxState) => user.sync && user.sync.firstTime;
@@ -33,6 +34,7 @@ const uploadToDriveRequest = async (token: string, payload: FormData, fileId: st
 
 function* uploadToDriveSaga(arg: SagaArg<GoogleCredentials>) {
   try {
+    yield put(toggleLoader({ sync: true }));
     const oauth = getGoogleOAuth(arg.payload);
     const appData = yield call(getAppFiles, oauth);
     const files = ipcRenderer.sendSync('get-app-files');
@@ -41,6 +43,7 @@ function* uploadToDriveSaga(arg: SagaArg<GoogleCredentials>) {
     if (isFirstSync && !_.isEmpty(appData.files)) {
       yield put(toggleSyncMismatchModal());
       yield put(setIsFirstSync(false));
+      yield put(toggleLoader({ sync: false }));
       return;
     }
 
@@ -63,7 +66,9 @@ function* uploadToDriveSaga(arg: SagaArg<GoogleCredentials>) {
       });
       yield all(requests);
     }
+    yield put(toggleLoader({ sync: false }));
   } catch (e) {
+    yield put(toggleLoader({ sync: false }));
     console.error(e);
   }
 }

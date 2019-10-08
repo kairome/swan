@@ -1,3 +1,5 @@
+@import "css/animations.css";
+
 .interactiveCover {
   position: fixed;
   top: 0;
@@ -6,28 +8,39 @@
   height: 100%;
   width: 100%;
   z-index: 6;
+  animation: appear .2s ease-in;
+}
+
+.coverActive {
+  animation: appear .2s ease-in;
+}
+
+.coverDone {
+  animation: disappear .2s ease-in;
+}
+
+.hintActive {
+  animation: maximize .2s ease-in;
+}
+
+.hintDone {
+  animation: minimize .2s ease-in;
 }
 
 .interactiveHint {
   position: fixed;
   top: 40px;
   left: 245px;
-  background: #fff;
-  width: 120px;
-  height: 120px;
-  border-radius: 100%;
+  background: var(--modal-bg);
+  border-radius: 12px;
   display: flex;
   text-align: center;
   justify-content: center;
   align-items: center;
   font-size: 14px;
   flex-direction: column;
-}
-
-.cancel {
-  top: 7px;
-  position: absolute;
-  color: #656565;
-  font-size: 20px;
-  cursor: pointer;
+  width: 130px;
+  height: 60px;
+  padding: 8px;
+  box-sizing: border-box;
 }

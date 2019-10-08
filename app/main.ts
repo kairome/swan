@@ -23,20 +23,24 @@ app.setPath('userData', userDataPath);
 const store = new ElectronStore<any>({
   defaults: {
     window: {
-      width: 800,
-      height: 600,
+      width: 850,
+      height: 700,
     },
+    theme: 'light',
+    accentColor: '#00138c',
   },
 });
 
 const hashStore = createHashStore(userDataPath);
-
 const createWindow = () => {
   const windowSize = store.get('window');
   window = new BrowserWindow({
     width: windowSize.width,
     height: windowSize.height,
+    minWidth: 850,
+    minHeight: 700,
     show: false,
+    icon: `${__dirname}/icons/png/app.png`,
     webPreferences: {
       nodeIntegration: true,
     },
@@ -168,6 +172,26 @@ ipcMain.on('restore-from-google', (event: any, files: { [k: string]: string, }) 
   if (window !== null) {
     window.reload();
   }
+});
+
+ipcMain.on('change-theme', (event: any, theme: 'light' | 'dark') => {
+  store.set('theme', theme);
+  event.reply('update-theme');
+});
+
+ipcMain.on('get-theme', (event: any) => {
+  // eslint-disable-next-line
+  event.returnValue = store.get('theme');
+});
+
+ipcMain.on('change-accent-color', (event: any, color: string) => {
+  store.set('accentColor', color);
+  event.reply('update-accent-color');
+});
+
+ipcMain.on('get-accent-color', (event: any) => {
+  // eslint-disable-next-line
+  event.returnValue = store.get('accentColor');
 });
 
 app.on('ready', createWindow);

@@ -8,6 +8,7 @@ import ChangeNoteTitleField from 'ui/Note/ChangeNoteTitleField';
 import ToDoLists from 'pages/Notes/ToDos/ToDoLists';
 import MarkdownEditor from 'pages/Notes/Markdown/MarkdownEditor';
 import NoteStats from 'ui/Statistics/NoteStats';
+import Transition from 'ui/Transition/Transition';
 
 // types
 import { ReduxState } from 'types/redux';
@@ -33,30 +34,6 @@ const Note: React.FC<Props> = (props) => {
     return null;
   }
 
-
-  const renderEditor = () => {
-    if (currentNote.contentSettings.hideTextEditor) {
-      return null;
-    }
-
-    return (
-      <MarkdownEditor
-        noteId={currentNote._id}
-        noteText={currentNote.text}
-      />
-    );
-  };
-
-  const renderTodoLists = () => {
-    if (currentNote.contentSettings.hideLists) {
-      return null;
-    }
-
-    return (
-      <ToDoLists />
-    );
-  };
-
   return (
     <div className={s.noteContainer}>
       <div className={s.noteHeader}>
@@ -66,11 +43,27 @@ const Note: React.FC<Props> = (props) => {
           className={s.noteTitle}
         />
       </div>
-      <div className={s.noteStatsContainer}>
-        <NoteStats note={currentNote} />
-      </div>
-      {renderEditor()}
-      {renderTodoLists()}
+      <NoteStats note={currentNote} className={s.noteStatsContainer} />
+      <Transition
+        show={!currentNote.contentSettings.hideTextEditor}
+        duration={300}
+        enter={s.contentActive}
+        exit={s.contentDone}
+      >
+        <MarkdownEditor
+          noteId={currentNote._id}
+          noteText={currentNote.text}
+          noteSettings={currentNote.contentSettings}
+        />
+      </Transition>
+      <Transition
+        show={!currentNote.contentSettings.hideLists}
+        duration={300}
+        enter={s.contentActive}
+        exit={s.contentDone}
+      >
+        <ToDoLists />
+      </Transition>
     </div>
   );
 };

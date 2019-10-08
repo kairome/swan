@@ -2,17 +2,18 @@ import React from 'react';
 import moment from 'moment';
 import _ from 'lodash';
 import { connect } from 'react-redux';
+import classNames from 'classnames';
 
 // types
 import { Note } from 'types/notes';
 import { ReduxState } from 'types/redux';
-
 
 import s from './Statistics.css';
 
 type MapState = ReturnType<typeof mapState>;
 type Props = MapState & {
   note: Note,
+  className?: string,
 };
 
 const NoteStats: React.FC<Props> = (props) => {
@@ -71,7 +72,7 @@ const NoteStats: React.FC<Props> = (props) => {
   };
 
   return (
-    <div>
+    <div className={classNames(s.noteStats, props.className)}>
       {renderStatus()}
       {renderToDoStats()}
       {renderDates()}
