@@ -43,4 +43,7 @@ launch-electron:
 
 electron: build-electron launch-electron
 
+package-deb:
+	yarn run package-linux && yarn run package-debian
+
 .PHONY: clean-build clean install check-types dev build-prod build lint fix-lint build-electron launch-electron electron build-electron-prod
