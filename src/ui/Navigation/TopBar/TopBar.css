@@ -1,5 +1,10 @@
-.infoBarIconContainer {
+.infoBarButton {
   margin-right: 30px;
+  margin-left: -5px;
+}
+
+.infoBarCollapseButton {
+  margin-right: 10px;
   margin-left: -5px;
 }
 

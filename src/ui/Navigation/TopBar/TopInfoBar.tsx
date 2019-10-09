@@ -1,14 +1,15 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import history from 'utils/history';
 import _ from 'lodash';
 import { RouteComponentProps, withRouter } from 'react-router';
+import { ipcRenderer } from 'electron';
 
 // actions, selectors
 import { getCurrentFolderSelector } from 'selectors/folders';
 import { getCurrentNoteSelector } from 'selectors/notes';
-import { toggleNavigation } from 'actions/navigation';
+import { toggleAppLock, toggleNavigation } from 'actions/navigation';
 import { getLoader } from 'selectors/common';
 
 // components
@@ -28,6 +29,12 @@ type Props = MapState & MapDispatch & RouteComponentProps;
 
 const TopInfoBar: React.FC<Props> = (props) => {
   const { currentFolder, currentNote, show } = props;
+  const [isProtected, setIsProtected] = useState(ipcRenderer.sendSync('get-auth-status'));
+  useEffect(() => {
+    ipcRenderer.on('load-app', () => {
+      setIsProtected(ipcRenderer.sendSync('get-auth-status'));
+    });
+  }, []);
 
   const handleBackClick = () => {
     if (!currentNote._id) {
@@ -89,6 +96,24 @@ const TopInfoBar: React.FC<Props> = (props) => {
     return `${folderName}${noteName}`;
   };
 
+  const renderLockButton = () => {
+    if (!isProtected) {
+      return null;
+    }
+
+    return (
+      <Button
+        text=""
+        theme="info"
+        shape="icon"
+        onClick={() => props.toggleAppLock(true)}
+        icon="lock"
+        size="lg"
+        className={s.infoBarButton}
+      />
+    );
+  };
+
   const barClasses = classNames(s.infoBar, {
     [s.infoBarFull]: !show,
   });
@@ -102,8 +127,9 @@ const TopInfoBar: React.FC<Props> = (props) => {
         onClick={props.toggleNavigation}
         icon="bars"
         size="lg"
-        className={s.infoBarIconContainer}
+        className={isProtected ? s.infoBarCollapseButton : s.infoBarButton}
       />
+      {renderLockButton()}
       {renderBackArrow()}
       <div className={s.breadcrumbs}>
         {getBreadCrumbs()}
@@ -122,6 +148,7 @@ const mapState = (state: ReduxState) => ({
 
 const mapDispatch = {
   toggleNavigation,
+  toggleAppLock,
 };
 
 export default connect(mapState, mapDispatch)(withRouter(TopInfoBar));

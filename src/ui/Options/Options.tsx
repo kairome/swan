@@ -30,8 +30,8 @@ const Options: React.FC<Props> = (props) => {
   const { value, options } = props;
 
   const handleOptionClick = (optionValue: string | number) => () => {
-    closeOptions();
     props.onChange(optionValue);
+    closeOptions();
   };
 
   const renderOptions = () => {
@@ -47,16 +47,9 @@ const Options: React.FC<Props> = (props) => {
     });
 
     return (
-      <Transition
-        show={showOptions}
-        duration={200}
-        enter={s.optionsListActive}
-        exit={s.optionsListDone}
-      >
-        <div className={s.optionsList}>
-          {list}
-        </div>
-      </Transition>
+      <div className={s.optionsList}>
+        {list}
+      </div>
     );
   };
 
@@ -67,7 +60,14 @@ const Options: React.FC<Props> = (props) => {
       <div onClick={() => toggleOptions(true)} className={s.selectedValue}>
         {currentValue ? currentValue.label : ''}
       </div>
-      {renderOptions()}
+      <Transition
+        show={showOptions}
+        duration={200}
+        enter={s.optionsListActive}
+        exit={s.optionsListDone}
+      >
+        {renderOptions()}
+      </Transition>
     </div>
   );
 };

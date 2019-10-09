@@ -23,6 +23,7 @@
 
 .optionsListDone {
   animation: minimize .25s ease-in;
+  opacity: 0;
 }
 
 .option {

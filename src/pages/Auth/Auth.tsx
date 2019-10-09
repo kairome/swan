@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { ipcRenderer } from 'electron';
 
+import { toggleAppLock } from 'actions/navigation';
+
 // components
 import ClearDataModal from 'ui/Auth/ClearDataModal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -9,16 +11,20 @@ import PasswordInput from 'ui/Auth/PasswordInput';
 
 // css
 import s from './Auth.css';
+import { connect } from 'react-redux';
 
-interface Props {
+type MapDispatch = typeof mapDispatch;
+
+type Props = MapDispatch & {
   show: boolean,
-}
+};
 
 const Auth: React.FC<Props> = (props) => {
   const [showForgot, setShowForgot] = useState(false);
 
   const handleSubmit = (encPass: string) => {
     ipcRenderer.send('save-hash', encPass);
+    props.toggleAppLock(false);
   };
 
   const handleForgotClick = () => {
@@ -47,7 +53,7 @@ const Auth: React.FC<Props> = (props) => {
   return (
     <Transition
       show={props.show}
-      duration={150}
+      duration={250}
       enter={s.authPageActive}
       exit={s.authPageDone}
     >
@@ -77,4 +83,8 @@ const Auth: React.FC<Props> = (props) => {
   );
 };
 
-export default Auth;
+const mapDispatch = {
+  toggleAppLock,
+};
+
+export default connect(null, mapDispatch)(Auth);

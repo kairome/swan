@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ipcRenderer } from 'electron';
 
 // components
@@ -10,9 +10,12 @@ import s from 'pages/Settings/sync/SyncSection.css';
 
 const CustomizationSection: React.FC = () => {
   const [theme, setTheme] = useState(ipcRenderer.sendSync('get-theme'));
-  ipcRenderer.on('update-theme', () => {
-    setTheme(ipcRenderer.sendSync('get-theme'));
-  });
+
+  useEffect(() => {
+    ipcRenderer.on('update-theme', () => {
+      setTheme(ipcRenderer.sendSync('get-theme'));
+    });
+  }, []);
 
   return (
     <div className={s.settingSectionActive}>

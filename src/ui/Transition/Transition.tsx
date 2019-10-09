@@ -44,9 +44,13 @@ const Transition: React.FC<Props> = (props) => {
 
     if (props.show && !localShow) {
       setWillUnmount(false);
-      _.delay(() => {
+      if (props.delay) {
+        _.delay(() => {
+          setLocalShow(true);
+        }, props.delay ? props.delay : 0);
+      } else {
         setLocalShow(true);
-      }, props.delay ? props.delay : 0);
+      }
     }
 
     return () => clearTransition();

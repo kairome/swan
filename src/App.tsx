@@ -10,13 +10,13 @@ import { fetchUserSyncData, uploadAppData } from 'actions/user';
 import Navigation from 'ui/Navigation/Navigation';
 import Main from 'pages/Main/Main';
 import Auth from 'pages/Auth/Auth';
-
-// types
-import { ReduxState } from 'types/redux';
 import LoadErrorModal from 'ui/Modal/LoadErrorModal';
 import SyncMismatchModal from 'ui/Modal/SyncMismatchModal';
 import Transition from 'ui/Transition/Transition';
 import SyncNotification from 'ui/Toastr/SyncNotification';
+
+// types
+import { ReduxState } from 'types/redux';
 
 type MapState = ReturnType<typeof mapState>;
 type MapDispatch = typeof mapDispatch;
@@ -37,15 +37,21 @@ const App: React.FC<Props> = (props) => {
     document.documentElement.style.setProperty('--accent-color', accentColor);
   };
 
-  ipcRenderer.on('update-theme', () => {
-    updateTheme();
-  });
-
-  ipcRenderer.on('update-accent-color', () => {
-    updateAccentColor();
-  });
+  useEffect(() => {
+    ipcRenderer.on('load-app', () => {
+      setShowAuth(false);
+    });
+  }, []);
 
   useEffect(() => {
+    ipcRenderer.on('update-theme', () => {
+      updateTheme();
+    });
+
+    ipcRenderer.on('update-accent-color', () => {
+      updateAccentColor();
+    });
+
     updateTheme();
     updateAccentColor();
   }, [updateTheme, updateAccentColor]);
@@ -53,10 +59,6 @@ const App: React.FC<Props> = (props) => {
   if (!showAuth) {
     ipcRenderer.send('init');
   }
-
-  ipcRenderer.on('load-app', () => {
-    setShowAuth(false);
-  });
 
   ipcRenderer.on('hash-changed', () => {
     if (props.googleCredentials !== null) {
@@ -104,9 +106,9 @@ const App: React.FC<Props> = (props) => {
 
   return (
     <React.Fragment>
-      <Auth show={showAuth} />
+      <Auth show={showAuth || props.lockApp} />
       <Transition
-        show={!showAuth}
+        show={!showAuth && !props.lockApp}
         duration={150}
         delay={200}
         passThrough
@@ -128,6 +130,7 @@ const mapState = (state: ReduxState) => {
   return {
     googleCredentials: sync !== null ? sync.googleCredentials : null,
     syncFrequency: sync !== null ? sync.syncFrequency : 30,
+    lockApp: state.navigation.lockApp,
   };
 };
 

@@ -13,7 +13,7 @@ type MapState = ReturnType<typeof mapState>;
 const SyncNotification: React.FC<MapState> = (props) => (
   <Transition
     show={props.syncLoading}
-    duration={300}
+    duration={250}
     enter={s.toastrActive}
     exit={s.toastrDone}
   >
