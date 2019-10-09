@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 // components
-import EncryptionSection from './encryption/EncryptionSection';
+import SecuritySection from './security/SecuritySection';
 import SyncSection from './sync/SyncSection';
 import CustomizationSection from './customization/CustomizationSection';
 
@@ -17,14 +17,14 @@ const SettingsContent: React.FC<Props> = (props) => {
   const { pageId } = props;
   const [triggerEncModal, setEncModalTrigger] = useState(false);
   const handleEncModalFromSync = () => {
-    props.handleNavigate('encryption');
+    props.handleNavigate('security');
     setEncModalTrigger(true);
   };
 
   switch (pageId) {
-    case 'encryption':
+    case 'security':
       return (
-        <EncryptionSection triggerEncModal={triggerEncModal} />
+        <SecuritySection triggerEncModal={triggerEncModal} />
       );
     case 'sync':
       return (

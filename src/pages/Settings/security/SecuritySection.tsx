@@ -10,7 +10,7 @@ interface Props {
   triggerEncModal: boolean,
 }
 
-const EncryptionSection: React.FC<Props> = (props) => {
+const SecuritySection: React.FC<Props> = (props) => {
   const [isProtected, setIsProtected] = useState(ipcRenderer.sendSync('get-auth-status'));
 
   const updateProtectedStatus = () => {
@@ -29,7 +29,7 @@ const EncryptionSection: React.FC<Props> = (props) => {
 
   return (
     <div className={s.settingSectionActive}>
-      <div className={s.sectionTitle}>Encryption and privacy</div>
+      <div className={s.sectionTitle}>Security</div>
       <EncryptionInfo
         isProtected={isProtected}
         triggerEncModal={props.triggerEncModal}
@@ -40,4 +40,4 @@ const EncryptionSection: React.FC<Props> = (props) => {
   );
 };
 
-export default EncryptionSection;
+export default SecuritySection;

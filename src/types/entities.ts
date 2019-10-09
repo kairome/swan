@@ -11,7 +11,7 @@ export interface ContextMenuAction {
   execute: () => void,
 }
 
-export type SettingsPageId = 'encryption' | 'sync' | 'customization';
+export type SettingsPageId = 'security' | 'sync' | 'customization';
 
 export interface DownloadedFile {
   fileName: string,

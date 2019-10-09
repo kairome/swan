@@ -25,8 +25,8 @@ const SettingsNavigation: React.FC<Props> = (props) => {
 
   const items: NavItem[] = [
     {
-      id: 'encryption',
-      title: 'Encryption',
+      id: 'security',
+      title: 'Security',
       icon: 'user-lock',
     },
     {

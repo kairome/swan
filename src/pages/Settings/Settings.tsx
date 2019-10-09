@@ -15,7 +15,7 @@ import s from './Settings.css';
 
 const Settings: React.FC = () => {
   const [showSettings, setShowSettings] = useState(false);
-  const [currentPage, setNavPage] = useState<SettingsPageId>('encryption');
+  const [currentPage, setNavPage] = useState<SettingsPageId>('security');
 
   const handleNavigate = (id: SettingsPageId) => {
     setNavPage(id);
