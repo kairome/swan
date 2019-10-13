@@ -1,7 +1,8 @@
 {
   "name": "Swan",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Swan, note taking app",
+  "productName": "Swan",
   "main": "build/main.js",
   "author": "kairome <kairome99@gmail.com>",
   "license": "MIT",

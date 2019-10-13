@@ -63,12 +63,13 @@ const ToDoList: React.FC<Props> = (props) => {
   };
 
   const resetListTitle = () => {
-    setListTitle(listItem.title);
+    setListTitle(listItem.title ? listItem.title : 'New list');
   };
 
   const handleSaveListTitle = () => {
     const title = listTitle.trim();
     if (!title) {
+      resetListTitle();
       return;
     }
 

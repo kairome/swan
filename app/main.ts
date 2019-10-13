@@ -1,4 +1,10 @@
-import { app, BrowserWindow, ipcMain } from 'electron';
+import {
+  app,
+  BrowserWindow,
+  ipcMain,
+  Menu,
+  MenuItemConstructorOptions,
+} from 'electron';
 import path from 'path';
 import fs from 'fs';
 import ElectronStore from 'electron-store';
@@ -32,6 +38,68 @@ const store = new ElectronStore<any>({
 });
 
 const hashStore = createHashStore(userDataPath);
+const getMenuTemplate = (): MenuItemConstructorOptions[] => {
+  const isMac = process.platform === 'darwin';
+  const template = [
+    ...(isMac ? [{
+      label: app.getName(),
+      submenu: [
+        { role: 'about' },
+        { type: 'separator' },
+        { role: 'services' },
+        { type: 'separator' },
+        { role: 'hide' },
+        { role: 'hideothers' },
+        { role: 'unhide' },
+        { type: 'separator' },
+        { role: 'quit' },
+      ],
+    }] : []),
+    {
+      label: 'View',
+      submenu: [
+        { role: 'reload' },
+        { type: 'separator' },
+        { role: 'resetzoom' },
+        { role: 'zoomin' },
+        { role: 'zoomout' },
+        { type: 'separator' },
+        { role: 'togglefullscreen' },
+      ],
+    },
+    // { role: 'windowMenu' }
+    {
+      label: 'Window',
+      submenu: [
+        { role: 'minimize' },
+        { role: 'zoom' },
+        ...(isMac ? [
+          { type: 'separator' },
+          { role: 'front' },
+          { type: 'separator' },
+          { role: 'window' },
+        ] : [
+          { role: 'close' },
+        ]),
+      ],
+    },
+    {
+      role: 'help',
+      submenu: [
+        {
+          label: 'Learn More',
+          click: async () => {
+            // const { shell } = require('electron')
+            // await shell.openExternal('https://electronjs.org')
+          },
+        },
+      ],
+    },
+  ];
+
+  return template as MenuItemConstructorOptions[];
+};
+
 const createWindow = () => {
   const windowSize = store.get('window');
   window = new BrowserWindow({
@@ -45,6 +113,8 @@ const createWindow = () => {
       nodeIntegration: true,
     },
   });
+
+  Menu.setApplicationMenu(Menu.buildFromTemplate(getMenuTemplate()));
 
 
   if (!fs.existsSync(userDataPath)) {
@@ -194,7 +264,21 @@ ipcMain.on('get-accent-color', (event: any) => {
   event.returnValue = store.get('accentColor');
 });
 
-app.on('ready', createWindow);
+const singleInstanceLock = app.requestSingleInstanceLock();
+if (!singleInstanceLock) {
+  app.quit();
+} else {
+  app.on('second-instance', () => {
+    if (window) {
+      if (window.isMinimized()) {
+        window.restore();
+      }
+
+      window.focus();
+    }
+  });
+  app.on('ready', createWindow);
+}
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
