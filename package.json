@@ -7,10 +7,17 @@
   "author": "kairome <kairome99@gmail.com>",
   "license": "MIT",
   "private": true,
-  "files": ["build/**/*", "package.json"],
+  "files": [
+    "build/**/*",
+    "package.json"
+  ],
   "scripts": {
     "package-linux": "electron-packager . Swan --overwrite --asar --platform=linux --arch=x64 --icon=icons/png/app.png --prune=true --out=./dist",
-    "package-debian": "electron-installer-debian --src ./dist/Swan-linux-x64/ --dest ./dist/installers/ --icon ./icons/png/app.png --arch amd64"
+    "debian-installer": "electron-installer-debian --src ./dist/Swan-linux-x64/ --dest ./dist/installers/ --icon ./icons/png/app.png --arch amd64",
+    "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=icons/mac/app.icns --prune=true --out=./dist",
+    "dmg-installer": "electron-installer-dmg ./dist/Swan-darwin-x64/Swan.app Swan --title=Swan --out=./dist/installers/ --overwrite --icon=./icons/mac/app.icns",
+    "package-windows": "electron-packager . Swan --overwrite --asar --platform=win32 --arch=x64 --icon=icons/win/app.ico --prune=true --out=./dist --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"Swan\"",
+    "windows-installer": "electron-installer-windows --src ./dist/Swan-win32-x64/ --dest ./dist/installers/ --icon ./icons/win/app.ico"
   },
   "devDependencies": {
     "@babel/cli": "^7.5.5",
@@ -55,6 +62,8 @@
     "dotenv": "^8.1.0",
     "electron": "^5.0.3",
     "electron-installer-debian": "^2.0.1",
+    "electron-installer-dmg": "^3.0.0",
+    "electron-installer-windows": "^2.0.0",
     "electron-packager": "^14.0.6",
     "electron-store": "^4.0.0",
     "eslint": "^6.1.0",

@@ -44,6 +44,12 @@ launch-electron:
 electron: build-electron launch-electron
 
 package-deb:
-	yarn run package-linux && yarn run package-debian
+	yarn run package-linux && yarn run debian-installer
+
+package-mac:
+	yarn run package-mac && yarn run dmg-installer
+
+package-windows:
+	yarn run package-windows && yarn run windows-installer
 
 .PHONY: clean-build clean install check-types dev build-prod build lint fix-lint build-electron launch-electron electron build-electron-prod

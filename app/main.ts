@@ -26,6 +26,17 @@ const appName = 'Swan';
 const userDataPath = path.join(appData, appName);
 app.setPath('userData', userDataPath);
 
+const createStorage = () => {
+  if (!fs.existsSync(userDataPath)) {
+    fs.mkdirSync(userDataPath);
+  }
+
+  const nedbPath = path.join(userDataPath, 'nedb');
+  if (!fs.existsSync(nedbPath)) {
+    fs.mkdirSync(nedbPath);
+  }
+};
+
 const store = new ElectronStore<any>({
   defaults: {
     window: {
@@ -37,7 +48,9 @@ const store = new ElectronStore<any>({
   },
 });
 
+createStorage();
 const hashStore = createHashStore(userDataPath);
+
 const getMenuTemplate = (): MenuItemConstructorOptions[] => {
   const isMac = process.platform === 'darwin';
   const template = [
@@ -115,11 +128,6 @@ const createWindow = () => {
   });
 
   Menu.setApplicationMenu(Menu.buildFromTemplate(getMenuTemplate()));
-
-
-  if (!fs.existsSync(userDataPath)) {
-    fs.mkdirSync(userDataPath);
-  }
 
   window.setMenuBarVisibility(false);
   window.setAutoHideMenuBar(true);
