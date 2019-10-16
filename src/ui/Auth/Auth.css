@@ -17,18 +17,13 @@
   }
 }
 
-.clearData {
-  composes: error;
-  cursor: pointer;
-  width: fit-content;
-
-  &:hover {
-    text-decoration: underline;
-  }
-}
-
 .passInput {
   width: 300px;
   display: block;
   margin-bottom: 20px;
+}
+
+.clearBtn {
+  margin-top: 10px;
+  margin-left: -5px;
 }

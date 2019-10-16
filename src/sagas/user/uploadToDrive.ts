@@ -8,12 +8,14 @@ import { ipcRenderer } from 'electron';
 import _ from 'lodash';
 import { getGoogleOAuth, UPLOAD_GOOGLE_DRIVE_URL } from 'utils/google';
 import api from 'utils/api';
+import { saveUserSyncData } from 'data/user';
 
 // actions
-import { setIsFirstSync, uploadAppData } from 'actions/user';
+import { saveUserSync, setIsFirstSync, uploadAppData } from 'actions/user';
 import getAppFiles from 'sagas/user/getAppFiles';
 import { toggleLoader } from 'actions/navigation';
 import { toggleSyncMismatchModal } from 'actions/interactive';
+import { dispatchToastr } from 'actions/toastr';
 
 // types
 import { SagaArg } from 'types/saga';
@@ -68,6 +70,12 @@ function* uploadToDriveSaga(arg: SagaArg<GoogleCredentials>) {
     }
     yield put(toggleLoader({ sync: false }));
   } catch (e) {
+    const errMsg = _.get(e.response, ['data', 'error_description'], '');
+    if (_.includes(errMsg, 'expired or revoked') && e.response.status === 400) {
+      yield call(saveUserSyncData, null);
+      yield put(saveUserSync(null));
+      yield put(dispatchToastr({ message: 'Google token expired or revoked. Sync is turned off ' }));
+    }
     yield put(toggleLoader({ sync: false }));
     console.error(e);
   }

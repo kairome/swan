@@ -86,6 +86,7 @@ const getMenuTemplate = (): MenuItemConstructorOptions[] => {
       submenu: [
         { role: 'minimize' },
         { role: 'zoom' },
+        { role: 'toggledevtools' },
         ...(isMac ? [
           { type: 'separator' },
           { role: 'front' },

@@ -38,7 +38,6 @@ const Modal = (props: Props) => {
     >
       <div className={s.modalContainer}>
         <div className={s.modalCover} onClick={props.toggle} />
-        <div />
         <Transition
           enter={s.modalActive}
           exit={s.modalDone}
