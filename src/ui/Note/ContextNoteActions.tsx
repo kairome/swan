@@ -83,18 +83,18 @@ const ContextNoteActions: React.FC<Props> = (props) => {
       icon: 'exchange-alt',
       execute: handleMove,
     },
-    {
-      title: 'Lock/unlock',
-      icon: 'lock',
-      execute: () => {
-      },
-    },
-    {
-      title: 'Protect/unprotect',
-      icon: 'eye-slash',
-      execute: () => {
-      },
-    },
+    // {
+    //   title: 'Lock/unlock',
+    //   icon: 'lock',
+    //   execute: () => {
+    //   },
+    // },
+    // {
+    //   title: 'Protect/unprotect',
+    //   icon: 'eye-slash',
+    //   execute: () => {
+    //   },
+    // },
   ];
 
   const actions: ContextMenuAction[] = !props.inList ? [
