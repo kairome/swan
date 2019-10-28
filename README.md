@@ -1,9 +1,17 @@
 # Swan
  A note taking app with encryption and Google Drive synchronization.
  In the current release, each note has one text editor with full markdown support and an unlimited amount of todo lists.
+ Available for Linux (debian) and Windows.
 
+![Light](../assets/assets/app-light.png)
+
+![Dark](../assets/assets/app-dark.png)
 
 ## Note options and actions
+
+![Note actions](../assets/assets/note-actions.png)
+
+![Note options](../assets/assets/note-options.png)
 
 - Hide text editor and todo lists
 
@@ -22,6 +30,10 @@ The same actions apply in the folder view. Also, notes are draggable in the fold
 
 ## Todo list features
 
+![Note list](../assets/assets/note-list.png)
+
+![List sort](../assets/assets/notes-list-sort.jpg)
+
 - Copy list with its todos
 
 - Customize where the checked items appear: top, bottom, or in their initial position
@@ -35,15 +47,25 @@ The same actions apply in the folder view. Also, notes are draggable in the fold
 
 ## Folders
 
+![Folder actions](../assets/assets/folder-actions.png)
+
 - Drag folders by hovering on the folder icon
 
 - Rename or remove the folder in options
 
 - When deleting a folder, you can either choose to move all its notes to another folder, or delete them with the folder
 
+![Remove folder](../assets/assets/folder-remove.png)
+
+![Move notes](../assets/assets/notes-move.png)
+
 ## Settings
 
 ### Security
+
+![Security settings](../assets/assets/settings-security.png)
+
+![Encryption](../assets/assets/settings-encrypted.png)
 
 - Enable/disable encryption. At the moment, AES-256 encryption with random salt is used. The user password is never stored on the computer. The random test hash derived from the password is used instead for verifying the password. There are plans to ramp up the security in [future releases](#roadmap).
 If Google Drive sync is on, when disabling encryption, the google token will be revoked and sync turned off automatically. The drive files will **not** be deleted. If you wish to delete all drives files, [do that beforehand](#deleting-all-drive-files).
@@ -55,6 +77,9 @@ If Google Drive sync is on, when disabling encryption, the google token will be 
 
 ### Synchronization
 
+![Sync](../assets/assets/sync.png)
+![Sync enabled](../assets/assets/sync-enabled.png)
+
 #### Turning on the synchronization
 
 In order to use this feature, you will have to enable encryption first. And then it's as simple as pressing the button and following Google prompts in the new window! The app uses your Google account to access the drive files scoped specifically to the application. It means that the app has **no access** to any other of your Google Drive files, and limited to its own scope. No other Google account information is neither requested nor used.
@@ -62,6 +87,8 @@ In order to use this feature, you will have to enable encryption first. And then
 After you connected your google account, the app will check if you already have previously stored files. If so, the app will prompt you to: download drive files and replace all local ones, upload your current local files to drive and erase the previous version, or do nothing.
 
 **If you decide to download & replace, make sure to read [restore section](#restore-from-drive).**
+
+![Sync warning](../assets/assets/sync-warning.png)
 
 
 #### Sync frequency
@@ -78,6 +105,8 @@ If you choose to download drive files and replace the local ones, make sure to *
 
 In case when you did use a different password and replaced the local files anyway, you will be prompted to clear all data, as it became unusable.
 
+![Corrupted data](../assets/assets/corrupted-data.png)
+
 There are two ways to restore from drive. First, when you have a previous version of the files on your drive upon turning on the synchronization.
 Second, by pressing the *Replace with drive files* button in the settings.
 
@@ -92,10 +121,15 @@ After pressing the button, the google token will be revoked and sync will be tur
 
 ### Customization
 
+![Customization](../assets/assets/customization.png)
+
 #### Themes
 At the moment, you can only choose between dark and light themes. There are plans in the future to allow for theme creation and full color customization.
 
 #### Accent color
+
+![Accent color](../assets/assets/customization-accent.png)
+
 There are two presets for the accent color, dark colors for light theme, and light colors for dark theme. However, you can choose any accent color from the full rgb spectrum by pressing on the rectangle with the current accent color background.
 
 While in the color selection menu, the squares on the theme options will change accordingly for a mini preview.
