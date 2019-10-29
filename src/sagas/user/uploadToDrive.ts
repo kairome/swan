@@ -23,6 +23,7 @@ import { GoogleCredentials } from 'types/user';
 import { ReduxState } from 'types/redux';
 
 const firstSyncSelector = ({ user }: ReduxState) => user.sync && user.sync.firstTime;
+const syncMismatchSelector = ({ interactive }: ReduxState) => interactive.syncMismatch;
 
 const uploadToDriveRequest = async (token: string, payload: FormData, fileId: string) => {
   const headers = {
@@ -36,6 +37,11 @@ const uploadToDriveRequest = async (token: string, payload: FormData, fileId: st
 
 function* uploadToDriveSaga(arg: SagaArg<GoogleCredentials>) {
   try {
+    const isSyncModalOpen = yield select(syncMismatchSelector);
+
+    if (isSyncModalOpen) {
+      return;
+    }
     yield put(toggleLoader({ sync: true }));
     const oauth = getGoogleOAuth(arg.payload);
     const appData = yield call(getAppFiles, oauth);

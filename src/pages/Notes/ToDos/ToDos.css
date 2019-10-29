@@ -9,12 +9,18 @@
   padding: 15px;
   position: relative;
   border-radius: 4px;
+  opacity: 1;
+  transition: opacity .3s linear;
+}
+
+.listExit {
+  opacity: 0;
 }
 
 .listBody {
   margin-top: 20px;
   max-height: 10000px;
-  transition: max-height .3s ease, margin .3s ease;
+  transition: max-height .3s linear, margin .3s linear;
 }
 
 .listMinimized {
