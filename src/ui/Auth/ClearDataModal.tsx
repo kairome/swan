@@ -6,6 +6,7 @@ import Button from 'ui/Button/Button';
 
 // css
 import s from './Auth.css';
+import history from 'utils/history';
 
 const ClearDataModal: React.FC = () => {
   const [showClearModal, setShowClearModal] = useState(false);
@@ -15,7 +16,10 @@ const ClearDataModal: React.FC = () => {
   };
 
   const clearData = () => {
-    ipcRenderer.send('clear-data');
+    history.push('/');
+    setTimeout(() => {
+      ipcRenderer.send('clear-data');
+    }, 500);
   };
 
   return (

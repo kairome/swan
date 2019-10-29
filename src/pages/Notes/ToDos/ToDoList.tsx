@@ -19,13 +19,13 @@ import ListSettings from 'pages/Notes/ToDos/ListSettings';
 import ToDoItems from 'pages/Notes/ToDos/ToDoItems';
 import { SortHandle } from 'ui/Sortable/Sortable';
 import Confirmation from 'ui/Confirmation/Confirmation';
+import Button from 'ui/Button/Button';
 
 // types
 import { ToDoItem, ToDoListItem } from 'types/notes';
 
 // css
 import s from 'pages/Notes/ToDos/ToDos.css';
-import Button from 'ui/Button/Button';
 
 type MapDispatch = typeof mapDispatch;
 
@@ -39,6 +39,7 @@ const ToDoList: React.FC<Props> = (props) => {
   const { listItem, noteId } = props;
   const [listTitle, setListTitle] = useState(listItem.title ? listItem.title : 'New list');
   const [showRemoveListConfirmation, setRemoveListConfirmation] = useState(false);
+  const [visible, setVisible] = useState(true);
 
   useEffect(() => {
     if (listItem.title !== listTitle && listItem.title) {
@@ -82,10 +83,13 @@ const ToDoList: React.FC<Props> = (props) => {
 
   const handleRemoveList = () => {
     setRemoveListConfirmation(false);
-    props.deleteToDoList({
-      noteId,
-      listId: listItem.id,
-    });
+    setVisible(false);
+    setTimeout(() => {
+      props.deleteToDoList({
+        noteId,
+        listId: listItem.id,
+      });
+    }, 250);
   };
 
   const listBodyClasses = classNames(s.listBody, {
@@ -118,56 +122,62 @@ const ToDoList: React.FC<Props> = (props) => {
   const icon = listItem.settings.minimized ? 'chevron-up' : 'chevron-down';
   const checked = _.filter(listItem.items, i => i.completed).length;
 
+  const listClasses = classNames(s.listItem, {
+    [s.listExit]: !visible,
+  });
+
   return (
-    <div className={s.listItem} id={listItem.id}>
-      <div className={s.listHeader}>
-        <SortHandle className={s.listHandle} />
-        <Button
-          text=""
-          theme="info"
-          shape="icon"
-          onClick={toggleRemoveListConfirmation}
-          icon="trash"
-          size="m"
-          className={s.removeList}
-        />
-        <EditableField
-          type="text"
-          value={listTitle}
-          onChange={handleListTitleChange}
-          textClassName={s.listTitle}
-          className={s.listTitle}
-          save={handleSaveListTitle}
-          reset={resetListTitle}
-        />
-        <Button
-          text=""
-          theme="info"
-          shape="icon"
-          onClick={handleMinimize}
-          icon={icon}
-          size="lg"
-          className={s.chevron}
-        />
-      </div>
-      <div className={listBodyClasses}>
-        <div className={s.listStat}>
-          <span className={s.listStatNumber}>{checked}</span>
-          &nbsp;out of <span className={s.listStatNumber}>{listItem.items.length}</span>
-          &nbsp;items completed
+    <React.Fragment>
+      <div className={listClasses} id={listItem.id} key={listItem.id}>
+        <div className={s.listHeader}>
+          <SortHandle className={s.listHandle} />
+          <Button
+            text=""
+            theme="info"
+            shape="icon"
+            onClick={toggleRemoveListConfirmation}
+            icon="trash"
+            size="m"
+            className={s.removeList}
+          />
+          <EditableField
+            type="text"
+            value={listTitle}
+            onChange={handleListTitleChange}
+            textClassName={s.listTitle}
+            className={s.listTitle}
+            save={handleSaveListTitle}
+            reset={resetListTitle}
+          />
+          <Button
+            text=""
+            theme="info"
+            shape="icon"
+            onClick={handleMinimize}
+            icon={icon}
+            size="lg"
+            className={s.chevron}
+          />
         </div>
-        <ListSettings
-          listId={listItem.id}
-          noteId={noteId}
-          settings={listItem.settings}
-          handleCreateCopy={handleCopy}
-        />
-        <ToDoItems
-          listId={listItem.id}
-          completedPosition={listItem.settings.completedPosition}
-          items={listItem.items}
-          save={handleUpdateToDos}
-        />
+        <div className={listBodyClasses}>
+          <div className={s.listStat}>
+            <span className={s.listStatNumber}>{checked}</span>
+            &nbsp;out of <span className={s.listStatNumber}>{listItem.items.length}</span>
+            &nbsp;items completed
+          </div>
+          <ListSettings
+            listId={listItem.id}
+            noteId={noteId}
+            settings={listItem.settings}
+            handleCreateCopy={handleCopy}
+          />
+          <ToDoItems
+            listId={listItem.id}
+            completedPosition={listItem.settings.completedPosition}
+            items={listItem.items}
+            save={handleUpdateToDos}
+          />
+        </div>
       </div>
       <Confirmation
         show={showRemoveListConfirmation}
@@ -175,7 +185,7 @@ const ToDoList: React.FC<Props> = (props) => {
         message="Are you sure you want to remove the list? This action is permanent."
         confirm={handleRemoveList}
       />
-    </div>
+    </React.Fragment>
   );
 };
 

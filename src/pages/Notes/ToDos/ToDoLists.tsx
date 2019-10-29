@@ -30,11 +30,15 @@ const ToDoLists: React.FC<Props> = (props) => {
   }
 
   const [lists, setLists] = useState(currentNote.todoLists);
-  const [elemsLen] = useState(currentNote.todoLists.length);
+  const [elemsLen, setElemsLen] = useState(currentNote.todoLists.length);
 
   useEffect(() => {
-    if (!_.isEqual(currentNote.todoLists, lists)) {
-      setLists(currentNote.todoLists);
+    const { todoLists } = currentNote;
+    if (!_.isEqual(todoLists, lists)) {
+      setLists(todoLists);
+      if (todoLists.length < lists.length) {
+        setElemsLen(todoLists.length);
+      }
     }
   }, [currentNote.todoLists]);
 
