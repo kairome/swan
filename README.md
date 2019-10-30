@@ -2,6 +2,8 @@
  A note taking app with encryption and Google Drive synchronization.
  In the current release, each note has one text editor with full markdown support and an unlimited amount of todo lists.
  Available for Linux (debian) and Windows.
+ 
+ Grab the latest version from the [releases page](https://github.com/kairome/swan/releases)!
 
 ![Light](../assets/assets/app-light.png)
 
