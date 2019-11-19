@@ -1,6 +1,6 @@
 {
   "name": "Swan",
-  "version": "1.0.4",
+  "version": "1.1.0",
   "description": "Swan, note taking app",
   "productName": "Swan",
   "main": "build/main.js",
@@ -65,6 +65,7 @@
     "electron-installer-dmg": "^3.0.0",
     "electron-installer-windows": "^2.0.0",
     "electron-packager": "^14.0.6",
+    "electron-squirrel-startup": "^1.0.0",
     "electron-store": "^4.0.0",
     "eslint": "^6.1.0",
     "eslint-config-airbnb-typescript": "^4.0.1",
