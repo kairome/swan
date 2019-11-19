@@ -4,6 +4,7 @@ import {
   ipcMain,
   Menu,
   MenuItemConstructorOptions,
+  shell,
 } from 'electron';
 import path from 'path';
 import fs from 'fs';
@@ -13,6 +14,8 @@ import _ from 'lodash';
 import { changeDbFilesEncryption, clearDbFilesData, getDbFiles } from './dbUtils';
 import googleAuth from './googleAuth';
 import createHashStore from './hashStore';
+import checkUpdates from './checkUpdates';
+import squirrelStartup from 'electron-squirrel-startup';
 
 interface ChangeHashPayload {
   oldHash: string,
@@ -98,13 +101,32 @@ const getMenuTemplate = (): MenuItemConstructorOptions[] => {
       ],
     },
     {
-      role: 'help',
+      role: 'Help',
       submenu: [
         {
-          label: 'Learn More',
+          label: 'GitHub',
           click: async () => {
-            // const { shell } = require('electron')
-            // await shell.openExternal('https://electronjs.org')
+            await shell.openExternal('https://github.com/kairome/swan');
+          },
+        },
+        {
+          label: 'About',
+          click: () => {
+            const theme = store.get('theme');
+            const aboutWindow = new BrowserWindow({
+              width: 320,
+              height: 180,
+              // resizable: false,
+              parent: window !== null ? window : undefined,
+              modal: true,
+              backgroundColor: theme === 'dark' ? '#505050' : '#fbfbfb',
+              webPreferences: {
+                nodeIntegration: true,
+              },
+            });
+
+            aboutWindow.loadFile(`${__dirname}/menu/about.html`);
+            aboutWindow.setMenuBarVisibility(false);
           },
         },
       ],
@@ -126,12 +148,12 @@ const createWindow = () => {
     webPreferences: {
       nodeIntegration: true,
     },
+    autoHideMenuBar: true,
   });
 
   Menu.setApplicationMenu(Menu.buildFromTemplate(getMenuTemplate()));
 
   window.setMenuBarVisibility(false);
-  window.setAutoHideMenuBar(true);
 
   if (process.env.NODE_ENV === 'production') {
     window.loadFile(`${__dirname}/public/index.html`);
@@ -263,6 +285,11 @@ ipcMain.on('get-theme', (event: any) => {
   event.returnValue = store.get('theme');
 });
 
+ipcMain.on('get-version', (event: any) => {
+  // eslint-disable-next-line
+  event.returnValue = process.env.APP_VERSION;
+});
+
 ipcMain.on('change-accent-color', (event: any, color: string) => {
   store.set('accentColor', color);
   event.reply('update-accent-color');
@@ -271,6 +298,15 @@ ipcMain.on('change-accent-color', (event: any, color: string) => {
 ipcMain.on('get-accent-color', (event: any) => {
   // eslint-disable-next-line
   event.returnValue = store.get('accentColor');
+});
+
+ipcMain.on('check-updates', async (event: any) => {
+  const newVersion = await checkUpdates();
+  event.reply('new-version', newVersion);
+});
+
+ipcMain.on('open-latest-release', () => {
+  shell.openExternal('https://github.com/kairome/swan/releases/latest');
 });
 
 const singleInstanceLock = app.requestSingleInstanceLock();
@@ -287,6 +323,10 @@ if (!singleInstanceLock) {
     }
   });
   app.on('ready', createWindow);
+}
+
+if (squirrelStartup) {
+  app.quit();
 }
 
 app.on('window-all-closed', () => {

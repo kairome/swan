@@ -1,0 +1,115 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>About</title>
+</head>
+
+<style>
+  body {
+    --text-color: #333;
+    --loader-border: rgba(0, 0, 0, 0.2);
+    font-size: 20px;
+    color: var(--text-color);
+  }
+
+  .info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 80%;
+  }
+
+  .infoItem {
+    margin-bottom: 20px;
+    width: 180px;
+  }
+
+  .updateBtn {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    margin-top: auto;
+  }
+
+  .updateBtn:hover, .updateLink:hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  .loader,
+  .loader:after {
+    border-radius: 50%;
+    width: 15px;
+    height: 15px;
+  }
+
+  .loader {
+    margin-left: 10px;
+    position: relative;
+    border-top: 1.5px solid var(--loader-border);
+    border-right: 1.5px solid var(--loader-border);
+    border-bottom: 1.5px solid var(--loader-border);
+    border-left: 1.5px solid var(--text-color);
+    animation: load 1.1s infinite linear;
+  }
+
+  @keyframes load {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+</style>
+
+<body>
+<div class="info">
+  <div class="infoItem">
+    Build version: <span id="version">1.0.0</span>
+  </div>
+  <div id="update" class="infoItem">
+  </div>
+</div>
+<div onclick=checkForUpdates() class="updateBtn">
+  Check for updates
+  <div id="loader"></div>
+</div>
+</body>
+<script>
+  const { ipcRenderer } = require('electron');
+  const version = ipcRenderer.sendSync('get-version');
+  const versionDiv = document.getElementById('version');
+  versionDiv.innerText = version;
+
+  const theme = ipcRenderer.sendSync('get-theme');
+  if (theme === 'dark') {
+    document.body.style.setProperty('--text-color', '#eaeaea');
+    document.body.style.setProperty('--loader-border', 'rgba(255, 255, 255, 0.2)');
+  }
+
+  const loader = document.getElementById('loader');
+
+  function checkForUpdates() {
+    ipcRenderer.send('check-updates');
+    loader.setAttribute('class', 'loader');
+  }
+
+  function openLatestRelease() {
+    ipcRenderer.send('open-latest-release');
+  }
+
+  ipcRenderer.on('new-version', (_, newVersion) => {
+    loader.removeAttribute('class');
+    const updateDiv = document.getElementById('update');
+    updateDiv.innerText = newVersion ? `Update available: ${newVersion}` : 'You\'re up to date!';
+    if (newVersion) {
+      updateDiv.setAttribute('class', 'updateLink');
+      updateDiv.onclick = openLatestRelease;
+    }
+  });
+
+</script>
+</html>

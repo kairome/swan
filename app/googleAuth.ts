@@ -25,16 +25,15 @@ const initSignIn = (mainWindow: BrowserWindow | null) => new Promise((resolve, r
     show: false,
     parent: mainWindow !== null ? mainWindow : undefined,
     modal: true,
+    autoHideMenuBar: true,
   });
 
   authWindow.setMenuBarVisibility(false);
-  authWindow.setAutoHideMenuBar(true);
 
   authWindow.once('ready-to-show', () => {
     authWindow.show();
   });
 
-  // TODO: code_challenge
   const urlParams = {
     response_type: 'code',
     redirect_uri: process.env.REDIRECT_URI,
