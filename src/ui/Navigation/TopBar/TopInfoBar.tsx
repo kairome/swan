@@ -7,7 +7,7 @@ import { RouteComponentProps, withRouter } from 'react-router';
 import { ipcRenderer } from 'electron';
 
 // actions, selectors
-import { getCurrentFolderSelector } from 'selectors/folders';
+import { getCurrentFolder } from 'selectors/folders';
 import { getCurrentNoteSelector } from 'selectors/notes';
 import { toggleAppLock, toggleNavigation } from 'actions/navigation';
 import { getLoader } from 'selectors/common';
@@ -141,7 +141,7 @@ const TopInfoBar: React.FC<Props> = (props) => {
 
 const mapState = (state: ReduxState) => ({
   show: state.navigation.show,
-  currentFolder: getCurrentFolderSelector(state),
+  currentFolder: getCurrentFolder(state),
   currentNote: getCurrentNoteSelector(state),
   currentFolderLoading: getLoader(state, 'currentFolder'),
 });

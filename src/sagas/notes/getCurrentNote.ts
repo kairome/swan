@@ -3,7 +3,7 @@ import { put, call, select } from 'redux-saga/effects';
 import { fetchCurrentNote, saveCurrentNote } from 'actions/notes';
 import { SagaArg } from 'types/saga';
 import { getNoteById } from 'data/notes';
-import { getCurrentFolderSelector } from 'selectors/folders';
+import { getCurrentFolder } from 'selectors/folders';
 import { FolderItem } from 'types/folders';
 import { fetchCurrentFolder } from 'actions/folders';
 
@@ -14,7 +14,7 @@ function* getCurrentNoteSaga(arg: SagaArg<string>) {
       return;
     }
 
-    const currentFolder: FolderItem = yield select(getCurrentFolderSelector);
+    const currentFolder: FolderItem = yield select(getCurrentFolder);
     if (currentFolder._id !== currentNote.folder) {
       yield put(fetchCurrentFolder(currentNote.folder));
     }

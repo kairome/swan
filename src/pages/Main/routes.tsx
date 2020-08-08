@@ -7,13 +7,14 @@ import Note from 'pages/Notes/Note';
 import Archived from 'pages/Archived/Archived';
 
 // types
-import { IdRouter } from 'types/router';
+import { IdMatch } from 'types/router';
+import { RouteComponentProps } from 'react-router';
 
-const renderCurrentFolder = (props: IdRouter) => (
+const renderCurrentFolder = (props: RouteComponentProps<IdMatch>) => (
   <Folder id={props.match.params.id} />
 );
 
-const renderCurrentNote = (props: IdRouter) => (
+const renderCurrentNote = (props: RouteComponentProps<IdMatch>) => (
   <Note id={props.match.params.id} />
 );
 

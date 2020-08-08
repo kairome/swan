@@ -34,7 +34,6 @@ const middlewares: Middleware[] = [
   sagaMiddleware,
   routerMiddleware(history),
   saveUserLocationMiddleware,
-
 ];
 
 getUserLocation().then((location?: Location) => {

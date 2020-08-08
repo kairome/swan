@@ -6,7 +6,7 @@ import history from 'utils/history';
 import { moveArray } from 'utils/helpers';
 
 // actions, selectors
-import { getCurrentFolderSelector, getFoldersSelector } from 'selectors/folders';
+import { getCurrentFolder, getFolders } from 'selectors/folders';
 import {
   removeFolder,
   renameFolder,
@@ -143,8 +143,8 @@ const FoldersList: React.FC<Props> = (props) => {
 };
 
 const mapState = (state: ReduxState) => ({
-  folders: getFoldersSelector(state),
-  currentFolder: getCurrentFolderSelector(state),
+  folders: getFolders(state),
+  currentFolder: getCurrentFolder(state),
   enableMoveNotes: state.interactive.enableMoveNotes,
   moveNoteFrom: state.interactive.moveFrom,
   notesToMove: state.interactive.notesToMove,

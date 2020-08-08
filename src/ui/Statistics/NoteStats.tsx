@@ -1,23 +1,24 @@
 import React from 'react';
 import moment from 'moment';
 import _ from 'lodash';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import classNames from 'classnames';
+import { getFolders } from 'selectors/folders';
 
 // types
 import { Note } from 'types/notes';
-import { ReduxState } from 'types/redux';
 
 import s from './Statistics.css';
 
-type MapState = ReturnType<typeof mapState>;
-type Props = MapState & {
+
+interface Props {
   note: Note,
   className?: string,
-};
+}
 
 const NoteStats: React.FC<Props> = (props) => {
   const { note } = props;
+  const folders = useSelector(getFolders);
 
   const renderStatBlock = (title: string, value: string) => {
     if (!value) {
@@ -61,7 +62,7 @@ const NoteStats: React.FC<Props> = (props) => {
     if (!isArchived) {
       return null;
     }
-    const noteFolder = _.find(props.folders, f => f._id === folder);
+    const noteFolder = _.find(folders, f => f._id === folder);
 
 
     return (
@@ -80,8 +81,4 @@ const NoteStats: React.FC<Props> = (props) => {
   );
 };
 
-const mapState = (state: ReduxState) => ({
-  folders: state.folders.list,
-});
-
-export default connect(mapState, null)(NoteStats);
+export default NoteStats;

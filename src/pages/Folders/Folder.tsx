@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
 // actions, selectors
-import { getCurrentFolderSelector } from 'selectors/folders';
+import { getCurrentFolder } from 'selectors/folders';
 import { fetchCurrentFolder } from 'actions/folders';
 
 // components
@@ -35,7 +35,7 @@ const Folder: React.FC<Props> = (props) => {
 };
 
 const mapState = (state: ReduxState) => ({
-  currentFolder: getCurrentFolderSelector(state),
+  currentFolder: getCurrentFolder(state),
 });
 
 const mapDispatch = {

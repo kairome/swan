@@ -91,7 +91,7 @@ const MarkdownEditor: React.FC<Props> = (props) => {
     });
   };
 
-  const options = {
+  const options: any = {
     hideIcons: ['guide'],
     status: false,
     toolbar: [
