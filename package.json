@@ -1,6 +1,6 @@
 {
   "name": "Swan",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Swan, note taking app",
   "productName": "Swan",
   "main": "build/main.js",
