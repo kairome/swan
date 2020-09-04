@@ -1,6 +1,6 @@
 {
   "name": "Swan",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Swan, note taking app",
   "productName": "Swan",
   "main": "build/main.js",
@@ -36,6 +36,7 @@
     "@types/dotenv": "^6.1.1",
     "@types/lodash": "^4.14.134",
     "@types/nedb": "^1.8.7",
+    "@types/node": "12",
     "@types/react": "^16.9.44",
     "@types/react-color": "^3.0.1",
     "@types/react-dom": "^16.9.8",
