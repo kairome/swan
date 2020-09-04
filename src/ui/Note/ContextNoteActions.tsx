@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import _ from 'lodash';
 
 // actions
 import { addNote, changeNoteArchiveStatus, removeNote } from 'actions/notes';
@@ -136,9 +137,22 @@ const ContextNoteActions: React.FC<Props> = (props) => {
     );
   };
 
-  return (
-    <React.Fragment>
-      {renderListIcons()}
+  const renderContextMenu = () => {
+    if (!_.isEmpty(props.children)) {
+      return (
+        <ContextMenu
+          id="noteActions"
+          actions={actions}
+          icon={props.menuIcon}
+          menuText={props.menuText}
+          menuClassName={props.className}
+        >
+          {props.children}
+        </ContextMenu>
+      );
+    }
+
+    return (
       <ContextMenu
         id="noteActions"
         actions={actions}
@@ -146,6 +160,13 @@ const ContextNoteActions: React.FC<Props> = (props) => {
         menuText={props.menuText}
         menuClassName={props.className}
       />
+    );
+  };
+
+  return (
+    <React.Fragment>
+      {renderListIcons()}
+      {renderContextMenu()}
       <Confirmation
         show={showRemoveConfirmation}
         toggle={toggleRemoveConfirmation}

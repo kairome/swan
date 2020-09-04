@@ -24,17 +24,32 @@ interface Props {
 
 const ContextMenu: React.FC<Props> = (props) => {
   const containerElem = useRef<HTMLDivElement | null>(null);
-  const [showMenu, toggleMenu] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
+  const [menuPosition, setMenuPosition] = useState({ top: 0, left: 0 });
+
+  const withChildren = !_.isEmpty(props.children);
+
   const closeMenu = () => {
-    toggleMenu(false);
+    setShowMenu(false);
   };
   useEffect(() => useOutsideClick(containerElem.current, closeMenu), [closeMenu]);
-  const handleMenuToggle = () => {
-    toggleMenu(!showMenu);
+
+  const handleContextClick = (e: React.MouseEvent) => {
+    const { clientX, clientY } = e;
+    setMenuPosition({
+      top: clientY,
+      left: clientX,
+    });
+
+    toggleMenu();
+  };
+
+  const toggleMenu = () => {
+    setShowMenu(!showMenu);
   };
 
   const executeAction = (execute: ContextMenuAction['execute']) => () => {
-    toggleMenu(false);
+    setShowMenu(false);
     execute();
   };
 
@@ -58,23 +73,34 @@ const ContextMenu: React.FC<Props> = (props) => {
     />
   ));
 
+  const renderMenuTrigger = () => {
+    if (!withChildren) {
+      return (
+        <Button
+          theme={btnTheme}
+          shape={btnShape}
+          text={btnText}
+          icon={props.icon ? props.icon : 'ellipsis-v'}
+          onClick={toggleMenu}
+          className={props.menuIconClassName}
+        />
+      );
+    }
+
+    return props.children;
+  };
+
+  const contextEvent = withChildren ? { onContextMenu: handleContextClick } : {};
   return (
-    <div className={s.menuWrapper} ref={containerElem} id={props.id}>
-      <Button
-        theme={btnTheme}
-        shape={btnShape}
-        text={btnText}
-        icon={props.icon ? props.icon : 'ellipsis-v'}
-        onClick={handleMenuToggle}
-        className={props.menuIconClassName}
-      />
+    <div className={s.menuWrapper} ref={containerElem} id={props.id} {...contextEvent}>
+      {renderMenuTrigger()}
       <Transition
         show={showMenu}
         duration={150}
         enter={s.contextMenuActive}
         exit={s.contextMenuDone}
       >
-        <div className={classes}>
+        <div className={classes} style={withChildren ? menuPosition : {}}>
           {actionList}
         </div>
       </Transition>

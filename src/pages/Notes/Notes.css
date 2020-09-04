@@ -87,6 +87,7 @@
 }
 
 .noteControls {
+  position: relative;
   display: flex;
 }
 
@@ -100,7 +101,8 @@
 .noteListActionMenu {
   font-size: 12px;
   color: var(--accent-color);
-  left: -200px;
+  top: -4px;
+  left: 11px;
   width: 200px;
 }
 

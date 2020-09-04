@@ -2,6 +2,7 @@
 @import "css/animations.css";
 
 .folderItem {
+  padding: 0 15px;
   composes: listItemWrapper;
 
   &:hover {
@@ -50,7 +51,6 @@
 }
 
 .folderMenu {
-  top: 20px;
   width: 200px;
   color: var(--accent-color);
   font-size: 15px;
@@ -75,7 +75,7 @@
 }
 
 .addFolderContainer {
-  padding: 0 15px;
+  padding: 0 10px;
 }
 
 .removeConfirmationText {

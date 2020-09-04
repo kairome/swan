@@ -18,10 +18,10 @@
     "@typescript-eslint"
   ],
   "rules": {
-    "@typescript-eslint/explicit-function-return-type": "off",
-    "import/no-extraneous-dependencies": "off",
-    "import/prefer-default-export": "off",
-    "react/prop-types": "off",
+    "@typescript-eslint/explicit-function-return-type": 0,
+    "import/no-extraneous-dependencies": 0,
+    "import/prefer-default-export": 0,
+    "react/prop-types": 0,
     "no-underscore-dangle": [
       "error",
       {
@@ -30,8 +30,8 @@
         ]
       }
     ],
-    "react/destructuring-assignment": "off",
-    "import/no-unresolved": "off",
+    "react/destructuring-assignment": 0,
+    "import/no-unresolved": 0,
     "no-console": [
       "error",
       {
@@ -47,22 +47,22 @@
       120
     ],
     "@typescript-eslint/no-use-before-define": [
-      "off",
+      0,
       {
         "typedefs": false
       }
     ],
-    "jsx-a11y/click-events-have-key-events": "off",
-    "jsx-a11y/no-static-element-interactions": "off",
-    "@typescript-eslint/explicit-member-accessibility": "off",
-    "jsx-a11y/label-has-for": "off",
-    "jsx-a11y/label-has-associated-control": "off",
-    "implicit-arrow-linebreak": "off",
-    "import/no-webpack-loader-syntax": "off",
+    "jsx-a11y/click-events-have-key-events": 0,
+    "jsx-a11y/no-static-element-interactions": 0,
+    "@typescript-eslint/explicit-member-accessibility": 0,
+    "jsx-a11y/label-has-for": 0,
+    "jsx-a11y/label-has-associated-control": 0,
+    "implicit-arrow-linebreak": 0,
+    "import/no-webpack-loader-syntax": 0,
     "react/no-did-update-set-state": "warn",
-    "react/no-access-state-in-setstate": "off",
-    "react/button-has-type": "off",
-    "react/jsx-one-expression-per-line": "off",
+    "react/no-access-state-in-setstate": 0,
+    "react/button-has-type": 0,
+    "react/jsx-one-expression-per-line": 0,
     "@typescript-eslint/member-delimiter-style": [
       "error",
       {
@@ -90,12 +90,13 @@
       }
     ],
     "arrow-parens": [
-      "off",
+      0,
       "as-needed",
       {
         "requireForBlockBody": true
       }
     ],
-    "import/order": "off"
+    "import/order": 0,
+    "react/require-default-props": 0
   }
 }

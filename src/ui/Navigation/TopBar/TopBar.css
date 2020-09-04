@@ -43,6 +43,7 @@
 }
 
 .barOptions {
+  position: relative;
   margin-left: auto;
   font-size: 16px;
   color: var(--accent-color);
@@ -50,8 +51,8 @@
 }
 
 .optionsMenu {
-  left: -255px;
-  top: 0;
+  left: 11px;
+  top: -4px;
 }
 
 .noteBackArrow {

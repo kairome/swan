@@ -86,46 +86,47 @@ const FolderItem: React.FC<Props> = (props) => {
   });
 
   return (
-    <div className={folderClasses}>
-      <ContextMenu
-        id="folderItem"
-        actions={menuActions}
-        menuClassName={s.folderMenu}
-        menuIconClassName={s.folderMenuIcon}
-      />
-      <div className={s.folder} onClick={props.handleFolderClick}>
-        <SortableFolderIcon />
-        <EditableField
-          type="text"
-          value={folderName}
-          onChange={handleNameChange}
-          save={saveFolderName}
-          reset={resetFolderName}
-          activateEditMode={activateEditMode}
-          autoFocus
-        />
-      </div>
-      <Confirmation
-        show={showRemoveConfirmation}
-        confirm={handleRemove('delete')}
-        toggle={toggleRemoveConfirmation}
-        message={`Are you sure you want to remove ${folder.name} folder?`}
-      >
-        <div className={s.removeConfirmationText}>
-          All notes associated with the folder <b>will be removed</b>
-          <div className={s.removeConfirmationText}>
-            You can
-            <Button
-              text="move notes to another folder"
-              theme="primary"
-              shape="text"
-              onClick={handleRemove('move')}
-            />
-            instead.
-          </div>
+    <ContextMenu
+      id={`${folder._id}folderItem`}
+      actions={menuActions}
+      menuClassName={s.folderMenu}
+      menuIconClassName={s.folderMenuIcon}
+    >
+      <div className={folderClasses}>
+        <div className={s.folder} onClick={props.handleFolderClick}>
+          <SortableFolderIcon />
+          <EditableField
+            type="text"
+            value={folderName}
+            onChange={handleNameChange}
+            save={saveFolderName}
+            reset={resetFolderName}
+            activateEditMode={activateEditMode}
+            autoFocus
+          />
         </div>
-      </Confirmation>
-    </div>
+        <Confirmation
+          show={showRemoveConfirmation}
+          confirm={handleRemove('delete')}
+          toggle={toggleRemoveConfirmation}
+          message={`Are you sure you want to remove ${folder.name} folder?`}
+        >
+          <div className={s.removeConfirmationText}>
+            All notes associated with the folder <b>will be removed</b>
+            <div className={s.removeConfirmationText}>
+              You can
+              <Button
+                text="move notes to another folder"
+                theme="primary"
+                shape="text"
+                onClick={handleRemove('move')}
+              />
+              instead.
+            </div>
+          </div>
+        </Confirmation>
+      </div>
+    </ContextMenu>
   );
 };
 

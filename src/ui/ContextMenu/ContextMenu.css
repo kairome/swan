@@ -1,7 +1,6 @@
 @import "css/animations.css";
 
 .menuWrapper {
- position: relative;
 }
 
 .contextMenu {
@@ -12,8 +11,6 @@
   z-index: 5;
   box-shadow: 0 2px 20px var(--context-menu-shadow);
   border-radius: 4px;
-  top: -4px;
-  left: 11px;
 }
 
 .contextMenuActive {

@@ -7,8 +7,10 @@ const useOutsideClick = (container: HTMLDivElement | null, action: () => void): 
   };
 
   window.addEventListener('click', handleOutsideClick, false);
+  window.addEventListener('contextmenu', handleOutsideClick, false);
   return () => {
     window.removeEventListener('click', handleOutsideClick, false);
+    window.removeEventListener('contextmenu', handleOutsideClick, false);
   };
 };
 
