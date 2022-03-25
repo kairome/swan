@@ -58,7 +58,7 @@
     "css-loader": "^2.1.1",
     "css-module-types": "^0.2.2",
     "dotenv": "^8.1.0",
-    "electron": "^9.2.0",
+    "electron": "^13.6.6",
     "electron-installer-debian": "^2.0.1",
     "electron-installer-dmg": "^3.0.0",
     "electron-installer-windows": "^2.0.0",
